@@ -1,0 +1,17 @@
+{
+    "name": "rixafy/blog",
+    "description": "Blog business logic written in PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Strafy",
+            "email": "rixafy@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/orm": "2.7.x-dev",
+        "ramsey/uuid-doctrine": "dev-master"
+    }
+}
