@@ -54,16 +54,16 @@ class Blog extends EntityTranslator
      */
     private $translations;
 
-    public function __construct(string $name, string $title, string $description, ?string $keywords, Language $currentLanguage)
+    public function __construct(BlogData $blogData, Language $currentLanguage)
     {
-        $this->name = $name;
-        $this->title = $title;
-        $this->description = $description;
-        $this->keywords = $keywords;
+        $this->name = $blogData->name;
+        $this->title = $blogData->title;
+        $this->description = $blogData->description;
+        $this->keywords = $blogData->keywords;
 
         $this->translations = new ArrayCollection();
 
-        $this->addTranslation($name, $title, $description, $keywords, $currentLanguage);
+        $this->addTranslation($this->name, $this->title, $this->description, $this->keywords, $currentLanguage);
 
         $this->configureFallbackLanguage($currentLanguage);
     }
