@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog;
 
+use Rixafy\Doctrination\Language\Language;
+
 class BlogData
 {
     /** @var string */
@@ -17,4 +19,7 @@ class BlogData
 
     /** @var string */
     public $keywords;
+
+    /** @var Language */
+    public $language;
 }
