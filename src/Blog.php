@@ -6,7 +6,6 @@ namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Rixafy\Blog\Translation\BlogTranslation;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -51,7 +50,7 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many Translations
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Translation\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
      * @var BlogTranslation[]
      */
     private $translations;

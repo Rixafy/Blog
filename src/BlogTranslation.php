@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\Translation;
+namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
