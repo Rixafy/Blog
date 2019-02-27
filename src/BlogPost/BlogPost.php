@@ -6,7 +6,6 @@ namespace Rixafy\Blog\BlogPost;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Rixafy\Blog\Translation\BlogTranslation;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
