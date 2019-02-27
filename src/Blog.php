@@ -10,6 +10,7 @@ use Rixafy\Blog\Translation\BlogTranslation;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
+use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -21,6 +22,7 @@ class Blog extends EntityTranslator
 {
     use UniqueTrait;
     use ActiveTrait;
+    use DateTimeTrait;
 
     /**
      * @Translatable
