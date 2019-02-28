@@ -7,6 +7,7 @@ namespace Rixafy\Blog\BlogPost;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\DateTimeTrait;
@@ -55,6 +56,13 @@ class BlogPost extends EntityTranslator
     private $blog;
 
     /**
+     * Many BlogPosts have Many BlogTags
+     * @ORM\ManyToMany(targetEntity="\Rixafy\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
+     * @var BlogTag[]
+     */
+    private $tags;
+
+    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\BlogPost\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -70,6 +78,7 @@ class BlogPost extends EntityTranslator
         $this->blog = $blogPostData->blog;
 
         $this->translations = new ArrayCollection();
+        $this->tags = new ArrayCollection();
 
         $this->addTranslation($this->title, $this->content, $this->keywords, $blogPostData->language);
 
@@ -130,6 +139,28 @@ class BlogPost extends EntityTranslator
     public function getBlog(): Blog
     {
         return $this->blog;
+    }
+
+    /**
+     * @param BlogTag $blogTag
+     * @return bool
+     */
+    public function addTag(BlogTag $blogTag): bool
+    {
+        if (!$this->tags->contains($blogTag)) {
+            return $this->tags->add($blogTag);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param BlogTag $blogTag
+     * @return bool
+     */
+    public function removeTag(BlogTag $blogTag): bool
+    {
+        return $this->tags->removeElement($blogTag);
     }
 
     /**
