@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\BlogPost\BlogPost;
 use Rixafy\Blog\BlogPost\BlogPostData;
+use Rixafy\Blog\BlogTag\BlogTag;
+use Rixafy\Blog\BlogTag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -58,6 +60,14 @@ class Blog extends EntityTranslator
     private $posts;
 
     /**
+     * One Blog has Many BlogTag
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
+     * @var BlogTag[]
+     */
+    private $tags;
+
+    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -74,6 +84,7 @@ class Blog extends EntityTranslator
 
         $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->tags = new ArrayCollection();
 
         $this->addTranslation($this->name, $this->title, $this->description, $this->keywords, $blogData->language);
 
@@ -163,11 +174,37 @@ class Blog extends EntityTranslator
      * Remove blog post
      *
      * @param BlogPost $blogPost
-     * @return bool Was removed?
+     * @return bool Successfully removed?
      */
     public function removePost(BlogPost $blogPost): bool
     {
         return $this->posts->removeElement($blogPost);
+    }
+
+    /**
+     * Add new blog tag
+     *
+     * @param BlogTagData $blogTagData
+     * @return BlogTag
+     */
+    public function addTag(BlogTagData $blogTagData): BlogTag
+    {
+        $blogTag = new BlogTag($blogTagData);
+
+        $this->tags->add($blogTag);
+
+        return $blogTag;
+    }
+
+    /**
+     * Remove blog tag
+     *
+     * @param BlogTag $blogTag
+     * @return bool Successfully removed?
+     */
+    public function removeTag(BlogTag $blogTag): bool
+    {
+        return $this->tags->removeElement($blogTag);
     }
 
     /**
