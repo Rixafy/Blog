@@ -38,7 +38,7 @@ class BlogRepository
         $blog = $this->find($id);
 
         if ($blog === null) {
-            throw new BlogNotFoundException();
+            throw new BlogNotFoundException('Blog with id ' . $id . ' not found.');
         }
 
         return $blog;
