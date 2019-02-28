@@ -44,10 +44,6 @@ class BlogRepository
         return $blog;
     }
 
-    /**
-     * @param string $id
-     * @return Blog|null
-     */
     public function find(string $id): ?Blog
     {
         return $this->getQueryBuilderForAll()
@@ -56,9 +52,6 @@ class BlogRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public function getQueryBuilderForAll(): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('b')
