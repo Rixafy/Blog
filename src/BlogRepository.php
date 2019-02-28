@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
+use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogRepository
 {
@@ -29,8 +30,23 @@ class BlogRepository
 
     /**
      * @param string $id
+     * @return Blog
+     * @throws BlogNotFoundException
+     */
+    public function get(string $id): Blog
+    {
+        $blog = $this->find($id);
+
+        if ($blog === null) {
+            throw new BlogNotFoundException();
+        }
+
+        return $blog;
+    }
+
+    /**
+     * @param string $id
      * @return Blog|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function find(string $id): ?Blog
     {
