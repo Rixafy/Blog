@@ -9,8 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
-use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
+use Rixafy\DoctrineTraits\PublishableTrait;
+use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -23,7 +24,8 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 class BlogPost extends EntityTranslator
 {
     use UniqueTrait;
-    use ActiveTrait;
+    use PublishableTrait;
+    use RemovableTrait;
     use DateTimeTrait;
 
     /**

@@ -62,7 +62,7 @@ class BlogPostRepository
     public function getQueryBuilderForAll(): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('b')
-            ->where('b.is_active = :active')->setParameter('active', true)
+            ->where('b.is_removed = :removed')->setParameter('removed', false)
             ->orderBy('b.created_at');
     }
 }
