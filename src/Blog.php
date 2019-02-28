@@ -6,6 +6,8 @@ namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Rixafy\Blog\BlogPost\BlogPost;
+use Rixafy\Blog\BlogPost\BlogPostData;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -48,6 +50,14 @@ class Blog extends EntityTranslator
     protected $keywords;
 
     /**
+     * One Blog has Many BlogPosts
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog", cascade={"persist", "remove"})
+     * @var BlogPost[]
+     */
+    private $posts;
+
+    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -63,6 +73,7 @@ class Blog extends EntityTranslator
         $this->keywords = $blogData->keywords;
 
         $this->translations = new ArrayCollection();
+        $this->posts = new ArrayCollection();
 
         $this->addTranslation($this->name, $this->title, $this->description, $this->keywords, $blogData->language);
 
@@ -131,6 +142,32 @@ class Blog extends EntityTranslator
     public function setKeywords(string $keywords): void
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * Add new blog post
+     *
+     * @param BlogPostData $blogPostData
+     * @return BlogPost
+     */
+    public function addPost(BlogPostData $blogPostData): BlogPost
+    {
+        $blogPost = new BlogPost($blogPostData);
+
+        $this->posts->add($blogPost);
+
+        return $blogPost;
+    }
+
+    /**
+     * Remove blog post
+     *
+     * @param BlogPost $blogPost
+     * @return bool Was removed?
+     */
+    public function removePost(BlogPost $blogPost): bool
+    {
+        return $this->posts->removeElement($blogPost);
     }
 
     /**

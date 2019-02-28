@@ -6,6 +6,7 @@ namespace Rixafy\Blog\BlogPost;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -42,6 +43,14 @@ class BlogPost extends EntityTranslator
     protected $keywords;
 
     /**
+     * Many BlogPosts have One Blog
+     *
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
+     * @var Blog
+     */
+    private $blog;
+
+    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\BlogPost\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -54,6 +63,7 @@ class BlogPost extends EntityTranslator
         $this->title = $blogPostData->title;
         $this->content = $blogPostData->content;
         $this->keywords = $blogPostData->keywords;
+        $this->blog = $blogPostData->blog;
 
         $this->translations = new ArrayCollection();
 
@@ -108,6 +118,14 @@ class BlogPost extends EntityTranslator
     public function setKeywords(string $keywords): void
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * @return Blog
+     */
+    public function getBlog(): Blog
+    {
+        return $this->blog;
     }
 
     /**
