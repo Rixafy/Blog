@@ -19,7 +19,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_post", indexes={
- *     @ORM\Index(name="blog_post_id", columns={"id", "blog_id"})
+ *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * })
  */
 class BlogPost extends EntityTranslator
