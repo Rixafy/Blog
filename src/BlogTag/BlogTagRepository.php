@@ -37,13 +37,13 @@ class BlogTagRepository
      */
     public function get(string $id, Blog $blog = null): BlogTag
     {
-        $BlogTag = $this->find($id, $blog);
+        $blogTag = $this->find($id, $blog);
 
-        if ($BlogTag === null) {
+        if ($blogTag === null) {
             throw new BlogTagNotFoundException('BlogTag with id ' . $id . ' not found.');
         }
 
-        return $BlogTag;
+        return $blogTag;
     }
 
     public function find(string $id, Blog $blog = null): ?BlogTag

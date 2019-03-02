@@ -37,13 +37,13 @@ class BlogPostRepository
      */
     public function get(string $id, Blog $blog = null): BlogPost
     {
-        $BlogPost = $this->find($id, $blog);
+        $blogPost = $this->find($id, $blog);
 
-        if ($BlogPost === null) {
+        if ($blogPost === null) {
             throw new BlogPostNotFoundException('BlogPost with id ' . $id . ' not found.');
         }
 
-        return $BlogPost;
+        return $blogPost;
     }
 
     public function find(string $id, Blog $blog = null): ?BlogPost
