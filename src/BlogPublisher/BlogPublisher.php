@@ -71,11 +71,16 @@ class BlogPublisher
 
     public function __construct(BlogPublisherData $blogPublisherData)
     {
-        $this->display_name = $blogPublisherData->displayName;
-        $this->signature = $blogPublisherData->signature;
         $this->blog = $blogPublisherData->blog;
+        $this->edit($blogPublisherData);
 
         $this->posts = new ArrayCollection();
+    }
+
+    public function edit(BlogPublisherData $blogPublisherData)
+    {
+        $this->display_name = $blogPublisherData->displayName;
+        $this->signature = $blogPublisherData->signature;
     }
 
     public function publish(BlogPostData $blogPostData): BlogPost
