@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\BlogPublisher;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogPost\BlogPost;
 use Rixafy\Blog\BlogPost\BlogPostData;
+use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
-use Rixafy\DoctrineTraits\PublishableTrait;
-use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -25,8 +24,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 class BlogPublisher
 {
     use UniqueTrait;
-    use PublishableTrait;
-    use RemovableTrait;
+    use ActiveTrait;
     use DateTimeTrait;
 
     /**
