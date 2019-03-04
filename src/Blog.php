@@ -7,7 +7,6 @@ namespace Rixafy\Blog;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\BlogPost\BlogPost;
-use Rixafy\Blog\BlogPost\BlogPostData;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Blog\BlogTag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
@@ -156,21 +155,6 @@ class Blog extends EntityTranslator
     }
 
     /**
-     * Add new blog post
-     *
-     * @param BlogPostData $blogPostData
-     * @return BlogPost
-     */
-    public function addPost(BlogPostData $blogPostData): BlogPost
-    {
-        $blogPost = new BlogPost($blogPostData);
-
-        $this->posts->add($blogPost);
-
-        return $blogPost;
-    }
-
-    /**
      * Remove blog post
      *
      * @param BlogPost $blogPost
@@ -189,7 +173,7 @@ class Blog extends EntityTranslator
      */
     public function addTag(BlogTagData $blogTagData): BlogTag
     {
-        $blogTag = new BlogTag($blogTagData);
+        $blogTag = new BlogTag($blogTagData, $this);
 
         $this->tags->add($blogTag);
 

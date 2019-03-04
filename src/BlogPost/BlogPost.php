@@ -56,7 +56,6 @@ class BlogPost extends EntityTranslator
      */
     private $blog;
 
-
     /**
      * Many BlogPosts have One Publisher
      *
@@ -80,12 +79,13 @@ class BlogPost extends EntityTranslator
      */
     private $translations;
 
-    public function __construct(BlogPostData $blogPostData)
+    public function __construct(BlogPostData $blogPostData, BlogPublisher $blogPublisher)
     {
         $this->title = $blogPostData->title;
         $this->content = $blogPostData->content;
         $this->keywords = $blogPostData->keywords;
-        $this->blog = $blogPostData->blog;
+        $this->publisher = $blogPublisher;
+        $this->blog = $blogPublisher->getBlog();
 
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();

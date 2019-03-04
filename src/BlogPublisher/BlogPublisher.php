@@ -83,7 +83,7 @@ class BlogPublisher
 
     public function publish(BlogPostData $blogPostData): BlogPost
     {
-        $blogPost = new BlogPost($blogPostData);
+        $blogPost = new BlogPost($blogPostData, $this);
 
         $this->posts->add($blogPost);
 
