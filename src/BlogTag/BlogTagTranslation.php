@@ -48,17 +48,21 @@ class BlogTagTranslation
 
     /**
      * BlogTranslation constructor.
-     * @param string $name
-     * @param string $description
+     * @param BlogTagData $blogTagData
      * @param \Rixafy\Doctrination\Language\Language $language
      * @param BlogTag $entity
      */
-    public function __construct(string $name, string $description, Language $language, BlogTag $entity)
+    public function __construct(BlogTagData $blogTagData, Language $language, BlogTag $entity)
     {
-        $this->name = $name;
-        $this->description = $description;
         $this->language = $language;
         $this->entity = $entity;
+        $this->edit($blogTagData);
+    }
+
+    public function edit(BlogTagData $blogTagData): void
+    {
+        $this->name = $blogTagData->name;
+        $this->description = $blogTagData->description;
     }
 
     /**
@@ -70,14 +74,6 @@ class BlogTagTranslation
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getDescription(): string
@@ -86,26 +82,10 @@ class BlogTagTranslation
     }
 
     /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
      * @return \Rixafy\Doctrination\Language\Language
      */
     public function getLanguage(): Language
     {
         return $this->language;
-    }
-
-    /**
-     * @param \Rixafy\Doctrination\Language\Language $language
-     */
-    public function setLanguage(Language $language): void
-    {
-        $this->language = $language;
     }
 }

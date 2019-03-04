@@ -54,19 +54,22 @@ class BlogPostTranslation
 
     /**
      * BlogTranslation constructor.
-     * @param string $title
-     * @param string $content
-     * @param string $keywords
+     * @param BlogPostData $blogPostData
      * @param \Rixafy\Doctrination\Language\Language $language
      * @param BlogPost $entity
      */
-    public function __construct(string $title, string $content, string $keywords, Language $language, BlogPost $entity)
+    public function __construct(BlogPostData $blogPostData, Language $language, BlogPost $entity)
     {
-        $this->title = $title;
-        $this->content = $content;
-        $this->keywords = $keywords;
         $this->language = $language;
         $this->entity = $entity;
+        $this->edit($blogPostData);
+    }
+
+    public function edit(BlogPostData $blogPostData): void
+    {
+        $this->title = $blogPostData->title;
+        $this->content = $blogPostData->content;
+        $this->keywords = $blogPostData->keywords;
     }
 
     /**
@@ -78,27 +81,11 @@ class BlogPostTranslation
     }
 
     /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
      * @return string
      */
     public function getContent(): string
     {
         return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
     }
 
     /**
@@ -110,26 +97,10 @@ class BlogPostTranslation
     }
 
     /**
-     * @param string $keywords
-     */
-    public function setKeywords(string $keywords): void
-    {
-        $this->keywords = $keywords;
-    }
-
-    /**
      * @return \Rixafy\Doctrination\Language\Language
      */
     public function getLanguage(): Language
     {
         return $this->language;
-    }
-
-    /**
-     * @param \Rixafy\Doctrination\Language\Language $language
-     */
-    public function setLanguage(Language $language): void
-    {
-        $this->language = $language;
     }
 }

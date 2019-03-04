@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogPost;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
@@ -81,18 +82,36 @@ class BlogPost extends EntityTranslator
 
     public function __construct(BlogPostData $blogPostData, BlogPublisher $blogPublisher)
     {
-        $this->title = $blogPostData->title;
-        $this->content = $blogPostData->content;
-        $this->keywords = $blogPostData->keywords;
-        $this->publisher = $blogPublisher;
-        $this->blog = $blogPublisher->getBlog();
-
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->blog = $blogPublisher->getBlog();
+        $this->publisher = $blogPublisher;
 
-        $this->addTranslation($this->title, $this->content, $this->keywords, $blogPostData->language);
+        $this->edit($blogPostData);
+    }
 
-        $this->configureFallbackLanguage($blogPostData->language);
+    public function edit(BlogPostData $blogPostData)
+    {
+        if ($blogPostData->language !== null) {
+            if ($this->fallback_language === null) {
+                $this->addTranslation($blogPostData, $blogPostData->language);
+
+            } else {
+                $criteria = Criteria::create()
+                    ->where(Criteria::expr()->eq('language', $blogPostData->language))
+                    ->setMaxResults(1);
+
+                /** @var BlogPostTranslation $translation */
+                $translation = $this->translations->matching($criteria);
+
+                if ($translation !== null) {
+                    $translation->edit($blogPostData);
+
+                } else {
+                    $this->addTranslation($blogPostData, $blogPostData->language);
+                }
+            }
+        }
     }
 
     /**
@@ -190,17 +209,19 @@ class BlogPost extends EntityTranslator
     }
 
     /**
-     * @param string $title
-     * @param string $content
-     * @param string $keywords
+     * @param BlogPostData $blogPostData
      * @param Language $language
      * @return BlogPostTranslation
      */
-    public function addTranslation(string $title, string $content, string $keywords, Language $language): BlogPostTranslation
+    public function addTranslation(BlogPostData $blogPostData, Language $language): BlogPostTranslation
     {
-        $translation = new BlogPostTranslation($title, $content, $keywords, $language, $this);
+        $translation = new BlogPostTranslation($blogPostData, $language, $this);
 
         $this->translations->add($translation);
+
+        if ($this->fallback_language === null) {
+            $this->configureFallbackLanguage($language);
+        }
 
         return $translation;
     }

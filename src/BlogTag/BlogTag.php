@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogTag;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\EntityTranslator;
@@ -58,15 +59,34 @@ class BlogTag extends EntityTranslator
 
     public function __construct(BlogTagData $blogTagData, Blog $blog)
     {
-        $this->name = $blogTagData->name;
-        $this->description = $blogTagData->description;
+        $this->translations = new ArrayCollection();
         $this->blog = $blog;
 
-        $this->translations = new ArrayCollection();
+        $this->edit($blogTagData);
+    }
 
-        $this->addTranslation($this->name, $this->description, $blogTagData->language);
+    public function edit(BlogTagData $blogTagData)
+    {
+        if ($blogTagData->language !== null) {
+            if ($this->fallback_language === null) {
+                $this->addTranslation($blogTagData, $blogTagData->language);
 
-        $this->configureFallbackLanguage($blogTagData->language);
+            } else {
+                $criteria = Criteria::create()
+                    ->where(Criteria::expr()->eq('language', $blogTagData->language))
+                    ->setMaxResults(1);
+
+                /** @var BlogTagTranslation $translation */
+                $translation = $this->translations->matching($criteria);
+
+                if ($translation !== null) {
+                    $translation->edit($blogTagData);
+
+                } else {
+                    $this->addTranslation($blogTagData, $blogTagData->language);
+                }
+            }
+        }
     }
 
     /**
@@ -118,16 +138,19 @@ class BlogTag extends EntityTranslator
     }
 
     /**
-     * @param string $title
-     * @param string $content
+     * @param BlogTagData $blogTagData
      * @param Language $language
      * @return BlogTagTranslation
      */
-    public function addTranslation(string $title, string $content, Language $language): BlogTagTranslation
+    public function addTranslation(BlogTagData $blogTagData, Language $language): BlogTagTranslation
     {
-        $translation = new BlogTagTranslation($title, $content, $language, $this);
+        $translation = new BlogTagTranslation($blogTagData, $language, $this);
 
         $this->translations->add($translation);
+
+        if ($this->fallback_language === null) {
+            $this->configureFallbackLanguage($language);
+        }
 
         return $translation;
     }

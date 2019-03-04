@@ -60,21 +60,23 @@ class BlogTranslation
 
     /**
      * BlogTranslation constructor.
-     * @param string $name
-     * @param string $title
-     * @param string $description
-     * @param string $keywords
+     * @param BlogData $blogData
      * @param \Rixafy\Doctrination\Language\Language $language
      * @param Blog $entity
      */
-    public function __construct(string $name, string $title, string $description, string $keywords, Language $language, Blog $entity)
+    public function __construct(BlogData $blogData, Language $language, Blog $entity)
     {
-        $this->name = $name;
-        $this->title = $title;
-        $this->description = $description;
-        $this->keywords = $keywords;
         $this->language = $language;
         $this->entity = $entity;
+        $this->edit($blogData);
+    }
+
+    public function edit(BlogData $blogData): void
+    {
+        $this->name = $blogData->name;
+        $this->title = $blogData->title;
+        $this->description = $blogData->description;
+        $this->keywords = $blogData->keywords;
     }
 
     /**
