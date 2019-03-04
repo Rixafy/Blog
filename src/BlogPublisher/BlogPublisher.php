@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\BlogPublisher;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogPost\BlogPost;
+use Rixafy\Blog\BlogPost\BlogPostData;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
@@ -30,7 +33,7 @@ class BlogPublisher
      * @ORM\Column(type="string", length=127)
      * @var string
      */
-    private $displayName;
+    private $display_name;
 
     /**
      * @ORM\Column(type="text", length=1023)
@@ -39,13 +42,13 @@ class BlogPublisher
     private $signature;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
     private $first_posted_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
     private $last_posted_at;
@@ -57,6 +60,32 @@ class BlogPublisher
      * @var Blog
      */
     private $blog;
+
+    /**
+     * One Blog has Many BlogPosts
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog_publisher", cascade={"persist", "remove"})
+     * @var BlogPost[]
+     */
+    private $posts;
+
+    public function __construct(BlogPublisherData $blogPublisherData)
+    {
+        $this->display_name = $blogPublisherData->displayName;
+        $this->signature = $blogPublisherData->signature;
+        $this->blog = $blogPublisherData->blog;
+
+        $this->posts = new ArrayCollection();
+    }
+
+    public function publish(BlogPostData $blogPostData): BlogPost
+    {
+        $blogPost = new BlogPost($blogPostData);
+
+        $this->posts->add($blogPost);
+
+        return $blogPost;
+    }
 
     /**
      * @return Blog
@@ -71,7 +100,7 @@ class BlogPublisher
      */
     public function getDisplayName(): string
     {
-        return $this->displayName;
+        return $this->display_name;
     }
 
     /**
