@@ -7,6 +7,7 @@ namespace Rixafy\Blog\BlogPost;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
@@ -54,6 +55,15 @@ class BlogPost extends EntityTranslator
      * @var Blog
      */
     private $blog;
+
+
+    /**
+     * Many BlogPosts have One Publisher
+     *
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\BlogPublisher\BlogPublisher")
+     * @var BlogPublisher
+     */
+    private $publisher;
 
     /**
      * Many BlogPosts have Many BlogTags
@@ -139,6 +149,14 @@ class BlogPost extends EntityTranslator
     public function getBlog(): Blog
     {
         return $this->blog;
+    }
+
+    /**
+     * @return BlogPublisher
+     */
+    public function getPublisher(): BlogPublisher
+    {
+        return $this->publisher;
     }
 
     /**

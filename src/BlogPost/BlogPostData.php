@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogPost;
 
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Doctrination\Language\Language;
 
 class BlogPostData
@@ -23,6 +24,9 @@ class BlogPostData
 
     /** @var Blog */
     public $blog;
+
+    /** @var BlogPublisher */
+    public $blogPublisher;
 
     /** @var Language */
     public $language;
