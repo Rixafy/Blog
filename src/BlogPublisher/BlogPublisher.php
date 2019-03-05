@@ -12,6 +12,7 @@ use Rixafy\Blog\BlogPost\BlogPost;
 use Rixafy\Blog\BlogPost\BlogPostData;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
+use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -25,6 +26,7 @@ class BlogPublisher
 {
     use UniqueTrait;
     use ActiveTrait;
+    use RemovableTrait;
     use DateTimeTrait;
 
     /**

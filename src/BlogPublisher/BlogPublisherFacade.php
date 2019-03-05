@@ -73,4 +73,22 @@ class BlogPublisherFacade
     {
         return $this->blogPublisherRepository->get($id);
     }
+
+    /**
+     * @param string $id
+     * @param bool $permanent
+     * @throws Exception\BlogPublisherNotFoundException
+     */
+    public function remove(string $id, bool $permanent = false): void
+    {
+        $entity = $this->get($id);
+
+        if ($permanent) {
+            $this->entityManager->remove($entity);
+        } else {
+            $entity->remove();
+        }
+
+        $this->entityManager->flush();
+    }
 }
