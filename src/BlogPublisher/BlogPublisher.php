@@ -67,7 +67,7 @@ class BlogPublisher
      */
     private $posts;
 
-    public function __construct(BlogPublisherData $blogPublisherData)
+    public function __construct(BlogPublisherData $blogPublisherData, Blog $blog)
     {
         $this->blog = $blogPublisherData->blog;
         $this->edit($blogPublisherData);

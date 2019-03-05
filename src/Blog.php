@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\BlogPost\BlogPost;
+use Rixafy\Blog\BlogPublisher\BlogPublisher;
+use Rixafy\Blog\BlogPublisher\BlogPublisherData;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Blog\BlogTag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
@@ -62,10 +64,18 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many BlogTag
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;
+
+    /**
+     * One Blog has Many BlogPublishers
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPublisher\BlogPublisher", mappedBy="blog", cascade={"persist", "remove"})
+     * @var BlogPublisher[]
+     */
+    private $publishers;
 
     /**
      * One Blog has Many Translations
@@ -80,6 +90,7 @@ class Blog extends EntityTranslator
         $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->publishers = new ArrayCollection();
 
         $this->edit($blogData);
     }
@@ -207,6 +218,32 @@ class Blog extends EntityTranslator
     public function removeTag(BlogTag $blogTag): bool
     {
         return $this->tags->removeElement($blogTag);
+    }
+
+    /**
+     * Add new blog publisher
+     *
+     * @param BlogPublisherData $blogPublisherData
+     * @return BlogPublisher
+     */
+    public function addPublisher(BlogPublisherData $blogPublisherData): BlogPublisher
+    {
+        $publisher = new BlogPublisher($blogPublisherData, $this);
+
+        $this->publishers->add($publisher);
+
+        return $publisher;
+    }
+
+    /**
+     * Remove blog publisher
+     *
+     * @param BlogPublisher $blogPublisher
+     * @return bool Successfully removed?
+     */
+    public function removePublisher(BlogPublisher $blogPublisher): bool
+    {
+        return $this->publishers->removeElement($blogPublisher);
     }
 
     /**
