@@ -79,7 +79,7 @@ class BlogPostFacade
      * @param bool $permanent
      * @throws Exception\BlogPostNotFoundException
      */
-    public function remove(string $id, bool $permanent = false)
+    public function remove(string $id, bool $permanent = false): void
     {
         $post = $this->get($id);
 
