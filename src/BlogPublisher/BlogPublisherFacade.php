@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogPublisher;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogRepository;
 
 class BlogPublisherFacade
@@ -52,12 +53,13 @@ class BlogPublisherFacade
     /**
      * @param string $id
      * @param BlogPublisherData $blogPublisherData
+     * @param Blog|null $blog
      * @return BlogPublisher
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function edit(string $id, BlogPublisherData $blogPublisherData): BlogPublisher
+    public function edit(string $id, BlogPublisherData $blogPublisherData, Blog $blog = null): BlogPublisher
     {
-        $publisher = $this->blogPublisherRepository->get($id);
+        $publisher = $this->blogPublisherRepository->get($id, $blog);
         $publisher->edit($blogPublisherData);
         $this->entityManager->flush();
 
@@ -66,22 +68,24 @@ class BlogPublisherFacade
 
     /**
      * @param string $id
+     * @param Blog|null $blog
      * @return BlogPublisher
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function get(string $id): BlogPublisher
+    public function get(string $id, Blog $blog = null): BlogPublisher
     {
-        return $this->blogPublisherRepository->get($id);
+        return $this->blogPublisherRepository->get($id, $blog);
     }
 
     /**
      * @param string $id
      * @param bool $permanent
+     * @param Blog|null $blog
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function remove(string $id, bool $permanent = false): void
+    public function remove(string $id, bool $permanent = false, Blog $blog = null): void
     {
-        $entity = $this->get($id);
+        $entity = $this->get($id, $blog);
 
         if ($permanent) {
             $this->entityManager->remove($entity);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogPost;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogPublisher\BlogPublisherRepository;
 
 class BlogPostFacade
@@ -52,12 +53,13 @@ class BlogPostFacade
     /**
      * @param string $id
      * @param BlogPostData $blogPostData
+     * @param Blog|null $blog
      * @return BlogPost
      * @throws Exception\BlogPostNotFoundException
      */
-    public function edit(string $id, BlogPostData $blogPostData): BlogPost
+    public function edit(string $id, BlogPostData $blogPostData, Blog $blog = null): BlogPost
     {
-        $post = $this->blogPostRepository->get($id);
+        $post = $this->blogPostRepository->get($id, $blog);
         $post->edit($blogPostData);
         $this->entityManager->flush();
 
@@ -66,22 +68,24 @@ class BlogPostFacade
 
     /**
      * @param string $id
+     * @param Blog|null $blog
      * @return BlogPost
      * @throws Exception\BlogPostNotFoundException
      */
-    public function get(string $id): BlogPost
+    public function get(string $id, Blog $blog = null): BlogPost
     {
-        return $this->blogPostRepository->get($id);
+        return $this->blogPostRepository->get($id, $blog);
     }
 
     /**
      * @param string $id
      * @param bool $permanent
+     * @param Blog|null $blog
      * @throws Exception\BlogPostNotFoundException
      */
-    public function remove(string $id, bool $permanent = false): void
+    public function remove(string $id, bool $permanent = false, Blog $blog = null): void
     {
-        $post = $this->get($id);
+        $post = $this->get($id, $blog);
 
         if ($permanent) {
             $this->entityManager->remove($post);
