@@ -4,21 +4,36 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog;
 
+use Rixafy\Blog\BlogPost\BlogPostRepository;
+use Rixafy\Blog\BlogPublisher\BlogPublisherRepository;
+use Rixafy\Blog\BlogTag\BlogTagRepository;
+
 class BlogFacade
 {
     /** @var BlogRepository */
     private $blogRepository;
 
-    /** @var BlogDataFactory */
-    private $blogDataFactory;
+    /** @var BlogPostRepository */
+    private $blogPostRepository;
 
-    /** @var BlogFactory */
-    private $blogFactory;
+    /** @var BlogPublisherRepository */
+    private $blogPublisherRepository;
 
-    public function __construct(BlogRepository $blogRepository, BlogDataFactory $blogDataFactory, BlogFactory $blogFactory)
+    /** @var BlogTagRepository */
+    private $blogTagRepository;
+
+    /**
+     * BlogFacade constructor.
+     * @param BlogRepository $blogRepository
+     * @param BlogPostRepository $blogPostRepository
+     * @param BlogPublisherRepository $blogPublisherRepository
+     * @param BlogTagRepository $blogTagRepository
+     */
+    public function __construct(BlogRepository $blogRepository, BlogPostRepository $blogPostRepository, BlogPublisherRepository $blogPublisherRepository, BlogTagRepository $blogTagRepository)
     {
         $this->blogRepository = $blogRepository;
-        $this->blogDataFactory = $blogDataFactory;
-        $this->blogFactory = $blogFactory;
+        $this->blogPostRepository = $blogPostRepository;
+        $this->blogPublisherRepository = $blogPublisherRepository;
+        $this->blogTagRepository = $blogTagRepository;
     }
 }
