@@ -4,36 +4,70 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog;
 
-use Rixafy\Blog\BlogPost\BlogPostRepository;
-use Rixafy\Blog\BlogPublisher\BlogPublisherRepository;
-use Rixafy\Blog\BlogTag\BlogTagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BlogFacade
 {
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
     /** @var BlogRepository */
     private $blogRepository;
 
-    /** @var BlogPostRepository */
-    private $blogPostRepository;
-
-    /** @var BlogPublisherRepository */
-    private $blogPublisherRepository;
-
-    /** @var BlogTagRepository */
-    private $blogTagRepository;
+    /** @var BlogFactory */
+    private $blogFactory;
 
     /**
      * BlogFacade constructor.
+     * @param EntityManagerInterface $entityManager
      * @param BlogRepository $blogRepository
-     * @param BlogPostRepository $blogPostRepository
-     * @param BlogPublisherRepository $blogPublisherRepository
-     * @param BlogTagRepository $blogTagRepository
+     * @param BlogFactory $blogFactory
      */
-    public function __construct(BlogRepository $blogRepository, BlogPostRepository $blogPostRepository, BlogPublisherRepository $blogPublisherRepository, BlogTagRepository $blogTagRepository)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        BlogRepository $blogRepository,
+        BlogFactory $blogFactory
+    ) {
+        $this->entityManager = $entityManager;
         $this->blogRepository = $blogRepository;
-        $this->blogPostRepository = $blogPostRepository;
-        $this->blogPublisherRepository = $blogPublisherRepository;
-        $this->blogTagRepository = $blogTagRepository;
+        $this->blogFactory = $blogFactory;
+    }
+
+    /**
+     * @param BlogData $blogData
+     * @return Blog
+     */
+    public function create(BlogData $blogData): Blog
+    {
+        $blog = $this->blogFactory->create($blogData);
+        $this->entityManager->persist($blog);
+        $this->entityManager->flush();
+
+        return $blog;
+    }
+
+    /**
+     * @param string $id
+     * @param BlogData $blogData
+     * @return Blog
+     * @throws Exception\BlogNotFoundException
+     */
+    public function edit(string $id, BlogData $blogData): Blog
+    {
+        $blog = $this->blogRepository->get($id);
+        $blog->edit($blogData);
+        $this->entityManager->flush();
+
+        return $blog;
+    }
+
+    /**
+     * @param string $id
+     * @return Blog
+     * @throws Exception\BlogNotFoundException
+     */
+    public function get(string $id): Blog
+    {
+        return $this->blogRepository->get($id);
     }
 }
