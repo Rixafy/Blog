@@ -123,14 +123,6 @@ class BlogPost extends EntityTranslator
     }
 
     /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
      * @return string
      */
     public function getContent(): string
@@ -139,27 +131,11 @@ class BlogPost extends EntityTranslator
     }
 
     /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
      * @return string
      */
     public function getKeywords(): string
     {
         return $this->keywords;
-    }
-
-    /**
-     * @param string $keywords
-     */
-    public function setKeywords(string $keywords): void
-    {
-        $this->keywords = $keywords;
     }
 
     /**

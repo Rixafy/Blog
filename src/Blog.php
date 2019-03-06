@@ -128,27 +128,11 @@ class Blog extends EntityTranslator
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
     }
 
     /**
@@ -160,27 +144,11 @@ class Blog extends EntityTranslator
     }
 
     /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
      * @return string
      */
     public function getKeywords(): string
     {
         return $this->keywords;
-    }
-
-    /**
-     * @param string $keywords
-     */
-    public function setKeywords(string $keywords): void
-    {
-        $this->keywords = $keywords;
     }
 
     /**
