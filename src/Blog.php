@@ -7,6 +7,8 @@ namespace Rixafy\Blog;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
+use Rixafy\Blog\BlogCategory\BlogCategory;
+use Rixafy\Blog\BlogCategory\BlogCategoryData;
 use Rixafy\Blog\BlogPost\BlogPost;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogPublisher\BlogPublisherData;
@@ -54,6 +56,14 @@ class Blog extends EntityTranslator
     protected $keywords;
 
     /**
+     * One Blog has Many BlogCategories
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategory", mappedBy="blog", cascade={"persist", "remove"})
+     * @var BlogCategory[]
+     */
+    private $categories;
+
+    /**
      * One Blog has Many BlogPosts
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog", cascade={"persist", "remove"})
@@ -62,7 +72,7 @@ class Blog extends EntityTranslator
     private $posts;
 
     /**
-     * One Blog has Many BlogTag
+     * One Blog has Many BlogTags
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogTag[]
@@ -88,6 +98,7 @@ class Blog extends EntityTranslator
     public function __construct(BlogData $blogData)
     {
         $this->translations = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->publishers = new ArrayCollection();
@@ -149,6 +160,32 @@ class Blog extends EntityTranslator
     public function getKeywords(): string
     {
         return $this->keywords;
+    }
+
+    /**
+     * Add new blog category
+     *
+     * @param BlogCategoryData $blogCategoryData
+     * @return BlogCategory
+     */
+    public function addCategory(BlogCategoryData $blogCategoryData): BlogCategory
+    {
+        $category = new BlogCategory($blogCategoryData, $this);
+
+        $this->categories->add($category);
+
+        return $category;
+    }
+
+    /**
+     * Remove blog category
+     *
+     * @param BlogCategory $blogCategory
+     * @return bool
+     */
+    public function removeCategory(BlogCategory $blogCategory): bool
+    {
+        return $this->categories->removeElement($blogCategory);
     }
 
     /**
