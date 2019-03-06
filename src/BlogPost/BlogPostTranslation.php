@@ -31,6 +31,12 @@ class BlogPostTranslation
     private $content;
 
     /**
+     * @ORM\Column(type="string", length=1023)
+     * @var string
+     */
+    private $editorial;
+
+    /**
      * @ORM\Column(type="string", length=127)
      * @var string
      */
@@ -75,6 +81,7 @@ class BlogPostTranslation
     {
         $this->title = $blogPostData->title;
         $this->content = $blogPostData->content;
+        $this->editorial = $blogPostData->editorial;
         $this->keywords = $blogPostData->keywords;
         $this->reading_time = floor(str_word_count(strip_tags($this->content)) / 200);
     }
@@ -93,6 +100,14 @@ class BlogPostTranslation
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEditorial(): string
+    {
+        return $this->editorial;
     }
 
     /**

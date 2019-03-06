@@ -15,6 +15,9 @@ class BlogPostData
     public $content;
 
     /** @var string */
+    public $editorial;
+
+    /** @var string */
     public $description;
 
     /** @var string */

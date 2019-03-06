@@ -47,6 +47,12 @@ class BlogPost extends EntityTranslator
      * @Translatable
      * @var string
      */
+    protected $editorial;
+
+    /**
+     * @Translatable
+     * @var string
+     */
     protected $keywords;
 
     /**
@@ -134,6 +140,14 @@ class BlogPost extends EntityTranslator
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEditorial(): string
+    {
+        return $this->editorial;
     }
 
     /**
