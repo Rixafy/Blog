@@ -45,6 +45,8 @@ class BlogTagFacade
     {
         $blog = $this->blogRepository->get($blogId);
         $tag = $blog->addTag($blogTagData);
+
+        $this->entityManager->persist($tag);
         $this->entityManager->flush();
 
         return $tag;
@@ -61,6 +63,7 @@ class BlogTagFacade
     {
         $tag = $this->blogTagRepository->get($id, $blog);
         $tag->edit($blogTagData);
+
         $this->entityManager->flush();
 
         return $tag;

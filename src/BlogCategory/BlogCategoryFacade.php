@@ -45,6 +45,8 @@ class BlogCategoryFacade
     {
         $blog = $this->blogRepository->get($blogId);
         $category = $blog->addCategory($blogCategoryData);
+
+        $this->entityManager->persist($category);
         $this->entityManager->flush();
 
         return $category;
@@ -61,6 +63,7 @@ class BlogCategoryFacade
     {
         $category = $this->blogCategoryRepository->get($id, $blog);
         $category->edit($blogCategoryData);
+
         $this->entityManager->flush();
 
         return $category;

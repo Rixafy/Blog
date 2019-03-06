@@ -45,6 +45,8 @@ class BlogPublisherFacade
     {
         $blog = $this->blogRepository->get($blogId);
         $publisher = $blog->addPublisher($blogPublisherData);
+
+        $this->entityManager->persist($publisher);
         $this->entityManager->flush();
 
         return $publisher;
@@ -61,6 +63,7 @@ class BlogPublisherFacade
     {
         $publisher = $this->blogPublisherRepository->get($id, $blog);
         $publisher->edit($blogPublisherData);
+
         $this->entityManager->flush();
 
         return $publisher;

@@ -40,6 +40,7 @@ class BlogFacade
     public function create(BlogData $blogData): Blog
     {
         $blog = $this->blogFactory->create($blogData);
+
         $this->entityManager->persist($blog);
         $this->entityManager->flush();
 
@@ -56,6 +57,7 @@ class BlogFacade
     {
         $blog = $this->blogRepository->get($id);
         $blog->edit($blogData);
+
         $this->entityManager->flush();
 
         return $blog;
