@@ -89,6 +89,12 @@ class BlogPublisher
 
         $this->posts->add($blogPost);
 
+        if ($this->first_posted_at === null) {
+            $this->first_posted_at = new DateTime();
+        }
+
+        $this->last_posted_at = new DateTime();
+
         return $blogPost;
     }
 
