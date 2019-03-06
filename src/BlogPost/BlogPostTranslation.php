@@ -37,6 +37,12 @@ class BlogPostTranslation
     private $keywords;
 
     /**
+     * @ORM\Column(type="float")
+     * @var float
+     */
+    private $reading_time = 1;
+
+    /**
      * Many Translations have One Language. Unidirectional.
      * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language")
      * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
@@ -70,6 +76,7 @@ class BlogPostTranslation
         $this->title = $blogPostData->title;
         $this->content = $blogPostData->content;
         $this->keywords = $blogPostData->keywords;
+        $this->reading_time = floor(str_word_count(strip_tags($this->content)) / 200);
     }
 
     /**
@@ -94,6 +101,14 @@ class BlogPostTranslation
     public function getKeywords(): string
     {
         return $this->keywords;
+    }
+
+    /**
+     * @return float
+     */
+    public function getReadingTime(): float
+    {
+        return $this->reading_time;
     }
 
     /**
