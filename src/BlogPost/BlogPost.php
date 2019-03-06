@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogCategory\BlogCategory;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Doctrination\EntityTranslator;
@@ -78,11 +79,19 @@ class BlogPost extends EntityTranslator
     private $publisher;
 
     /**
-     * Many BlogPosts have Many BlogTags
+     * Many BlogPosts have Many Tags
      * @ORM\ManyToMany(targetEntity="\Rixafy\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;
+
+    /**
+     * Many BlogPosts have One Category
+     *
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategory")
+     * @var BlogCategory
+     */
+    private $category;
 
     /**
      * One Blog has Many Translations
@@ -207,6 +216,14 @@ class BlogPost extends EntityTranslator
     public function removeTag(BlogTag $blogTag): bool
     {
         return $this->tags->removeElement($blogTag);
+    }
+
+    /**
+     * @return BlogCategory
+     */
+    public function getCategory(): BlogCategory
+    {
+        return $this->category;
     }
 
     /**
