@@ -71,7 +71,7 @@ class BlogPublisher
 
     public function __construct(BlogPublisherData $blogPublisherData, Blog $blog)
     {
-        $this->blog = $blogPublisherData->blog;
+        $this->blog = $blog;
         $this->edit($blogPublisherData);
 
         $this->posts = new ArrayCollection();
