@@ -50,6 +50,12 @@ class BlogPost extends EntityTranslator
     protected $keywords;
 
     /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    private $views = 0;
+
+    /**
      * Many BlogPosts have One Blog
      *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
@@ -152,6 +158,19 @@ class BlogPost extends EntityTranslator
     public function getPublisher(): BlogPublisher
     {
         return $this->publisher;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViews(): int
+    {
+        return $this->views;
+    }
+
+    public function addView(): void
+    {
+        $this->views++;
     }
 
     /**
