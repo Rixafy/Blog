@@ -227,6 +227,15 @@ class BlogPost extends EntityTranslator
     }
 
     /**
+     * @param BlogCategory $category
+     */
+    public function addToCategory(BlogCategory $category): void
+    {
+        $this->category = $category;
+        $this->category->addPost($this);
+    }
+
+    /**
      * @return BlogPostTranslation[]
      */
     public function getTranslations()

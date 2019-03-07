@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\BlogPost\BlogPost;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\DateTimeTrait;
@@ -50,6 +51,14 @@ class BlogCategory extends EntityTranslator
     private $blog;
 
     /**
+     * One Blog has Many BlogPosts
+     *
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="category")
+     * @var BlogPost[]
+     */
+    private $posts;
+
+    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\BlogCategory\BlogCategoryTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -60,6 +69,7 @@ class BlogCategory extends EntityTranslator
     public function __construct(BlogCategoryData $blogCategoryData, Blog $blog)
     {
         $this->translations = new ArrayCollection();
+        $this->posts = new ArrayCollection();
         $this->blog = $blog;
 
         $this->edit($blogCategoryData);
@@ -111,6 +121,22 @@ class BlogCategory extends EntityTranslator
     public function getBlog(): Blog
     {
         return $this->blog;
+    }
+
+    /**
+     * @return BlogPost[]
+     */
+    public function getPosts(): array
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param BlogPost $blogPost
+     */
+    public function addPost(BlogPost $blogPost): void
+    {
+        $this->posts->add($blogPost);
     }
 
     /**
