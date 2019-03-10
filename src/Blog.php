@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\BlogCategory\BlogCategory;
 use Rixafy\Blog\BlogCategory\BlogCategoryData;
@@ -15,7 +14,6 @@ use Rixafy\Blog\BlogPublisher\BlogPublisherData;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Blog\BlogTag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
-use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
@@ -108,26 +106,7 @@ class Blog extends EntityTranslator
 
     public function edit(BlogData $blogData)
     {
-        if ($blogData->language !== null) {
-            if ($this->fallback_language === null) {
-                $this->addTranslation($blogData, $blogData->language);
-
-            } else {
-                $criteria = Criteria::create()
-                    ->where(Criteria::expr()->eq('language', $blogData->language))
-                    ->setMaxResults(1);
-
-                /** @var BlogTranslation $translation */
-                $translation = $this->translations->matching($criteria);
-
-                if ($translation !== null) {
-                    $translation->edit($blogData);
-
-                } else {
-                    $this->addTranslation($blogData, $blogData->language);
-                }
-            }
-        }
+        $this->editTranslation($blogData);
     }
 
     /**
@@ -257,23 +236,5 @@ class Blog extends EntityTranslator
     public function getTranslations()
     {
         return $this->translations;
-    }
-
-    /**
-     * @param BlogData $blogData
-     * @param Language $language
-     * @return BlogTranslation
-     */
-    public function addTranslation(BlogData $blogData, Language $language): BlogTranslation
-    {
-        $translation = new BlogTranslation($blogData, $language, $this);
-
-        $this->translations->add($translation);
-
-        if ($this->fallback_language === null) {
-            $this->configureFallbackLanguage($language);
-        }
-
-        return $translation;
     }
 }
