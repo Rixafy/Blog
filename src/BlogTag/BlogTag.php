@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\EntityTranslator;
-use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
@@ -101,15 +100,5 @@ class BlogTag extends EntityTranslator
     public function getTranslations()
     {
         return $this->translations;
-    }
-
-    /**
-     * @param BlogTagData $dataObject
-     * @param Language $language
-     * @return BlogTagTranslation
-     */
-    public function addTranslation($dataObject, Language $language): BlogTagTranslation
-    {
-        return parent::addTranslation($dataObject, $language);
     }
 }
