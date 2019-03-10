@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogTag;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Doctrination\EntityTranslator;
@@ -68,24 +67,7 @@ class BlogTag extends EntityTranslator
     public function edit(BlogTagData $blogTagData)
     {
         if ($blogTagData->language !== null) {
-            if ($this->fallback_language === null) {
-                $this->addTranslation($blogTagData, $blogTagData->language);
-
-            } else {
-                $criteria = Criteria::create()
-                    ->where(Criteria::expr()->eq('language', $blogTagData->language))
-                    ->setMaxResults(1);
-
-                /** @var BlogTagTranslation $translation */
-                $translation = $this->translations->matching($criteria);
-
-                if ($translation !== null) {
-                    $translation->edit($blogTagData);
-
-                } else {
-                    $this->addTranslation($blogTagData, $blogTagData->language);
-                }
-            }
+            $this->editTranslation($blogTagData, $blogTagData->language);
         }
     }
 
@@ -122,20 +104,12 @@ class BlogTag extends EntityTranslator
     }
 
     /**
-     * @param BlogTagData $blogTagData
+     * @param BlogTagData $dataObject
      * @param Language $language
      * @return BlogTagTranslation
      */
-    public function addTranslation(BlogTagData $blogTagData, Language $language): BlogTagTranslation
+    public function addTranslation($dataObject, Language $language): BlogTagTranslation
     {
-        $translation = new BlogTagTranslation($blogTagData, $language, $this);
-
-        $this->translations->add($translation);
-
-        if ($this->fallback_language === null) {
-            $this->configureFallbackLanguage($language);
-        }
-
-        return $translation;
+        return parent::addTranslation($dataObject, $language);
     }
 }
