@@ -68,11 +68,6 @@ class BlogTranslation
     {
         $this->language = $language;
         $this->entity = $entity;
-        $this->edit($blogData);
-    }
-
-    public function edit(BlogData $blogData): void
-    {
         $this->name = $blogData->name;
         $this->title = $blogData->title;
         $this->description = $blogData->description;

@@ -56,11 +56,6 @@ class BlogTagTranslation
     {
         $this->language = $language;
         $this->entity = $entity;
-        $this->edit($blogTagData);
-    }
-
-    public function edit(BlogTagData $blogTagData): void
-    {
         $this->name = $blogTagData->name;
         $this->description = $blogTagData->description;
     }
