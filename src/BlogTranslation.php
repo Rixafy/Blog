@@ -83,27 +83,11 @@ class BlogTranslation
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
     }
 
     /**
@@ -115,14 +99,6 @@ class BlogTranslation
     }
 
     /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
      * @return string
      */
     public function getKeywords(): string
@@ -131,26 +107,10 @@ class BlogTranslation
     }
 
     /**
-     * @param string $keywords
-     */
-    public function setKeywords(string $keywords): void
-    {
-        $this->keywords = $keywords;
-    }
-
-    /**
      * @return \Rixafy\Doctrination\Language\Language
      */
     public function getLanguage(): Language
     {
         return $this->language;
-    }
-
-    /**
-     * @param \Rixafy\Doctrination\Language\Language $language
-     */
-    public function setLanguage(Language $language): void
-    {
-        $this->language = $language;
     }
 }
