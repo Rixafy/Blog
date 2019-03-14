@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\BlogPost;
 
+use Doctrine\Tests\ORM\Tools\Pagination\Category;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\Image\Image;
 
@@ -26,6 +27,9 @@ class BlogPostData
 
     /** @var Image */
     public $backdropImage;
+
+    /** @var Category */
+    public $category;
 
     /** @var Language */
     public $language;

@@ -122,6 +122,7 @@ class BlogPost extends EntityTranslator
     {
         $this->editTranslation($blogPostData);
         $this->backdrop_image = $blogPostData->backdropImage;
+        $this->category = $blogPostData->category;
     }
 
     /**
