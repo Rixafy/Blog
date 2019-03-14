@@ -13,7 +13,8 @@
     "require": {
         "doctrine/orm": "2.7.x-dev",
         "ramsey/uuid-doctrine": "dev-master",
-        "rixafy/doctrination": "dev-master"
+        "rixafy/doctrination": "dev-master",
+        "rixafy/image": "dev-master"
     },
     "config": {
         "platform": {

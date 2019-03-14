@@ -15,6 +15,7 @@ use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\Image\Image;
 
 /**
  * @ORM\Entity
@@ -69,6 +70,14 @@ class BlogPost extends EntityTranslator
     private $blog;
 
     /**
+     * Many BlogPosts have One Image
+     *
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image")
+     * @var Image
+     */
+    private $backdrop_image;
+
+    /**
      * Many BlogPosts have One Publisher
      *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\BlogPublisher\BlogPublisher")
@@ -112,6 +121,7 @@ class BlogPost extends EntityTranslator
     public function edit(BlogPostData $blogPostData)
     {
         $this->editTranslation($blogPostData);
+        $this->backdrop_image = $blogPostData->backdropImage;
     }
 
     /**
@@ -152,6 +162,14 @@ class BlogPost extends EntityTranslator
     public function getBlog(): Blog
     {
         return $this->blog;
+    }
+
+    /**
+     * @return Image
+     */
+    public function getBackdropImage(): Image
+    {
+        return $this->backdrop_image;
     }
 
     /**
