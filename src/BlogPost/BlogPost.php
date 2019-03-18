@@ -88,7 +88,7 @@ class BlogPost extends EntityTranslator
 
     /**
      * Many BlogPosts have Many Tags
-     * @ORM\ManyToMany(targetEntity="\Rixafy\\Blog\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;
