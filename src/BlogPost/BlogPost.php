@@ -88,7 +88,7 @@ class BlogPost extends EntityTranslator
 
     /**
      * Many BlogPosts have Many Tags
-     * @ORM\ManyToMany(targetEntity="\Rixafy\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="\Rixafy\\Blog\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;
@@ -104,7 +104,7 @@ class BlogPost extends EntityTranslator
     /**
      * One Blog has Many Translations
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\BlogPost\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
      * @var BlogPostTranslation[]
      */
     protected $translations;

@@ -51,7 +51,7 @@ class BlogTag extends EntityTranslator
     /**
      * One Blog has Many Translations
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\BlogTag\BlogTagTranslation", mappedBy="entity", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTagTranslation", mappedBy="entity", cascade={"persist", "remove"})
      * @var BlogTagTranslation[]
      */
     protected $translations;
