@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogCategory;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Doctrination\Annotation as Translatable;
+use Rixafy\Doctrination\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogPost\BlogPost;
