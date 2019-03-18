@@ -20,7 +20,7 @@ use Rixafy\Image\Image;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="blog_post", indexes={
+ * @ORM\Table(name="blog_post", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * })
  */

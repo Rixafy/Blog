@@ -17,7 +17,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="blog_category", indexes={
+ * @ORM\Table(name="blog_category", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * })
  */
