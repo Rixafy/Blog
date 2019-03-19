@@ -16,6 +16,11 @@
         "rixafy/doctrination": "dev-master",
         "rixafy/image": "dev-master"
     },
+    "autoload": {
+        "psr-4": {
+            "Rixafy\\Blog\\": "src"
+        }
+    },
     "config": {
         "platform": {
             "php": "7.1"
