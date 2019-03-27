@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class BlogFacade
 {
@@ -48,12 +49,12 @@ class BlogFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @param BlogData $blogData
      * @return Blog
      * @throws Exception\BlogNotFoundException
      */
-    public function edit(string $id, BlogData $blogData): Blog
+    public function edit(UuidInterface $id, BlogData $blogData): Blog
     {
         $blog = $this->blogRepository->get($id);
         $blog->edit($blogData);
@@ -64,11 +65,11 @@ class BlogFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @return Blog
      * @throws Exception\BlogNotFoundException
      */
-    public function get(string $id): Blog
+    public function get(UuidInterface $id): Blog
     {
         return $this->blogRepository->get($id);
     }

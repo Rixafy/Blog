@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogPost\Exception\BlogPostNotFoundException;
 
@@ -30,14 +31,14 @@ class BlogPostRepository
     }
 
     /**
-     * @param string $id
-     * @param Blog|null $blog
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @return BlogPost
      * @throws BlogPostNotFoundException
      */
-    public function get(string $id, Blog $blog = null): BlogPost
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
     {
-        $blogPost = $this->find($id, $blog);
+        $blogPost = $this->find($id, $blogId);
 
         if ($blogPost === null) {
             throw new BlogPostNotFoundException('BlogPost with id ' . $id . ' not found.');
@@ -46,13 +47,13 @@ class BlogPostRepository
         return $blogPost;
     }
 
-    public function find(string $id, Blog $blog = null): ?BlogPost
+    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogPost
     {
         $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', Uuid::fromString($id));
+            ->andWhere('b.id = :id')->setParameter('id', $id);
 
-        if ($blog !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blog);
+        if ($blogId !== null) {
+            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
         }
 
         return $queryBuilder->getQuery()

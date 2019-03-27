@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogPublisher;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Rixafy\Blog\Blog;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 
 class BlogPublisherFacade
@@ -36,12 +36,12 @@ class BlogPublisherFacade
     }
 
     /**
-     * @param string $blogId
+     * @param UuidInterface $blogId
      * @param BlogPublisherData $blogPublisherData
      * @return BlogPublisher
      * @throws \Rixafy\Blog\Exception\BlogNotFoundException
      */
-    public function create(string $blogId, BlogPublisherData $blogPublisherData): BlogPublisher
+    public function create(UuidInterface $blogId, BlogPublisherData $blogPublisherData): BlogPublisher
     {
         $blog = $this->blogRepository->get($blogId);
         $publisher = $blog->addPublisher($blogPublisherData);
@@ -53,15 +53,15 @@ class BlogPublisherFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @param BlogPublisherData $blogPublisherData
-     * @param Blog|null $blog
      * @return BlogPublisher
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function edit(string $id, BlogPublisherData $blogPublisherData, Blog $blog = null): BlogPublisher
+    public function edit(UuidInterface $id, UuidInterface $blogId, BlogPublisherData $blogPublisherData): BlogPublisher
     {
-        $publisher = $this->blogPublisherRepository->get($id, $blog);
+        $publisher = $this->blogPublisherRepository->get($id, $blogId);
         $publisher->edit($blogPublisherData);
 
         $this->entityManager->flush();
@@ -70,25 +70,25 @@ class BlogPublisherFacade
     }
 
     /**
-     * @param string $id
-     * @param Blog|null $blog
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @return BlogPublisher
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function get(string $id, Blog $blog = null): BlogPublisher
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogPublisher
     {
-        return $this->blogPublisherRepository->get($id, $blog);
+        return $this->blogPublisherRepository->get($id, $blogId);
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @param bool $permanent
-     * @param Blog|null $blog
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function remove(string $id, bool $permanent = false, Blog $blog = null): void
+    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
     {
-        $entity = $this->get($id, $blog);
+        $entity = $this->get($id, $blogId);
 
         if ($permanent) {
             $this->entityManager->remove($entity);

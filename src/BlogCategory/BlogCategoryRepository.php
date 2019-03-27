@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogCategory\Exception\BlogCategoryNotFoundException;
 
@@ -30,14 +31,14 @@ class BlogCategoryRepository
     }
 
     /**
-     * @param string $id
-     * @param Blog|null $blog
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @return BlogCategory
      * @throws BlogCategoryNotFoundException
      */
-    public function get(string $id, Blog $blog = null): BlogCategory
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
     {
-        $blogCategory = $this->find($id, $blog);
+        $blogCategory = $this->find($id, $blogId);
 
         if ($blogCategory === null) {
             throw new BlogCategoryNotFoundException('BlogCategory with id ' . $id . ' not found.');
@@ -46,13 +47,13 @@ class BlogCategoryRepository
         return $blogCategory;
     }
 
-    public function find(string $id, Blog $blog = null): ?BlogCategory
+    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogCategory
     {
         $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', Uuid::fromString($id));
+            ->andWhere('b.id = :id')->setParameter('id', $id);
 
-        if ($blog !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blog);
+        if ($blogId !== null) {
+            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
         }
 
         return $queryBuilder->getQuery()

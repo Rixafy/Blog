@@ -7,7 +7,7 @@ namespace Rixafy\Blog;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogRepository
@@ -29,27 +29,22 @@ class BlogRepository
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @return Blog
      * @throws BlogNotFoundException
      */
-    public function get(string $id): Blog
+    public function get(UuidInterface $id): Blog
     {
-        $blog = $this->find($id);
+        /** @var Blog $blog */
+        $blog = $this->getRepository()->findOneBy([
+            'id' => $id
+        ]);
 
         if ($blog === null) {
             throw new BlogNotFoundException('Blog with id ' . $id . ' not found.');
         }
 
         return $blog;
-    }
-
-    public function find(string $id): ?Blog
-    {
-        return $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', Uuid::fromString($id))
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getQueryBuilderForAll(): QueryBuilder

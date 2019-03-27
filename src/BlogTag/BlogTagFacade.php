@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\BlogTag;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Rixafy\Blog\Blog;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 
 class BlogTagFacade
@@ -36,12 +36,12 @@ class BlogTagFacade
     }
 
     /**
-     * @param string $blogId
+     * @param UuidInterface $blogId
      * @param BlogTagData $blogTagData
      * @return BlogTag
      * @throws \Rixafy\Blog\Exception\BlogNotFoundException
      */
-    public function create(string $blogId, BlogTagData $blogTagData): BlogTag
+    public function create(UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
     {
         $blog = $this->blogRepository->get($blogId);
         $tag = $blog->addTag($blogTagData);
@@ -53,15 +53,15 @@ class BlogTagFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @param BlogTagData $blogTagData
-     * @param Blog|null $blog
      * @return BlogTag
      * @throws Exception\BlogTagNotFoundException
      */
-    public function edit(string $id, BlogTagData $blogTagData, Blog $blog = null): BlogTag
+    public function edit(UuidInterface $id, UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
     {
-        $tag = $this->blogTagRepository->get($id, $blog);
+        $tag = $this->blogTagRepository->get($id, $blogId);
         $tag->edit($blogTagData);
 
         $this->entityManager->flush();
@@ -70,25 +70,25 @@ class BlogTagFacade
     }
 
     /**
-     * @param string $id
-     * @param Blog|null $blog
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @return BlogTag
      * @throws Exception\BlogTagNotFoundException
      */
-    public function get(string $id, Blog $blog = null): BlogTag
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
     {
-        return $this->blogTagRepository->get($id, $blog);
+        return $this->blogTagRepository->get($id, $blogId);
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
+     * @param UuidInterface $blogId
      * @param bool $permanent
-     * @param Blog|null $blog
      * @throws Exception\BlogTagNotFoundException
      */
-    public function remove(string $id, bool $permanent = false, Blog $blog = null): void
+    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
     {
-        $entity = $this->get($id, $blog);
+        $entity = $this->get($id, $blogId);
 
         if ($permanent) {
             $this->entityManager->remove($entity);
