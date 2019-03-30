@@ -74,7 +74,7 @@ class BlogCategory extends EntityTranslator
         $this->edit($blogCategoryData);
     }
 
-    public function edit(BlogCategoryData $blogCategoryData)
+    public function edit(BlogCategoryData $blogCategoryData): void
     {
         $this->editTranslation($blogCategoryData);
     }
