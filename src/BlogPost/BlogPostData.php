@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\Tests\ORM\Tools\Pagination\Category;
-use Rixafy\Blog\BlogTag\BlogTag;
+use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Doctrination\Language\Language;
 use Rixafy\Image\Image;
 

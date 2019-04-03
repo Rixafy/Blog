@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogTag;
+namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Language\Language;
@@ -40,7 +40,7 @@ class BlogTagTranslation
 
     /**
      * Many Translations have One Entity. Bidirectional.
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", inversedBy="translations")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Tag\BlogTag", inversedBy="translations")
      * @ORM\JoinColumn(name="entity_id", referencedColumnName="id")
      * @var BlogTag
      */

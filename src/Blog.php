@@ -12,8 +12,8 @@ use Rixafy\Blog\Category\BlogCategoryData;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\Publisher\BlogPublisher;
 use Rixafy\Blog\Publisher\BlogPublisherData;
-use Rixafy\Blog\BlogTag\BlogTag;
-use Rixafy\Blog\BlogTag\BlogTagData;
+use Rixafy\Blog\Tag\BlogTag;
+use Rixafy\Blog\Tag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
@@ -73,7 +73,7 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many BlogTags
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Tag\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;

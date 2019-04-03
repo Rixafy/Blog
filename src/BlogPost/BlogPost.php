@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\Publisher\BlogPublisher;
-use Rixafy\Blog\BlogTag\BlogTag;
+use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
@@ -88,7 +88,7 @@ class BlogPost extends EntityTranslator
 
     /**
      * Many BlogPosts have Many Tags
-     * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\Tag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;

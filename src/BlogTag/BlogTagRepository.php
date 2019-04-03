@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogTag;
+namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\BlogTag\Exception\BlogTagNotFoundException;
+use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
 
 class BlogTagRepository
 {

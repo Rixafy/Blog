@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogTag;
+namespace Rixafy\Blog\Tag;
 
 use Rixafy\Doctrination\Language\Language;
 
