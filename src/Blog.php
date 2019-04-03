@@ -10,8 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\Category\BlogCategoryData;
 use Rixafy\Blog\Post\BlogPost;
-use Rixafy\Blog\BlogPublisher\BlogPublisher;
-use Rixafy\Blog\BlogPublisher\BlogPublisherData;
+use Rixafy\Blog\Publisher\BlogPublisher;
+use Rixafy\Blog\Publisher\BlogPublisherData;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Blog\BlogTag\BlogTagData;
 use Rixafy\Doctrination\EntityTranslator;
@@ -81,7 +81,7 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many BlogPublishers
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPublisher\BlogPublisher", mappedBy="blog", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogPublisher[]
      */
     private $publishers;

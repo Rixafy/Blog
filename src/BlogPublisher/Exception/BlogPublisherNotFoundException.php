@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPublisher\Exception;
+namespace Rixafy\Blog\Publisher\Exception;
 
 class BlogPublisherNotFoundException extends \Exception
 {

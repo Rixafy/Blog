@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPublisher;
+namespace Rixafy\Blog\Publisher;
 
 class BlogPublisherData
 {
