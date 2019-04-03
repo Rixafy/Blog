@@ -7,8 +7,8 @@ namespace Rixafy\Blog;
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Rixafy\Blog\BlogCategory\BlogCategory;
-use Rixafy\Blog\BlogCategory\BlogCategoryData;
+use Rixafy\Blog\Category\BlogCategory;
+use Rixafy\Blog\Category\BlogCategoryData;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogPublisher\BlogPublisherData;
@@ -57,7 +57,7 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many BlogCategories
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategory", mappedBy="blog", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Category\BlogCategory", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogCategory[]
      */
     private $categories;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogCategory;
+namespace Rixafy\Blog\Category;
 
 use Rixafy\Doctrination\Language\Language;
 

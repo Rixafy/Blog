@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogCategory;
+namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Annotation\Translatable;
@@ -60,7 +60,7 @@ class BlogCategory extends EntityTranslator
     /**
      * One Blog has Many Translations
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategoryTranslation", mappedBy="entity", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Category\BlogCategoryTranslation", mappedBy="entity", cascade={"persist", "remove"})
      * @var BlogCategoryTranslation[]
      */
     protected $translations;

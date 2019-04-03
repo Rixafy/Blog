@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
-use Rixafy\Blog\BlogCategory\BlogCategory;
+use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogTag\BlogTag;
 use Rixafy\Doctrination\EntityTranslator;
@@ -96,7 +96,7 @@ class BlogPost extends EntityTranslator
     /**
      * Many BlogPosts have One Category
      *
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategory")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
      * @var BlogCategory
      */
     private $category;
