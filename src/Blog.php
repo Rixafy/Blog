@@ -9,7 +9,7 @@ use Rixafy\Doctrination\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\BlogCategory\BlogCategory;
 use Rixafy\Blog\BlogCategory\BlogCategoryData;
-use Rixafy\Blog\BlogPost\BlogPost;
+use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\BlogPublisher\BlogPublisher;
 use Rixafy\Blog\BlogPublisher\BlogPublisherData;
 use Rixafy\Blog\BlogTag\BlogTag;
@@ -65,7 +65,7 @@ class Blog extends EntityTranslator
     /**
      * One Blog has Many BlogPosts
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="blog", cascade={"persist", "remove"})
      * @var BlogPost[]
      */
     private $posts;

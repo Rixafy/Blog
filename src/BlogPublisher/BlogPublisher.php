@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
 use Rixafy\Blog\Blog;
-use Rixafy\Blog\BlogPost\BlogPost;
-use Rixafy\Blog\BlogPost\BlogPostData;
+use Rixafy\Blog\Post\BlogPost;
+use Rixafy\Blog\Post\BlogPostData;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
@@ -64,7 +64,7 @@ class BlogPublisher
     /**
      * One Blog has Many BlogPosts
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog_publisher", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="blog_publisher", cascade={"persist", "remove"})
      * @var BlogPost[]
      */
     private $posts;

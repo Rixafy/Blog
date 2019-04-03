@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPost;
+namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Annotation\Translatable;
@@ -104,7 +104,7 @@ class BlogPost extends EntityTranslator
     /**
      * One Blog has Many Translations
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
      * @var BlogPostTranslation[]
      */
     protected $translations;

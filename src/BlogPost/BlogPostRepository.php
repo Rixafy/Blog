@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPost;
+namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Blog;
-use Rixafy\Blog\BlogPost\Exception\BlogPostNotFoundException;
+use Rixafy\Blog\Post\Exception\BlogPostNotFoundException;
 
 class BlogPostRepository
 {

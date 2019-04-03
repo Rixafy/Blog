@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPost\Exception;
+namespace Rixafy\Blog\Post\Exception;
 
 class BlogPostNotFoundException extends \Exception
 {

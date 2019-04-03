@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Doctrination\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
-use Rixafy\Blog\BlogPost\BlogPost;
+use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
@@ -52,7 +52,7 @@ class BlogCategory extends EntityTranslator
     /**
      * One Blog has Many BlogPosts
      *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="category")
      * @var BlogPost[]
      */
     private $posts;

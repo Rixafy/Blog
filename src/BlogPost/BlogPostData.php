@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Blog\BlogPost;
+namespace Rixafy\Blog\Post;
 
 use Doctrine\Tests\ORM\Tools\Pagination\Category;
 use Rixafy\Blog\BlogTag\BlogTag;
