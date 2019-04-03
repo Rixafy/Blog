@@ -105,7 +105,7 @@ class Blog extends EntityTranslator
         $this->edit($blogData);
     }
 
-    public function edit(BlogData $blogData)
+    public function edit(BlogData $blogData): void
     {
         $this->editTranslation($blogData);
     }

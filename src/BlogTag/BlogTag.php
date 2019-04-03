@@ -67,7 +67,7 @@ class BlogTag extends EntityTranslator
     /**
      * @param BlogTagData $blogTagData
      */
-    public function edit(BlogTagData $blogTagData)
+    public function edit(BlogTagData $blogTagData): void
     {
         $this->editTranslation($blogTagData, $blogTagData->language);
     }

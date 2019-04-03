@@ -77,7 +77,7 @@ class BlogPublisher
         $this->posts = new ArrayCollection();
     }
 
-    public function edit(BlogPublisherData $blogPublisherData)
+    public function edit(BlogPublisherData $blogPublisherData): void
     {
         $this->display_name = $blogPublisherData->displayName;
         $this->signature = $blogPublisherData->signature;

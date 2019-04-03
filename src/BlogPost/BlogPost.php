@@ -119,7 +119,7 @@ class BlogPost extends EntityTranslator
         $this->edit($blogPostData);
     }
 
-    public function edit(BlogPostData $blogPostData)
+    public function edit(BlogPostData $blogPostData): void
     {
         $this->editTranslation($blogPostData);
         $this->backdrop_image = $blogPostData->backdropImage;
