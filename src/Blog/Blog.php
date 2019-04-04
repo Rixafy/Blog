@@ -110,44 +110,26 @@ class Blog extends EntityTranslator
         $this->editTranslation($blogData);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * Add new blog category
-     *
-     * @param BlogCategoryData $blogCategoryData
-     * @return BlogCategory
-     */
     public function addCategory(BlogCategoryData $blogCategoryData): BlogCategory
     {
         $category = new BlogCategory($blogCategoryData, $this);
@@ -157,34 +139,16 @@ class Blog extends EntityTranslator
         return $category;
     }
 
-    /**
-     * Remove blog category
-     *
-     * @param BlogCategory $blogCategory
-     * @return bool
-     */
     public function removeCategory(BlogCategory $blogCategory): bool
     {
         return $this->categories->removeElement($blogCategory);
     }
 
-    /**
-     * Remove blog post
-     *
-     * @param BlogPost $blogPost
-     * @return bool Successfully removed?
-     */
     public function removePost(BlogPost $blogPost): bool
     {
         return $this->posts->removeElement($blogPost);
     }
 
-    /**
-     * Add new blog tag
-     *
-     * @param BlogTagData $blogTagData
-     * @return BlogTag
-     */
     public function addTag(BlogTagData $blogTagData): BlogTag
     {
         $blogTag = new BlogTag($blogTagData, $this);
@@ -194,23 +158,11 @@ class Blog extends EntityTranslator
         return $blogTag;
     }
 
-    /**
-     * Remove blog tag
-     *
-     * @param BlogTag $blogTag
-     * @return bool Successfully removed?
-     */
     public function removeTag(BlogTag $blogTag): bool
     {
         return $this->tags->removeElement($blogTag);
     }
 
-    /**
-     * Add new blog publisher
-     *
-     * @param BlogPublisherData $blogPublisherData
-     * @return BlogPublisher
-     */
     public function addPublisher(BlogPublisherData $blogPublisherData): BlogPublisher
     {
         $publisher = new BlogPublisher($blogPublisherData, $this);
@@ -220,12 +172,6 @@ class Blog extends EntityTranslator
         return $publisher;
     }
 
-    /**
-     * Remove blog publisher
-     *
-     * @param BlogPublisher $blogPublisher
-     * @return bool Successfully removed?
-     */
     public function removePublisher(BlogPublisher $blogPublisher): bool
     {
         return $this->publishers->removeElement($blogPublisher);
