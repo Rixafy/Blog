@@ -98,41 +98,26 @@ class BlogPublisher
         return $blogPost;
     }
 
-    /**
-     * @return Blog
-     */
     public function getBlog(): Blog
     {
         return $this->blog;
     }
 
-    /**
-     * @return string
-     */
     public function getDisplayName(): string
     {
         return $this->display_name;
     }
 
-    /**
-     * @return string
-     */
     public function getSignature(): string
     {
         return $this->signature;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getFirstPostedAt(): DateTime
     {
         return $this->first_posted_at;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getLastPostedAt(): DateTime
     {
         return $this->last_posted_at;
