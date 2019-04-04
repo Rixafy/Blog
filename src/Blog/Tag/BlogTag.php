@@ -64,33 +64,21 @@ class BlogTag extends EntityTranslator
         $this->edit($blogTagData);
     }
 
-    /**
-     * @param BlogTagData $blogTagData
-     */
     public function edit(BlogTagData $blogTagData): void
     {
         $this->editTranslation($blogTagData, $blogTagData->language);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return Blog
-     */
     public function getBlog(): Blog
     {
         return $this->blog;
