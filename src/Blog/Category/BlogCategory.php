@@ -79,25 +79,16 @@ class BlogCategory extends EntityTranslator
         $this->editTranslation($blogCategoryData);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return Blog
-     */
     public function getBlog(): Blog
     {
         return $this->blog;
@@ -111,9 +102,6 @@ class BlogCategory extends EntityTranslator
         return $this->posts;
     }
 
-    /**
-     * @param BlogPost $blogPost
-     */
     public function addPost(BlogPost $blogPost): void
     {
         $this->posts->add($blogPost);
