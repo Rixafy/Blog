@@ -127,65 +127,41 @@ class BlogPost extends EntityTranslator
         $this->tags = $blogPostData->tags;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
     public function getEditorial(): string
     {
         return $this->editorial;
     }
 
-    /**
-     * @return string
-     */
     public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * @return Blog
-     */
     public function getBlog(): Blog
     {
         return $this->blog;
     }
 
-    /**
-     * @return Image
-     */
     public function getBackdropImage(): Image
     {
         return $this->backdrop_image;
     }
 
-    /**
-     * @return BlogPublisher
-     */
     public function getPublisher(): BlogPublisher
     {
         return $this->publisher;
     }
 
-    /**
-     * @return int
-     */
     public function getViews(): int
     {
         return $this->views;
@@ -196,10 +172,6 @@ class BlogPost extends EntityTranslator
         $this->views++;
     }
 
-    /**
-     * @param BlogTag $blogTag
-     * @return bool
-     */
     public function addTag(BlogTag $blogTag): bool
     {
         if (!$this->tags->contains($blogTag)) {
@@ -209,26 +181,16 @@ class BlogPost extends EntityTranslator
         return false;
     }
 
-    /**
-     * @param BlogTag $blogTag
-     * @return bool
-     */
     public function removeTag(BlogTag $blogTag): bool
     {
         return $this->tags->removeElement($blogTag);
     }
 
-    /**
-     * @return BlogCategory
-     */
     public function getCategory(): BlogCategory
     {
         return $this->category;
     }
 
-    /**
-     * @param BlogCategory $category
-     */
     public function addToCategory(BlogCategory $category): void
     {
         $this->category = $category;
