@@ -34,10 +34,6 @@ class BlogFacade
         $this->blogFactory = $blogFactory;
     }
 
-    /**
-     * @param BlogData $blogData
-     * @return Blog
-     */
     public function create(BlogData $blogData): Blog
     {
         $blog = $this->blogFactory->create($blogData);
