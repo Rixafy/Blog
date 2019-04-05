@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogRepository;
+use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogCategoryFacade
 {
@@ -40,7 +41,7 @@ class BlogCategoryFacade
      * @param UuidInterface $blogId
      * @param BlogCategoryData $blogCategoryData
      * @return BlogCategory
-     * @throws \Rixafy\Blog\Exception\BlogNotFoundException
+     * @throws BlogNotFoundException
      */
     public function create(UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
     {

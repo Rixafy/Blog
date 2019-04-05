@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Publisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
+use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogPublisherFacade
 {
@@ -39,7 +40,7 @@ class BlogPublisherFacade
      * @param UuidInterface $blogId
      * @param BlogPublisherData $blogPublisherData
      * @return BlogPublisher
-     * @throws \Rixafy\Blog\Exception\BlogNotFoundException
+     * @throws BlogNotFoundException
      */
     public function create(UuidInterface $blogId, BlogPublisherData $blogPublisherData): BlogPublisher
     {

@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Tag;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
+use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogTagFacade
 {
@@ -39,7 +40,7 @@ class BlogTagFacade
      * @param UuidInterface $blogId
      * @param BlogTagData $blogTagData
      * @return BlogTag
-     * @throws \Rixafy\Blog\Exception\BlogNotFoundException
+     * @throws BlogNotFoundException
      */
     public function create(UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
     {
