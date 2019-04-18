@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shop\Model\Customer\Constraint;
+namespace Rixafy\Blog\Post\Constraint;
 
 use Ramsey\Uuid\UuidInterface;
 

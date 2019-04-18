@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Blog\Tag\Constraint\BlogTagUniqueConstraint;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
 
 class BlogTagRepository
@@ -29,33 +30,21 @@ class BlogTagRepository
     }
 
     /**
-     * @param UuidInterface $blogId
-     * @param UuidInterface $id
-     * @return BlogTag
      * @throws BlogTagNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId = null): BlogTag
+    public function get(BlogTagUniqueConstraint $id): BlogTag
     {
-        $blogTag = $this->find($id, $blogId);
+    	/** @var BlogTag $blogTag */
+    	$blogTag = $this->getRepository()->findOneBy([
+    		'id' => $id->getId(),
+			'blog' => $id->getBlogId()
+		]);
 
         if ($blogTag === null) {
             throw BlogTagNotFoundException::byId($id);
         }
 
         return $blogTag;
-    }
-
-    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogTag
-    {
-        $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', $id);
-
-        if ($blogId !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
-        }
-
-        return $queryBuilder->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getQueryBuilderForAll(): QueryBuilder

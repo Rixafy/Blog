@@ -29,8 +29,6 @@ class BlogRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Blog
      * @throws BlogNotFoundException
      */
     public function get(UuidInterface $id): Blog

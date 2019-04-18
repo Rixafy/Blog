@@ -7,9 +7,7 @@ namespace Rixafy\Blog\Post;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Blog;
+use Rixafy\Blog\Post\Constraint\BlogPostUniqueConstraint;
 use Rixafy\Blog\Post\Exception\BlogPostNotFoundException;
 
 class BlogPostRepository
@@ -31,33 +29,21 @@ class BlogPostRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @return BlogPost
      * @throws BlogPostNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
+    public function get(BlogPostUniqueConstraint $id): BlogPost
     {
-        $blogPost = $this->find($id, $blogId);
+    	/** @var BlogPost $blogPost */
+        $blogPost = $this->getRepository()->findOneBy([
+        	'id' => $id->getId(),
+			'blog' => $id->getBlogId()
+		]);
 
         if ($blogPost === null) {
             throw BlogPostNotFoundException::byId($id);
         }
 
         return $blogPost;
-    }
-
-    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogPost
-    {
-        $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', $id);
-
-        if ($blogId !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
-        }
-
-        return $queryBuilder->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getQueryBuilderForAll(): QueryBuilder

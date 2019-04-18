@@ -6,8 +6,8 @@ namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Blog;
 use Rixafy\Blog\BlogRepository;
+use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogCategoryFacade
@@ -21,12 +21,6 @@ class BlogCategoryFacade
     /** @var BlogCategoryRepository */
     private $blogCategoryRepository;
 
-    /**
-     * BlogCategoryFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param BlogRepository $blogRepository
-     * @param BlogCategoryRepository $blogCategoryRepository
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
@@ -38,9 +32,6 @@ class BlogCategoryFacade
     }
 
     /**
-     * @param UuidInterface $blogId
-     * @param BlogCategoryData $blogCategoryData
-     * @return BlogCategory
      * @throws BlogNotFoundException
      */
     public function create(UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
@@ -55,15 +46,11 @@ class BlogCategoryFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @param BlogCategoryData $blogCategoryData
-     * @return BlogCategory
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function edit(UuidInterface $id, UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
+    public function edit(BlogCategoryUniqueConstraint $id, BlogCategoryData $blogCategoryData): BlogCategory
     {
-        $category = $this->blogCategoryRepository->get($id, $blogId);
+        $category = $this->blogCategoryRepository->get($id);
         $category->edit($blogCategoryData);
 
         $this->entityManager->flush();
@@ -72,25 +59,19 @@ class BlogCategoryFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @return BlogCategory
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
+    public function get(BlogCategoryUniqueConstraint $id): BlogCategory
     {
-        return $this->blogCategoryRepository->get($id, $blogId);
+        return $this->blogCategoryRepository->get($id);
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @param bool $permanent
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
+    public function remove(BlogCategoryUniqueConstraint $id, bool $permanent = false): void
     {
-        $entity = $this->get($id, $blogId);
+        $entity = $this->get($id);
 
         if ($permanent) {
             $this->entityManager->remove($entity);

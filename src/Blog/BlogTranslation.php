@@ -58,12 +58,6 @@ class BlogTranslation
      */
     private $entity;
 
-    /**
-     * BlogTranslation constructor.
-     * @param BlogData $blogData
-     * @param \Rixafy\Doctrination\Language\Language $language
-     * @param Blog $entity
-     */
     public function __construct(BlogData $blogData, Language $language, Blog $entity)
     {
         $this->language = $language;
@@ -74,41 +68,26 @@ class BlogTranslation
         $this->keywords = $blogData->keywords;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * @return \Rixafy\Doctrination\Language\Language
-     */
     public function getLanguage(): Language
     {
         return $this->language;

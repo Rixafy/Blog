@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Blog;
+use Rixafy\Blog\Publisher\Constraint\BlogPublisherUniqueConstraint;
 use Rixafy\Blog\Publisher\Exception\BlogPublisherNotFoundException;
 
 class BlogPublisherRepository
@@ -31,33 +32,21 @@ class BlogPublisherRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @return BlogPublisher
      * @throws BlogPublisherNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId = null): BlogPublisher
+    public function get(BlogPublisherUniqueConstraint $id): BlogPublisher
     {
-        $blogPost = $this->find($id, $blogId);
+    	/** @var BlogPublisher $blogPublisher */
+    	$blogPublisher = $this->getRepository()->findOneBy([
+    		'id' => $id->getId(),
+			'blog' => $id->getBlogId()
+		]);
 
-        if ($blogPost === null) {
+        if ($blogPublisher === null) {
             throw BlogPublisherNotFoundException::byId($id);
         }
 
-        return $blogPost;
-    }
-
-    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogPublisher
-    {
-        $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', $id);
-
-        if ($blogId !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
-        }
-
-        return $queryBuilder->getQuery()
-            ->getOneOrNullResult();
+        return $blogPublisher;
     }
 
     public function getQueryBuilderForAll(): QueryBuilder

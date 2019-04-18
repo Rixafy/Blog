@@ -18,12 +18,6 @@ class BlogFacade
     /** @var BlogFactory */
     private $blogFactory;
 
-    /**
-     * BlogFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param BlogRepository $blogRepository
-     * @param BlogFactory $blogFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
@@ -45,9 +39,6 @@ class BlogFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param BlogData $blogData
-     * @return Blog
      * @throws Exception\BlogNotFoundException
      */
     public function edit(UuidInterface $id, BlogData $blogData): Blog
@@ -61,8 +52,6 @@ class BlogFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Blog
      * @throws Exception\BlogNotFoundException
      */
     public function get(UuidInterface $id): Blog

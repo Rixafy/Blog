@@ -7,9 +7,7 @@ namespace Rixafy\Blog\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Blog;
+use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 use Rixafy\Blog\Category\Exception\BlogCategoryNotFoundException;
 
 class BlogCategoryRepository
@@ -31,33 +29,21 @@ class BlogCategoryRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @return BlogCategory
      * @throws BlogCategoryNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
+    public function get(BlogCategoryUniqueConstraint $id): BlogCategory
     {
-        $blogCategory = $this->find($id, $blogId);
+    	/** @var BlogCategory $blogCategory */
+    	$blogCategory = $this->getRepository()->findOneBy([
+    		'id' => $id->getId(),
+			'blog' => $id->getBlogId()
+		]);
 
         if ($blogCategory === null) {
             throw BlogCategoryNotFoundException::byId($id);
         }
 
         return $blogCategory;
-    }
-
-    public function find(UuidInterface $id, UuidInterface $blogId): ?BlogCategory
-    {
-        $queryBuilder = $this->getQueryBuilderForAll()
-            ->andWhere('b.id = :id')->setParameter('id', $id);
-
-        if ($blogId !== null) {
-            $queryBuilder = $queryBuilder->andWhere('b.blog = :blog')->setParameter('blog', $blogId);
-        }
-
-        return $queryBuilder->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getQueryBuilderForAll(): QueryBuilder

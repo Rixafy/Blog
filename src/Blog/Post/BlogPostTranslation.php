@@ -64,12 +64,6 @@ class BlogPostTranslation
      */
     private $entity;
 
-    /**
-     * BlogTranslation constructor.
-     * @param BlogPostData $blogPostData
-     * @param \Rixafy\Doctrination\Language\Language $language
-     * @param BlogPost $entity
-     */
     public function __construct(BlogPostData $blogPostData, Language $language, BlogPost $entity)
     {
         $this->language = $language;
@@ -86,49 +80,31 @@ class BlogPostTranslation
         $this->reading_time = floor(str_word_count(strip_tags($this->content)) / 200);
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
     public function getEditorial(): string
     {
         return $this->editorial;
     }
 
-    /**
-     * @return string
-     */
     public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * @return float
-     */
     public function getReadingTime(): float
     {
         return $this->reading_time;
     }
 
-    /**
-     * @return \Rixafy\Doctrination\Language\Language
-     */
     public function getLanguage(): Language
     {
         return $this->language;

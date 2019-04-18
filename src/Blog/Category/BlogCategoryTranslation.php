@@ -46,12 +46,6 @@ class BlogCategoryTranslation
      */
     private $entity;
 
-    /**
-     * BlogTranslation constructor.
-     * @param BlogCategoryData $blogCategoryData
-     * @param \Rixafy\Doctrination\Language\Language $language
-     * @param BlogCategory $entity
-     */
     public function __construct(BlogCategoryData $blogCategoryData, Language $language, BlogCategory $entity)
     {
         $this->language = $language;
@@ -60,25 +54,16 @@ class BlogCategoryTranslation
         $this->description = $blogCategoryData->description;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return \Rixafy\Doctrination\Language\Language
-     */
     public function getLanguage(): Language
     {
         return $this->language;

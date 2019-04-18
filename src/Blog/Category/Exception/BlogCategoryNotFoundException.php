@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category\Exception;
 
 use Exception;
-use Ramsey\Uuid\UuidInterface;
+use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 
 class BlogCategoryNotFoundException extends Exception
 {
-	public static function byId(UuidInterface $id): self
+	public static function byId(BlogCategoryUniqueConstraint $id): self
 	{
-		return new self('BlogCategory with id "' . $id . '" not found.');
+		return new self('BlogCategory with id "' . $id->getId() . '" and blog_id "' . $id->getBlogId() . '" not found.');
 	}
 }

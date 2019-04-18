@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
+use Rixafy\Blog\Tag\Constraint\BlogTagUniqueConstraint;
 
 class BlogTagFacade
 {
@@ -20,12 +21,6 @@ class BlogTagFacade
     /** @var BlogTagRepository */
     private $blogTagRepository;
 
-    /**
-     * BlogTagFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param BlogRepository $blogRepository
-     * @param BlogTagRepository $blogTagRepository
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
@@ -37,9 +32,6 @@ class BlogTagFacade
     }
 
     /**
-     * @param UuidInterface $blogId
-     * @param BlogTagData $blogTagData
-     * @return BlogTag
      * @throws BlogNotFoundException
      */
     public function create(UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
@@ -54,15 +46,11 @@ class BlogTagFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @param BlogTagData $blogTagData
-     * @return BlogTag
      * @throws Exception\BlogTagNotFoundException
      */
-    public function edit(UuidInterface $id, UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
+    public function edit(BlogTagUniqueConstraint $id, BlogTagData $blogTagData): BlogTag
     {
-        $tag = $this->blogTagRepository->get($id, $blogId);
+        $tag = $this->blogTagRepository->get($id);
         $tag->edit($blogTagData);
 
         $this->entityManager->flush();
@@ -71,25 +59,19 @@ class BlogTagFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @return BlogTag
      * @throws Exception\BlogTagNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
+    public function get(BlogTagUniqueConstraint $id): BlogTag
     {
-        return $this->blogTagRepository->get($id, $blogId);
+        return $this->blogTagRepository->get($id);
     }
 
     /**
-     * @param UuidInterface $id
-     * @param UuidInterface $blogId
-     * @param bool $permanent
      * @throws Exception\BlogTagNotFoundException
      */
-    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
+    public function remove(BlogTagUniqueConstraint $id, bool $permanent = false): void
     {
-        $entity = $this->get($id, $blogId);
+        $entity = $this->get($id);
 
         if ($permanent) {
             $this->entityManager->remove($entity);
