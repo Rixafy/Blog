@@ -39,7 +39,7 @@ class BlogTagRepository
         $blogTag = $this->find($id, $blogId);
 
         if ($blogTag === null) {
-            throw new BlogTagNotFoundException('BlogTag with id ' . $id . ' not found.');
+            throw BlogTagNotFoundException::byId($id);
         }
 
         return $blogTag;

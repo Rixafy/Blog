@@ -41,7 +41,7 @@ class BlogCategoryRepository
         $blogCategory = $this->find($id, $blogId);
 
         if ($blogCategory === null) {
-            throw new BlogCategoryNotFoundException('BlogCategory with id ' . $id . ' not found.');
+            throw BlogCategoryNotFoundException::byId($id);
         }
 
         return $blogCategory;

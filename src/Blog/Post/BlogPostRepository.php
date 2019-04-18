@@ -41,7 +41,7 @@ class BlogPostRepository
         $blogPost = $this->find($id, $blogId);
 
         if ($blogPost === null) {
-            throw new BlogPostNotFoundException('BlogPost with id ' . $id . ' not found.');
+            throw BlogPostNotFoundException::byId($id);
         }
 
         return $blogPost;

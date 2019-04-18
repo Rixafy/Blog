@@ -41,7 +41,7 @@ class BlogPublisherRepository
         $blogPost = $this->find($id, $blogId);
 
         if ($blogPost === null) {
-            throw new BlogPublisherNotFoundException('BlogPublisher with id ' . $id . ' not found.');
+            throw BlogPublisherNotFoundException::byId($id);
         }
 
         return $blogPost;

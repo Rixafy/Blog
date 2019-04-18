@@ -41,7 +41,7 @@ class BlogRepository
         ]);
 
         if ($blog === null) {
-            throw new BlogNotFoundException('Blog with id ' . $id . ' not found.');
+            throw BlogNotFoundException::byId($id);
         }
 
         return $blog;
