@@ -42,7 +42,7 @@ class BlogCategory extends EntityTranslator
     protected $description;
 
     /**
-     * Many BlogCategorys have One Blog
+     * Many BlogCategories have One Blog
      *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
      * @var Blog
