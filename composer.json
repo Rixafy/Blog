@@ -14,7 +14,7 @@
         "php": "^7.2",
         "doctrine/orm": "2.7.x-dev",
         "ramsey/uuid-doctrine": "dev-master",
-        "rixafy/doctrination": "dev-master",
+        "rixafy/translation": "dev-master",
         "rixafy/image": "dev-master"
     },
     "autoload": {

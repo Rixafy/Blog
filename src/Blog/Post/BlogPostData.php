@@ -6,8 +6,8 @@ namespace Rixafy\Blog\Post;
 
 use Doctrine\Tests\ORM\Tools\Pagination\Category;
 use Rixafy\Blog\Tag\BlogTag;
-use Rixafy\Doctrination\Language\Language;
 use Rixafy\Image\Image;
+use Rixafy\Language\Language;
 
 class BlogPostData
 {

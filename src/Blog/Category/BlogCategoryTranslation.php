@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\Language\Language;
 
 /**
  * @ORM\Entity
@@ -32,9 +32,9 @@ class BlogCategoryTranslation
 
     /**
      * Many Translations have One Language. Unidirectional.
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language")
      * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
-     * @var \Rixafy\Doctrination\Language\Language
+     * @var Language
      */
     private $language;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\Category;
 
-use Rixafy\Doctrination\Language\Language;
+use Rixafy\Language\Language;
 
 class BlogCategoryData
 {

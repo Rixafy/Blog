@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Doctrination\Annotation\Translatable;
+use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\Publisher\BlogPublisher;
 use Rixafy\Blog\Tag\BlogTag;
-use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Image\Image;
+use Rixafy\Translation\EntityTranslator;
 
 /**
  * @ORM\Entity
