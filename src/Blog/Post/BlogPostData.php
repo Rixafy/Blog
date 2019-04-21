@@ -18,13 +18,10 @@ class BlogPostData
     public $content;
 
     /** @var string */
-    public $editorial;
+    public $editorial = '';
 
     /** @var string */
-    public $description;
-
-    /** @var string */
-    public $keywords;
+    public $keywords = '';
 
     /** @var Image */
     public $backdropImage;

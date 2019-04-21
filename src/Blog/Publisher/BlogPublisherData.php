@@ -10,5 +10,5 @@ class BlogPublisherData
     public $displayName;
 
     /** @var string */
-    public $signature;
+    public $signature = '';
 }

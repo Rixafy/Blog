@@ -12,13 +12,13 @@ class BlogData
     public $name;
 
     /** @var string */
-    public $title;
+    public $title = '';
 
     /** @var string */
-    public $description;
+    public $description = '';
 
     /** @var string */
-    public $keywords;
+    public $keywords = '';
 
     /** @var Language */
     public $language;
