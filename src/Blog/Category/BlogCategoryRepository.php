@@ -51,7 +51,7 @@ class BlogCategoryRepository
     {
         return $this->getRepository()->createQueryBuilder('b')
             ->where('b.blog = :blog')->setParameter('blog', $blogId)
-            ->where('b.is_removed = :removed')->setParameter('removed', false)
+            ->andWhere('b.is_removed = :removed')->setParameter('removed', false)
             ->orderBy('b.created_at');
     }
 }
