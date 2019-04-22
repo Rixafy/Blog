@@ -127,6 +127,22 @@ class BlogPost extends EntityTranslator
         $this->tags = $blogPostData->tags;
     }
 
+    public function getData(): BlogPostData
+	{
+		$data = new BlogPostData();
+
+		$data->title = $this->title;
+		$data->content = $this->content;
+		$data->keywords = $this->keywords;
+		$data->editorial = $this->editorial;
+		$data->category = $this->category;
+		$data->backdropImage = $this->backdrop_image;
+		$data->tags = $this->tags;
+		$data->language = $this->translationLanguage;
+
+		return $data;
+	}
+
     public function getTitle(): string
     {
         return $this->title;

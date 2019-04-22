@@ -81,6 +81,17 @@ class BlogCategory extends EntityTranslator
         $this->editTranslation($blogCategoryData);
     }
 
+    public function getData(): BlogCategoryData
+	{
+		$data = new BlogCategoryData();
+
+		$data->name = $this->name;
+		$data->language = $this->translationLanguage;
+		$data->description = $this->description;
+
+		return $data;
+	}
+
     public function getName(): string
     {
         return $this->name;

@@ -110,6 +110,19 @@ class Blog extends EntityTranslator
         $this->editTranslation($blogData);
     }
 
+    public function getData(): BlogData
+	{
+		$data = new BlogData();
+
+		$data->name = $this->name;
+		$data->description = $this->description;
+		$data->title = $this->title;
+		$data->keywords = $this->keywords;
+		$data->language = $this->translationLanguage;
+
+		return $data;
+	}
+
     public function getName(): string
     {
         return $this->name;

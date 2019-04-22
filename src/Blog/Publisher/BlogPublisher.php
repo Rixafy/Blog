@@ -83,6 +83,16 @@ class BlogPublisher
         $this->signature = $blogPublisherData->signature;
     }
 
+    public function getData(): BlogPublisherData
+	{
+		$data = new BlogPublisherData();
+
+		$data->displayName = $this->display_name;
+		$data->signature = $this->signature;
+
+		return $data;
+	}
+
     public function publish(BlogPostData $blogPostData): BlogPost
     {
         $blogPost = new BlogPost($blogPostData, $this);
