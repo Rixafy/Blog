@@ -6,20 +6,26 @@ namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Tag\Constraint\BlogTagUniqueConstraint;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
+use Rixafy\Language\LanguageProvider;
 
 class BlogTagRepository
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+	/** @var EntityManagerInterface */
+	private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+	/** @var LanguageProvider */
+	private $languageProvider;
+
+	public function __construct(EntityManagerInterface $entityManager, LanguageProvider $languageProvider)
+	{
+		$this->entityManager = $entityManager;
+		$this->languageProvider = $languageProvider;
+	}
 
     /**
      * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
@@ -47,10 +53,14 @@ class BlogTagRepository
         return $blogTag;
     }
 
-    public function getQueryBuilderForAll(): QueryBuilder
-    {
-        return $this->getRepository()->createQueryBuilder('b')
-            ->where('b.is_removed = :removed')->setParameter('removed', false)
-            ->orderBy('b.created_at');
-    }
+	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
+	{
+		return $this->getRepository()->createQueryBuilder('e')
+			->join(BlogTagTranslation::class, 'tr', Join::WITH,
+				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallback_language)')
+			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
+			->where('e.blog = :blog')->setParameter('blog', $blogId)
+			->andWhere('e.is_removed = :removed')->setParameter('removed', false)
+			->orderBy('e.created_at');
+	}
 }
