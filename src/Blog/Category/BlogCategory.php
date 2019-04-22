@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\DoctrineTraits\SortOrderTrait;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
@@ -27,6 +28,7 @@ class BlogCategory extends EntityTranslator
     use UniqueTrait;
     use PublishableTrait;
     use RemovableTrait;
+    use SortOrderTrait;
     use DateTimeTrait;
 
     /**
