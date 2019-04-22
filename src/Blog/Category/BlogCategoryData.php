@@ -14,6 +14,9 @@ class BlogCategoryData
     /** @var string */
     public $description = '';
 
+    /** @var BlogCategory */
+    public $parent;
+
     /** @var Language */
     public $language;
 }

@@ -59,6 +59,14 @@ class BlogCategory extends EntityTranslator
      */
     private $posts;
 
+	/**
+	 * Many BlogCategories have One Category
+	 *
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
+	 * @var BlogCategory
+	 */
+	private $parent;
+
     /**
      * One Blog has Many Translations
      *
@@ -88,6 +96,7 @@ class BlogCategory extends EntityTranslator
 		$data->name = $this->name;
 		$data->language = $this->translationLanguage;
 		$data->description = $this->description;
+		$data->parent = $this->parent;
 
 		return $data;
 	}
@@ -119,6 +128,11 @@ class BlogCategory extends EntityTranslator
     {
         $this->posts->add($blogPost);
     }
+
+	public function getParent(): BlogCategory
+	{
+		return $this->parent;
+	}
 
     /**
      * @return BlogCategoryTranslation[]
