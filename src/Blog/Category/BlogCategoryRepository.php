@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 use Rixafy\Blog\Category\Exception\BlogCategoryNotFoundException;
 
@@ -46,9 +47,10 @@ class BlogCategoryRepository
         return $blogCategory;
     }
 
-    public function getQueryBuilderForAll(): QueryBuilder
+    public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('b')
+            ->where('b.blog = :blog')->setParameter('blog', $blogId)
             ->where('b.is_removed = :removed')->setParameter('removed', false)
             ->orderBy('b.created_at');
     }
