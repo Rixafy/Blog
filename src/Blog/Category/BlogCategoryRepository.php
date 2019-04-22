@@ -59,7 +59,7 @@ class BlogCategoryRepository
 			->join(BlogCategoryTranslation::class, 'tr', Join::WITH,
 				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallback_language)')
 			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
-			->where('e.blog = :blog')->setParameter('blog', $blogId)
+			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
 			->andWhere('e.is_removed = :removed')->setParameter('removed', false)
 			->orderBy('e.created_at');
 	}

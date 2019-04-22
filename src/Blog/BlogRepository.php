@@ -59,7 +59,6 @@ class BlogRepository
 			->join(BlogTagTranslation::class, 'tr', Join::WITH,
 				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallback_language)')
 			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
-			->where('e.blog = :blog')->setParameter('blog', $blogId)
 			->andWhere('e.is_active = :active')->setParameter('active', true)
 			->orderBy('e.created_at');
 	}

@@ -51,8 +51,8 @@ class BlogPublisherRepository
 
     public function getQueryBuilderForAll(): QueryBuilder
     {
-        return $this->getRepository()->createQueryBuilder('b')
-            ->where('b.is_active = :active')->setParameter('active', true)
-            ->orderBy('b.created_at');
+        return $this->getRepository()->createQueryBuilder('e')
+            ->where('e.is_active = :active')->setParameter('active', true)
+            ->orderBy('e.created_at');
     }
 }
