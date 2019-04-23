@@ -7,11 +7,9 @@ namespace Rixafy\Blog;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Exception\BlogNotFoundException;
-use Rixafy\Blog\Tag\BlogTagTranslation;
 use Rixafy\Language\LanguageProvider;
 
 class BlogRepository
@@ -56,9 +54,6 @@ class BlogRepository
 	public function getQueryBuilderForAll(): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
-			->join(BlogTagTranslation::class, 'tr', Join::WITH,
-				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallback_language)')
-			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
 			->andWhere('e.is_active = :active')->setParameter('active', true)
 			->orderBy('e.created_at');
 	}
