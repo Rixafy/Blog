@@ -53,7 +53,7 @@ class BlogRepository
         return $blog;
     }
 
-	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
+	public function getQueryBuilderForAll(): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
 			->join(BlogTagTranslation::class, 'tr', Join::WITH,
