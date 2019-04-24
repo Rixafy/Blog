@@ -10,8 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\Category\BlogCategoryData;
 use Rixafy\Blog\Post\BlogPost;
-use Rixafy\Blog\Publisher\BlogPublisher;
-use Rixafy\Blog\Publisher\BlogPublisherData;
 use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Blog\Tag\BlogTagData;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -79,14 +77,6 @@ class Blog extends EntityTranslator
     private $tags;
 
     /**
-     * One Blog has Many BlogPublishers
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher", mappedBy="blog", cascade={"persist", "remove"})
-     * @var BlogPublisher[]
-     */
-    private $publishers;
-
-    /**
      * One Blog has Many Translations
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
@@ -100,7 +90,6 @@ class Blog extends EntityTranslator
         $this->categories = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->publishers = new ArrayCollection();
 
         $this->edit($blogData);
     }
@@ -174,20 +163,6 @@ class Blog extends EntityTranslator
     public function removeTag(BlogTag $blogTag): bool
     {
         return $this->tags->removeElement($blogTag);
-    }
-
-    public function addPublisher(BlogPublisherData $blogPublisherData): BlogPublisher
-    {
-        $publisher = new BlogPublisher($blogPublisherData, $this);
-
-        $this->publishers->add($publisher);
-
-        return $publisher;
-    }
-
-    public function removePublisher(BlogPublisher $blogPublisher): bool
-    {
-        return $this->publishers->removeElement($blogPublisher);
     }
 
     /**

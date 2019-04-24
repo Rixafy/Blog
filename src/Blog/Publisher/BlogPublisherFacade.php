@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
-use Rixafy\Blog\Publisher\Constraint\BlogPublisherUniqueConstraint;
 
 class BlogPublisherFacade
 {
@@ -21,23 +20,27 @@ class BlogPublisherFacade
     /** @var BlogPublisherRepository */
     private $blogPublisherRepository;
 
+    /** @var BlogPublisherFactory */
+    private $blogPublisherFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
-        BlogPublisherRepository $blogPublisherRepository
+        BlogPublisherRepository $blogPublisherRepository,
+        BlogPublisherFactory $blogPublisherFactory
     ) {
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogPublisherRepository = $blogPublisherRepository;
+        $this->blogPublisherFactory = $blogPublisherFactory;
     }
 
     /**
      * @throws BlogNotFoundException
      */
-    public function create(UuidInterface $blogId, BlogPublisherData $blogPublisherData): BlogPublisher
+    public function create(BlogPublisherData $blogPublisherData): BlogPublisher
     {
-        $blog = $this->blogRepository->get($blogId);
-        $publisher = $blog->addPublisher($blogPublisherData);
+        $publisher = $this->blogPublisherFactory->create($blogPublisherData);
 
         $this->entityManager->persist($publisher);
         $this->entityManager->flush();
@@ -48,7 +51,7 @@ class BlogPublisherFacade
     /**
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function edit(BlogPublisherUniqueConstraint $id, BlogPublisherData $blogPublisherData): BlogPublisher
+    public function edit(UuidInterface $id, BlogPublisherData $blogPublisherData): BlogPublisher
     {
         $publisher = $this->blogPublisherRepository->get($id);
         $publisher->edit($blogPublisherData);
@@ -61,7 +64,7 @@ class BlogPublisherFacade
     /**
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function get(BlogPublisherUniqueConstraint $id): BlogPublisher
+    public function get(UuidInterface $id): BlogPublisher
     {
         return $this->blogPublisherRepository->get($id);
     }
@@ -69,7 +72,7 @@ class BlogPublisherFacade
     /**
      * @throws Exception\BlogPublisherNotFoundException
      */
-    public function remove(BlogPublisherUniqueConstraint $id, bool $permanent = false): void
+    public function remove(UuidInterface $id, bool $permanent = false): void
     {
         $entity = $this->get($id);
 

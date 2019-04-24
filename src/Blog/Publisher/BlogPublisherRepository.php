@@ -34,13 +34,10 @@ class BlogPublisherRepository
     /**
      * @throws BlogPublisherNotFoundException
      */
-    public function get(BlogPublisherUniqueConstraint $id): BlogPublisher
+    public function get(UuidInterface $id): BlogPublisher
     {
     	/** @var BlogPublisher $blogPublisher */
-    	$blogPublisher = $this->getRepository()->findOneBy([
-    		'id' => $id->getId(),
-			'blog' => $id->getBlogId()
-		]);
+    	$blogPublisher = $this->getRepository()->find($id);
 
         if ($blogPublisher === null) {
             throw BlogPublisherNotFoundException::byId($id);

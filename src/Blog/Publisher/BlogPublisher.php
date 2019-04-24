@@ -7,7 +7,6 @@ namespace Rixafy\Blog\Publisher;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
-use Rixafy\Blog\Blog;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\Post\BlogPostData;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -54,14 +53,6 @@ class BlogPublisher
     private $last_posted_at;
 
     /**
-     * Many BlogPublishers have One Blog
-     *
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
-     * @var Blog
-     */
-    private $blog;
-
-    /**
      * One Blog has Many BlogPosts
      *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="blog_publisher", cascade={"persist", "remove"})
@@ -69,9 +60,8 @@ class BlogPublisher
      */
     private $posts;
 
-    public function __construct(BlogPublisherData $blogPublisherData, Blog $blog)
+    public function __construct(BlogPublisherData $blogPublisherData)
     {
-        $this->blog = $blog;
         $this->edit($blogPublisherData);
 
         $this->posts = new ArrayCollection();
@@ -106,11 +96,6 @@ class BlogPublisher
         $this->last_posted_at = new DateTime();
 
         return $blogPost;
-    }
-
-    public function getBlog(): Blog
-    {
-        return $this->blog;
     }
 
     public function getDisplayName(): string
