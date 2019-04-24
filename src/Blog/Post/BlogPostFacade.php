@@ -33,10 +33,9 @@ class BlogPostFacade
     /**
      * @throws BlogPublisherNotFoundException
      */
-    public function create(BlogPostUniqueConstraint $id, BlogPostData $blogPostData): BlogPost
+    public function create(BlogPostData $blogPostData): BlogPost
     {
-        $publisher = $this->blogPublisherRepository->get($id);
-        $post = $publisher->publish($blogPostData);
+        $post = $blogPostData->publisher->publish($blogPostData);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();
