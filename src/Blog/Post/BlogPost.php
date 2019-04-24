@@ -113,7 +113,7 @@ class BlogPost extends EntityTranslator
     {
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->blog = $blogPublisher->getBlog();
+        $this->blog = $blogPostData->blog;
         $this->publisher = $blogPublisher;
 
         $this->edit($blogPostData);
