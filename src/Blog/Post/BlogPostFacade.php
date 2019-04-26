@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Rixafy\Blog\Post\Constraint\BlogPostUniqueConstraint;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Publisher\BlogPublisherRepository;
 use Rixafy\Blog\Publisher\Exception\BlogPublisherNotFoundException;
 
@@ -46,9 +46,9 @@ class BlogPostFacade
     /**
      * @throws Exception\BlogPostNotFoundException
      */
-    public function edit(BlogPostUniqueConstraint $id, BlogPostData $blogPostData): BlogPost
+    public function edit(UuidInterface $id, UuidInterface $blogId, BlogPostData $blogPostData): BlogPost
     {
-        $post = $this->blogPostRepository->get($id);
+        $post = $this->blogPostRepository->get($id, $blogId);
         $post->edit($blogPostData);
 
         $this->entityManager->flush();
@@ -59,17 +59,17 @@ class BlogPostFacade
     /**
      * @throws Exception\BlogPostNotFoundException
      */
-    public function get(BlogPostUniqueConstraint $id): BlogPost
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
     {
-        return $this->blogPostRepository->get($id);
+        return $this->blogPostRepository->get($id, $blogId);
     }
 
     /**
      * @throws Exception\BlogPostNotFoundException
      */
-    public function remove(BlogPostUniqueConstraint $id, bool $permanent = false): void
+    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
     {
-        $post = $this->get($id);
+        $post = $this->get($id, $blogId);
 
         if ($permanent) {
             $this->entityManager->remove($post);

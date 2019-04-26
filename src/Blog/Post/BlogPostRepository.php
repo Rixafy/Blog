@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Post\Constraint\BlogPostUniqueConstraint;
 use Rixafy\Blog\Post\Exception\BlogPostNotFoundException;
 use Rixafy\Language\LanguageProvider;
 
@@ -38,16 +37,16 @@ class BlogPostRepository
     /**
      * @throws BlogPostNotFoundException
      */
-    public function get(BlogPostUniqueConstraint $id): BlogPost
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
     {
     	/** @var BlogPost $blogPost */
         $blogPost = $this->getRepository()->findOneBy([
-        	'id' => $id->getId(),
-			'blog' => $id->getBlogId()
+        	'id' => $id,
+			'blog' => $blogId
 		]);
 
         if ($blogPost === null) {
-            throw BlogPostNotFoundException::byId($id);
+            throw BlogPostNotFoundException::byId($id, $blogId);
         }
 
         return $blogPost;

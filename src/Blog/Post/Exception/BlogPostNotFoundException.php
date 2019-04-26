@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post\Exception;
 
 use Exception;
-use Rixafy\Blog\Post\Constraint\BlogPostUniqueConstraint;
+use Ramsey\Uuid\UuidInterface;
 
 class BlogPostNotFoundException extends Exception
 {
-	public static function byId(BlogPostUniqueConstraint $id): self
+	public static function byId(UuidInterface $id, UuidInterface $blogId): self
 	{
-		return new self('BlogPost with id "' . $id->getId() . '" and blog_id "' . $id->getBlogId() . '" not found.');
+		return new self('BlogPost with id "' . $id . '" and blog_id "' . $blogId . '" not found.');
 	}
 }
