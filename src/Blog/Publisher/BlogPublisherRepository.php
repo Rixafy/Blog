@@ -7,10 +7,7 @@ namespace Rixafy\Blog\Publisher;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Blog;
-use Rixafy\Blog\Publisher\Constraint\BlogPublisherUniqueConstraint;
 use Rixafy\Blog\Publisher\Exception\BlogPublisherNotFoundException;
 
 class BlogPublisherRepository
