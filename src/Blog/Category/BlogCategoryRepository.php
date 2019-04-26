@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\Category;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 use Rixafy\Blog\Category\Exception\BlogCategoryNotFoundException;
 use Rixafy\Language\LanguageProvider;
 
@@ -28,7 +28,7 @@ class BlogCategoryRepository
     }
 
     /**
-     * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
+     * @return EntityRepository|ObjectRepository
      */
     protected function getRepository()
     {
@@ -38,16 +38,16 @@ class BlogCategoryRepository
     /**
      * @throws BlogCategoryNotFoundException
      */
-    public function get(BlogCategoryUniqueConstraint $id): BlogCategory
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
     {
     	/** @var BlogCategory $blogCategory */
     	$blogCategory = $this->getRepository()->findOneBy([
-    		'id' => $id->getId(),
-			'blog' => $id->getBlogId()
+    		'id' => $id,
+			'blog' => $blogId
 		]);
 
         if ($blogCategory === null) {
-            throw BlogCategoryNotFoundException::byId($id);
+            throw BlogCategoryNotFoundException::byId($id, $blogId);
         }
 
         return $blogCategory;

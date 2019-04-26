@@ -7,7 +7,6 @@ namespace Rixafy\Blog\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
-use Rixafy\Blog\Category\Constraint\BlogCategoryUniqueConstraint;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
 class BlogCategoryFacade
@@ -48,9 +47,9 @@ class BlogCategoryFacade
     /**
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function edit(BlogCategoryUniqueConstraint $id, BlogCategoryData $blogCategoryData): BlogCategory
+    public function edit(UuidInterface $id, UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
     {
-        $category = $this->blogCategoryRepository->get($id);
+        $category = $this->blogCategoryRepository->get($id, $blogId);
         $category->edit($blogCategoryData);
 
         $this->entityManager->flush();
@@ -61,17 +60,17 @@ class BlogCategoryFacade
     /**
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function get(BlogCategoryUniqueConstraint $id): BlogCategory
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
     {
-        return $this->blogCategoryRepository->get($id);
+        return $this->blogCategoryRepository->get($id, $blogId);
     }
 
     /**
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function remove(BlogCategoryUniqueConstraint $id, bool $permanent = false): void
+    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
     {
-        $entity = $this->get($id);
+        $entity = $this->get($id, $blogId);
 
         if ($permanent) {
             $this->entityManager->remove($entity);

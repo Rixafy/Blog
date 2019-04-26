@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\DoctrineTraits\SortOrderTrait;
 use Rixafy\Translation\Annotation\Translatable;
+use Rixafy\DoctrineTraits\SortOrderTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\Blog\Post\BlogPost;
