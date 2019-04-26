@@ -53,3 +53,4 @@ class BlogRepository
 			->orderBy('e.created_at');
 	}
 }
+
