@@ -56,10 +56,10 @@ class BlogTag extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogTagData $blogTagData, Blog $blog)
+    public function __construct(BlogTagData $blogTagData)
     {
         $this->translations = new ArrayCollection();
-        $this->blog = $blog;
+        $this->blog = $blogTagData->blog;
 
         $this->edit($blogTagData);
     }

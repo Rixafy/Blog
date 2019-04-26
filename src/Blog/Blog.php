@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\Blog\Tag\BlogTagFactory;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Category\BlogCategory;
@@ -151,9 +152,9 @@ class Blog extends EntityTranslator
         return $this->posts->removeElement($blogPost);
     }
 
-    public function addTag(BlogTagData $blogTagData): BlogTag
+    public function addTag(BlogTagData $blogTagData, BlogTagFactory $blogTagFactory): BlogTag
     {
-        $blogTag = new BlogTag($blogTagData, $this);
+        $blogTag = $blogTagFactory->create($blogTagData);
 
         $this->tags->add($blogTag);
 
