@@ -75,11 +75,11 @@ class BlogCategory extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogCategoryData $blogCategoryData, Blog $blog)
+    public function __construct(BlogCategoryData $blogCategoryData)
     {
         $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
-        $this->blog = $blog;
+        $this->blog = $blogCategoryData->blog;
 
         $this->edit($blogCategoryData);
     }

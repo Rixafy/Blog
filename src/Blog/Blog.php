@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\Blog\Category\BlogCategoryFactory;
 use Rixafy\Blog\Tag\BlogTagFactory;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -133,9 +134,10 @@ class Blog extends EntityTranslator
         return $this->keywords;
     }
 
-    public function addCategory(BlogCategoryData $blogCategoryData): BlogCategory
+    public function addCategory(BlogCategoryData $data, BlogCategoryFactory $blogCategoryFactory): BlogCategory
     {
-        $category = new BlogCategory($blogCategoryData, $this);
+    	$data->blog = $this;
+        $category = $blogCategoryFactory->create($data);
 
         $this->categories->add($category);
 
