@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\Tag;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Blog\Tag\Constraint\BlogTagUniqueConstraint;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
 use Rixafy\Language\LanguageProvider;
 
@@ -28,7 +28,7 @@ class BlogTagRepository
 	}
 
     /**
-     * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
+     * @return EntityRepository|ObjectRepository
      */
     protected function getRepository()
     {
@@ -38,16 +38,16 @@ class BlogTagRepository
     /**
      * @throws BlogTagNotFoundException
      */
-    public function get(BlogTagUniqueConstraint $id): BlogTag
+    public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
     {
     	/** @var BlogTag $blogTag */
     	$blogTag = $this->getRepository()->findOneBy([
-    		'id' => $id->getId(),
-			'blog' => $id->getBlogId()
+    		'id' => $id,
+			'blog' => $blogId
 		]);
 
         if ($blogTag === null) {
-            throw BlogTagNotFoundException::byId($id);
+            throw BlogTagNotFoundException::byId($id, $blogId);
         }
 
         return $blogTag;
