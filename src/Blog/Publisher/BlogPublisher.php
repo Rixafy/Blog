@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\Post\BlogPostData;
+use Rixafy\Blog\Post\BlogPostFactory;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
@@ -81,9 +82,10 @@ class BlogPublisher
 		return $data;
 	}
 
-    public function publish(BlogPostData $blogPostData): BlogPost
+    public function publish(BlogPostData $blogPostData, BlogPostFactory $blogPostFactory): BlogPost
     {
-        $blogPost = new BlogPost($blogPostData, $this);
+    	$blogPostData->publisher = $this;
+        $blogPost = $blogPostFactory->create($blogPostData);
 
         $this->posts->add($blogPost);
 

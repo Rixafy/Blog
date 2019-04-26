@@ -109,12 +109,12 @@ class BlogPost extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogPostData $blogPostData, BlogPublisher $blogPublisher)
+    public function __construct(BlogPostData $blogPostData)
     {
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->blog = $blogPostData->blog;
-        $this->publisher = $blogPublisher;
+        $this->publisher = $blogPostData->publisher;
 
         $this->edit($blogPostData);
     }

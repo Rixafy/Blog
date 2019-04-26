@@ -154,6 +154,7 @@ class Blog extends EntityTranslator
 
     public function addTag(BlogTagData $blogTagData, BlogTagFactory $blogTagFactory): BlogTag
     {
+    	$blogTagData->blog = $this;
         $blogTag = $blogTagFactory->create($blogTagData);
 
         $this->tags->add($blogTag);
