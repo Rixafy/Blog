@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\Post;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -27,7 +28,7 @@ class BlogPostRepository
 	}
 
     /**
-     * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
+     * @return EntityRepository|ObjectRepository
      */
     protected function getRepository()
     {
