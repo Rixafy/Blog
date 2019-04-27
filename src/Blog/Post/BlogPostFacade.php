@@ -20,14 +20,19 @@ class BlogPostFacade
     /** @var BlogPostRepository */
     private $blogPostRepository;
 
+    /** @var BlogPostFactory */
+    private $blogPostFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogPublisherRepository $blogRepository,
-        BlogPostRepository $blogPostRepository
+        BlogPostRepository $blogPostRepository,
+        BlogPostRepository $blogPostFactory
     ) {
         $this->blogPublisherRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogPostRepository = $blogPostRepository;
+        $this->blogPostFactory = $blogPostFactory;
     }
 
     /**
@@ -35,7 +40,7 @@ class BlogPostFacade
      */
     public function create(BlogPostData $blogPostData): BlogPost
     {
-        $post = $blogPostData->publisher->publish($blogPostData);
+        $post = $blogPostData->publisher->publish($blogPostData, $this->blogPostFactory);
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();

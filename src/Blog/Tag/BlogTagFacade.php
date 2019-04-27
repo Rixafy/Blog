@@ -20,14 +20,19 @@ class BlogTagFacade
     /** @var BlogTagRepository */
     private $blogTagRepository;
 
+    /** @var BlogTagFactory */
+    private $blogTagFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
-        BlogTagRepository $blogTagRepository
+        BlogTagRepository $blogTagRepository,
+        BlogTagFactory $blogTagFactory
     ) {
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogTagRepository = $blogTagRepository;
+        $this->blogTagFactory = $blogTagFactory;
     }
 
     /**
@@ -36,7 +41,7 @@ class BlogTagFacade
     public function create(UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
     {
         $blog = $this->blogRepository->get($blogId);
-        $tag = $blog->addTag($blogTagData);
+        $tag = $blog->addTag($blogTagData, $this->blogTagFactory);
 
         $this->entityManager->persist($tag);
         $this->entityManager->flush();

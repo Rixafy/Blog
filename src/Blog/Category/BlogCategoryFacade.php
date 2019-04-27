@@ -20,14 +20,19 @@ class BlogCategoryFacade
     /** @var BlogCategoryRepository */
     private $blogCategoryRepository;
 
+    /** @var BlogCategoryFactory */
+    private $blogCategoryFactory;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         BlogRepository $blogRepository,
-        BlogCategoryRepository $blogCategoryRepository
+        BlogCategoryRepository $blogCategoryRepository,
+        BlogCategoryFactory $blogCategoryFactory
     ) {
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogCategoryRepository = $blogCategoryRepository;
+        $this->blogCategoryFactory = $blogCategoryFactory;
     }
 
     /**
@@ -36,7 +41,7 @@ class BlogCategoryFacade
     public function create(UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
     {
         $blog = $this->blogRepository->get($blogId);
-        $category = $blog->addCategory($blogCategoryData);
+        $category = $blog->addCategory($blogCategoryData, $this->blogCategoryFactory);
 
         $this->entityManager->persist($category);
         $this->entityManager->flush();
