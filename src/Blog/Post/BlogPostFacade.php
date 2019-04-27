@@ -27,7 +27,7 @@ class BlogPostFacade
         EntityManagerInterface $entityManager,
         BlogPublisherRepository $blogRepository,
         BlogPostRepository $blogPostRepository,
-        BlogPostRepository $blogPostFactory
+        BlogPostFactory $blogPostFactory
     ) {
         $this->blogPublisherRepository = $blogRepository;
         $this->entityManager = $entityManager;
