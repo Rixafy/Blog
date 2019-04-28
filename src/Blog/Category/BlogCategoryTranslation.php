@@ -25,7 +25,7 @@ class BlogCategoryTranslation
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=1023)
+     * @ORM\Column(type="string", length=1023, nullable=true)
      * @var string
      */
     private $description;
@@ -65,7 +65,7 @@ class BlogCategoryTranslation
         return $this->name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
