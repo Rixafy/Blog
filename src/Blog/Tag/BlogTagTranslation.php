@@ -25,7 +25,7 @@ class BlogTagTranslation
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=1023)
+     * @ORM\Column(type="string", length=1023, nullable=true)
      * @var string
      */
     private $description;

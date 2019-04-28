@@ -13,7 +13,7 @@ class BlogTagData
     public $name;
 
     /** @var string */
-    public $description = '';
+    public $description;
 
     /** @var string */
     public $route;
