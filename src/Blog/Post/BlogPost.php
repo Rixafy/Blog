@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Strings;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
@@ -55,6 +56,12 @@ class BlogPost extends EntityTranslator
      * @var string
      */
     protected $keywords;
+
+    /**
+     * @Translatable
+     * @var string
+     */
+    protected $route;
 
     /**
      * @ORM\Column(type="integer")
@@ -109,22 +116,25 @@ class BlogPost extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogPostData $blogPostData)
+    public function __construct(BlogPostData $data)
     {
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->blog = $blogPostData->blog;
-        $this->publisher = $blogPostData->publisher;
+        $this->blog = $data->blog;
+        $this->publisher = $data->publisher;
 
-        $this->edit($blogPostData);
+        $this->edit($data);
     }
 
-    public function edit(BlogPostData $blogPostData): void
+    public function edit(BlogPostData $data): void
     {
-        $this->editTranslation($blogPostData);
-        $this->backdrop_image = $blogPostData->backdropImage;
-        $this->category = $blogPostData->category;
-        $this->tags = $blogPostData->tags;
+    	if ($data->route === null) {
+    		$data->route = Strings::webalize($data->title);
+		}
+        $this->editTranslation($data);
+        $this->backdrop_image = $data->backdropImage;
+        $this->category = $data->category;
+        $this->tags = $data->tags;
     }
 
     public function getData(): BlogPostData
@@ -153,12 +163,12 @@ class BlogPost extends EntityTranslator
         return $this->content;
     }
 
-    public function getEditorial(): string
+    public function getEditorial(): ?string
     {
         return $this->editorial;
     }
 
-    public function getKeywords(): string
+    public function getKeywords(): ?string
     {
         return $this->keywords;
     }
@@ -168,7 +178,7 @@ class BlogPost extends EntityTranslator
         return $this->blog;
     }
 
-    public function getBackdropImage(): Image
+    public function getBackdropImage(): ?Image
     {
         return $this->backdrop_image;
     }
@@ -220,4 +230,9 @@ class BlogPost extends EntityTranslator
     {
         return $this->translations;
     }
+
+	public function getRoute(): string
+	{
+		return $this->route;
+	}
 }

@@ -31,16 +31,22 @@ class BlogPostTranslation
     private $content;
 
     /**
-     * @ORM\Column(type="string", length=1023)
+     * @ORM\Column(type="string", length=1023, nullable=true)
      * @var string
      */
     private $editorial;
 
     /**
-     * @ORM\Column(type="string", length=127)
+     * @ORM\Column(type="string", length=127, nulalble=true)
      * @var string
      */
     private $keywords;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $route;
 
     /**
      * @ORM\Column(type="float")
@@ -77,6 +83,7 @@ class BlogPostTranslation
         $this->content = $blogPostData->content;
         $this->editorial = $blogPostData->editorial;
         $this->keywords = $blogPostData->keywords;
+        $this->route = $blogPostData->route;
         $this->reading_time = floor(str_word_count(strip_tags($this->content)) / 200);
     }
 
@@ -90,12 +97,12 @@ class BlogPostTranslation
         return $this->content;
     }
 
-    public function getEditorial(): string
+    public function getEditorial(): ?string
     {
         return $this->editorial;
     }
 
-    public function getKeywords(): string
+    public function getKeywords(): ?string
     {
         return $this->keywords;
     }
@@ -109,4 +116,9 @@ class BlogPostTranslation
     {
         return $this->language;
     }
+
+	public function getRoute(): string
+	{
+		return $this->route;
+	}
 }
