@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Strings;
 use Rixafy\Translation\Annotation\Translatable;
 use Rixafy\DoctrineTraits\SortOrderTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +45,12 @@ class BlogCategory extends EntityTranslator
     protected $description;
 
     /**
+     * @Translatable
+     * @var string
+     */
+    protected $route;
+
+    /**
      * Many BlogCategories have One Blog
      *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
@@ -75,19 +82,22 @@ class BlogCategory extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogCategoryData $blogCategoryData)
+    public function __construct(BlogCategoryData $data)
     {
         $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
-        $this->blog = $blogCategoryData->blog;
+        $this->blog = $data->blog;
 
-        $this->edit($blogCategoryData);
+        $this->edit($data);
     }
 
-    public function edit(BlogCategoryData $blogCategoryData): void
+    public function edit(BlogCategoryData $data): void
     {
-        $this->editTranslation($blogCategoryData);
-        $this->parent = $blogCategoryData->parent;
+    	if ($data->route === null) {
+    		$data->route = Strings::webalize($data->name);
+		}
+        $this->editTranslation($data);
+        $this->parent = $data->parent;
     }
 
     public function getData(): BlogCategoryData
@@ -142,4 +152,9 @@ class BlogCategory extends EntityTranslator
     {
         return $this->translations;
     }
+
+	public function getRoute(): string
+	{
+		return $this->route;
+	}
 }

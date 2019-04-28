@@ -13,7 +13,10 @@ class BlogCategoryData
     public $name;
 
     /** @var string */
-    public $description = '';
+    public $description;
+
+    /** @var string */
+    public $route;
 
     /** @var BlogCategory */
     public $parent;
