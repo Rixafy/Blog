@@ -140,7 +140,7 @@ class BlogCategory extends EntityTranslator
         $this->posts->add($blogPost);
     }
 
-	public function getParent(): BlogCategory
+	public function getParent(): ?BlogCategory
 	{
 		return $this->parent;
 	}
