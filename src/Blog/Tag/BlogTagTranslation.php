@@ -66,7 +66,7 @@ class BlogTagTranslation
         return $this->name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
