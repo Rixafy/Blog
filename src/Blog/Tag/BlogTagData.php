@@ -15,6 +15,9 @@ class BlogTagData
     /** @var string */
     public $description = '';
 
+    /** @var string */
+    public $route;
+
     /** @var Language */
     public $language;
 

@@ -31,6 +31,12 @@ class BlogTagTranslation
     private $description;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $route;
+
+    /**
      * Many Translations have One Language. Unidirectional.
      * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language")
      * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
@@ -52,6 +58,7 @@ class BlogTagTranslation
         $this->entity = $entity;
         $this->name = $blogTagData->name;
         $this->description = $blogTagData->description;
+        $this->route = $blogTagData->route;
     }
 
     public function getName(): string
@@ -68,4 +75,9 @@ class BlogTagTranslation
     {
         return $this->language;
     }
+
+	public function getRoute(): string
+	{
+		return $this->route;
+	}
 }

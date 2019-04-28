@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Strings;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
@@ -41,6 +42,12 @@ class BlogTag extends EntityTranslator
     protected $description;
 
     /**
+     * @Translatable
+     * @var string
+     */
+    protected $route;
+
+    /**
      * Many BlogTags have One Blog
      *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
@@ -56,17 +63,20 @@ class BlogTag extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogTagData $blogTagData)
+    public function __construct(BlogTagData $data)
     {
         $this->translations = new ArrayCollection();
-        $this->blog = $blogTagData->blog;
+        $this->blog = $data->blog;
 
-        $this->edit($blogTagData);
+        $this->edit($data);
     }
 
-    public function edit(BlogTagData $blogTagData): void
+    public function edit(BlogTagData $data): void
     {
-        $this->editTranslation($blogTagData, $blogTagData->language);
+    	if ($data->route === null) {
+    		$data->route = Strings::webalize($data->name);
+		}
+        $this->editTranslation($data, $data->language);
     }
 
     public function getData(): BlogTagData
@@ -101,4 +111,9 @@ class BlogTag extends EntityTranslator
     {
         return $this->translations;
     }
+
+	public function getRoute(): string
+	{
+		return $this->route;
+	}
 }
