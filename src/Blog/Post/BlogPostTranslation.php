@@ -37,7 +37,7 @@ class BlogPostTranslation
     private $editorial;
 
     /**
-     * @ORM\Column(type="string", length=127, nulalble=true)
+     * @ORM\Column(type="string", length=127, nullalble=true)
      * @var string
      */
     private $keywords;
