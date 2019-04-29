@@ -7,6 +7,7 @@ namespace Rixafy\Blog;
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\Blog\Category\BlogCategoryFactory;
 use Rixafy\Blog\Tag\BlogTagFactory;
+use Rixafy\Routing\Route\Group\RouteGroup;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Category\BlogCategory;
@@ -86,15 +87,41 @@ class Blog extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogData $blogData)
-    {
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @var RouteGroup
+	 */
+	private $blogCategoryRouteGroup;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @var RouteGroup
+	 */
+	private $blogPostRouteGroup;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @var RouteGroup
+	 */
+	private $blogTagRouteGroup;
+
+    public function __construct(
+		BlogData $blogData,
+		RouteGroup $blogCategoryRouteGroup,
+		RouteGroup $blogPostRouteGroup,
+		RouteGroup $blogTagRouteGroup
+	) {
+		$this->blogCategoryRouteGroup = $blogCategoryRouteGroup;
+		$this->blogPostRouteGroup = $blogPostRouteGroup;
+		$this->blogTagRouteGroup = $blogTagRouteGroup;
+
         $this->translations = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
 
         $this->edit($blogData);
-    }
+	}
 
     public function edit(BlogData $blogData): void
     {
@@ -169,11 +196,18 @@ class Blog extends EntityTranslator
         return $this->tags->removeElement($blogTag);
     }
 
-    /**
-     * @return BlogTranslation[]
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
+	public function getBlogCategoryRouteGroup(): RouteGroup
+	{
+		return $this->blogCategoryRouteGroup;
+	}
+
+	public function getBlogPostRouteGroup(): RouteGroup
+	{
+		return $this->blogPostRouteGroup;
+	}
+
+	public function getBlogTagRouteGroup(): RouteGroup
+	{
+		return $this->blogTagRouteGroup;
+	}
 }
