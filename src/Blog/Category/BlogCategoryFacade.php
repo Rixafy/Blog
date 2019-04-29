@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
+use Rixafy\Routing\Route\Exception\RouteNotFoundException;
+use Rixafy\Routing\Route\RouteGenerator;
 
 class BlogCategoryFacade
 {
@@ -23,17 +26,22 @@ class BlogCategoryFacade
     /** @var BlogCategoryFactory */
     private $blogCategoryFactory;
 
+	/** @var RouteGenerator */
+	private $routeGenerator;
+
     public function __construct(
-        EntityManagerInterface $entityManager,
-        BlogRepository $blogRepository,
-        BlogCategoryRepository $blogCategoryRepository,
-        BlogCategoryFactory $blogCategoryFactory
-    ) {
+		EntityManagerInterface $entityManager,
+		BlogRepository $blogRepository,
+		BlogCategoryRepository $blogCategoryRepository,
+		BlogCategoryFactory $blogCategoryFactory,
+		RouteGenerator $routeGenerator
+	) {
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogCategoryRepository = $blogCategoryRepository;
         $this->blogCategoryFactory = $blogCategoryFactory;
-    }
+		$this->routeGenerator = $routeGenerator;
+	}
 
     /**
      * @throws BlogNotFoundException
@@ -56,7 +64,12 @@ class BlogCategoryFacade
         $category = $this->blogCategoryRepository->get($id, $blogId);
         $category->edit($blogCategoryData);
 
-        $this->entityManager->flush();
+		try {
+			$this->routeGenerator->update($category->getId(), Strings::webalize($blogCategoryData->name));
+		} catch (RouteNotFoundException $e) {
+		}
+
+		$this->entityManager->flush();
 
         return $category;
     }

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
+use Rixafy\Routing\Route\Exception\RouteNotFoundException;
+use Rixafy\Routing\Route\RouteGenerator;
 
 class BlogTagFacade
 {
@@ -23,17 +26,22 @@ class BlogTagFacade
     /** @var BlogTagFactory */
     private $blogTagFactory;
 
+	/** @var RouteGenerator */
+	private $routeGenerator;
+
     public function __construct(
-        EntityManagerInterface $entityManager,
-        BlogRepository $blogRepository,
-        BlogTagRepository $blogTagRepository,
-        BlogTagFactory $blogTagFactory
-    ) {
+		EntityManagerInterface $entityManager,
+		BlogRepository $blogRepository,
+		BlogTagRepository $blogTagRepository,
+		BlogTagFactory $blogTagFactory,
+		RouteGenerator $routeGenerator
+	) {
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogTagRepository = $blogTagRepository;
         $this->blogTagFactory = $blogTagFactory;
-    }
+		$this->routeGenerator = $routeGenerator;
+	}
 
     /**
      * @throws BlogNotFoundException
@@ -56,7 +64,12 @@ class BlogTagFacade
         $tag = $this->blogTagRepository->get($id, $blogId);
         $tag->edit($blogTagData);
 
-        $this->entityManager->flush();
+		try {
+			$this->routeGenerator->update($tag->getId(), Strings::webalize($tag->getName()));
+		} catch (RouteNotFoundException $e) {
+		}
+
+		$this->entityManager->flush();
 
         return $tag;
     }
