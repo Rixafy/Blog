@@ -43,7 +43,7 @@ class BlogPostTranslation
     private $keywords;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $route;
