@@ -88,19 +88,19 @@ class Blog extends EntityTranslator
     protected $translations;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", cascade={"persist", "remove"})
 	 * @var RouteGroup
 	 */
 	private $blogCategoryRouteGroup;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", cascade={"persist", "remove"})
 	 * @var RouteGroup
 	 */
 	private $blogPostRouteGroup;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", mappedBy="blog", cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup", cascade={"persist", "remove"})
 	 * @var RouteGroup
 	 */
 	private $blogTagRouteGroup;
