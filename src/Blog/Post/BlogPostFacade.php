@@ -42,7 +42,6 @@ class BlogPostFacade
     {
         $post = $blogPostData->publisher->publish($blogPostData, $this->blogPostFactory);
 
-        $this->entityManager->persist($post);
         $this->entityManager->flush();
 
         return $post;

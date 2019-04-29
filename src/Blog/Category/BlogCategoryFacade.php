@@ -43,7 +43,6 @@ class BlogCategoryFacade
         $blog = $this->blogRepository->get($blogId);
         $category = $blog->addCategory($blogCategoryData, $this->blogCategoryFactory);
 
-        $this->entityManager->persist($category);
         $this->entityManager->flush();
 
         return $category;
