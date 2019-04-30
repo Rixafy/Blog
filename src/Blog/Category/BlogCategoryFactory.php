@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Uuid;
 use Rixafy\Routing\Route\RouteGenerator;
 
 class BlogCategoryFactory
@@ -25,6 +26,6 @@ class BlogCategoryFactory
 
 	public function create(BlogCategoryData $blogCategoryData): BlogCategory
 	{
-		return new BlogCategory($blogCategoryData);
+		return new BlogCategory(Uuid::uuid4(), $blogCategoryData);
 	}
 }
