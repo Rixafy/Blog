@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\Translation\Annotation\Translatable;
 use Nette\Utils\Strings;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Route;
 use Rixafy\Routing\Route\RouteData;
-use Rixafy\Translation\Annotation\Translatable;
 use Rixafy\DoctrineTraits\SortOrderTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
@@ -18,7 +17,6 @@ use Rixafy\Blog\Post\BlogPost;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Translation\EntityTranslator;
 
 /**
@@ -30,11 +28,17 @@ use Rixafy\Translation\EntityTranslator;
  */
 class BlogCategory extends EntityTranslator
 {
-    use UniqueTrait;
     use PublishableTrait;
     use RemovableTrait;
     use SortOrderTrait;
     use DateTimeTrait;
+
+	/**
+	 * @var UuidInterface
+	 * @ORM\Id
+	 * @ORM\Column(type="uuid_binary", unique=true)
+	 */
+	protected $id;
 
     /**
      * @Translatable
@@ -126,6 +130,11 @@ class BlogCategory extends EntityTranslator
 		$data->parent = $this->parent;
 
 		return $data;
+	}
+
+	public function getId(): UuidInterface
+	{
+		return $this->id;
 	}
 
     public function getName(): string
