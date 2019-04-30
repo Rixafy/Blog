@@ -6,6 +6,9 @@ namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Strings;
+use Ramsey\Uuid\Uuid;
+use Rixafy\Routing\Route\Route;
+use Rixafy\Routing\Route\RouteData;
 use Rixafy\Translation\Annotation\Translatable;
 use Rixafy\DoctrineTraits\SortOrderTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,7 +49,7 @@ class BlogCategory extends EntityTranslator
 
     /**
      * @Translatable
-     * @var string
+     * @var Route
      */
     protected $route;
 
@@ -84,6 +87,20 @@ class BlogCategory extends EntityTranslator
 
     public function __construct(BlogCategoryData $data)
     {
+    	$this->id = Uuid::uuid4();
+
+    	$routeGroup = $data->blog->getBlogCategoryRouteGroup();
+
+		$routeData = new RouteData();
+		$routeData->group = $routeGroup;
+		$routeData->site = $routeGroup->getSite();
+		$routeData->name = Strings::webalize($data->name);
+		$routeData->target = $this->id;
+		$routeData->language = $data->language;
+		$routeData->controller = 'BlogCategory';
+
+		$data->route = new Route($routeData);
+
         $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->blog = $data->blog;
@@ -93,9 +110,7 @@ class BlogCategory extends EntityTranslator
 
     public function edit(BlogCategoryData $data): void
     {
-    	if ($data->route === null) {
-    		$data->route = Strings::webalize($data->name);
-		}
+    	$this->route->changeName($data->name);
         $this->editTranslation($data);
         $this->parent = $data->parent;
     }

@@ -51,7 +51,8 @@ class BlogCategoryFacade
         $blog = $this->blogRepository->get($blogId);
         $category = $blog->addCategory($blogCategoryData, $this->blogCategoryFactory);
 
-        $this->entityManager->flush();
+		$this->entityManager->persist($category);
+		$this->entityManager->flush();
 
         return $category;
     }
@@ -63,11 +64,6 @@ class BlogCategoryFacade
     {
         $category = $this->blogCategoryRepository->get($id, $blogId);
         $category->edit($blogCategoryData);
-
-		try {
-			$this->routeGenerator->update($category->getId(), Strings::webalize($blogCategoryData->name));
-		} catch (RouteNotFoundException $e) {
-		}
 
 		$this->entityManager->flush();
 
