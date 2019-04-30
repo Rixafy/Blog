@@ -114,8 +114,8 @@ class BlogCategory extends EntityTranslator
 
     public function edit(BlogCategoryData $data): void
     {
-    	$this->route->changeName(Strings::webalize($data->name));
 		$data->route = $this->route;
+		$data->route->changeName(Strings::webalize($data->name));
 		$this->editTranslation($data);
         $this->parent = $data->parent;
     }
