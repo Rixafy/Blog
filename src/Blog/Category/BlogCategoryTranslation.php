@@ -77,9 +77,4 @@ class BlogCategoryTranslation
     {
         return $this->language;
     }
-
-	public function getRoute(): string
-	{
-		return $this->route;
-	}
 }

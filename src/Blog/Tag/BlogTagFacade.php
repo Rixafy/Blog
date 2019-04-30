@@ -51,6 +51,7 @@ class BlogTagFacade
         $blog = $this->blogRepository->get($blogId);
         $tag = $blog->addTag($blogTagData, $this->blogTagFactory);
 
+        $this->entityManager->persist($tag);
         $this->entityManager->flush();
 
         return $tag;
@@ -63,11 +64,6 @@ class BlogTagFacade
     {
         $tag = $this->blogTagRepository->get($id, $blogId);
         $tag->edit($blogTagData);
-
-		try {
-			$this->routeGenerator->update($tag->getId(), Strings::webalize($tag->getName()));
-		} catch (RouteNotFoundException $e) {
-		}
 
 		$this->entityManager->flush();
 

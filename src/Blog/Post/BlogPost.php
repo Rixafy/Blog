@@ -6,6 +6,9 @@ namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Strings;
+use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Route;
+use Rixafy\Routing\Route\RouteData;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
@@ -15,7 +18,6 @@ use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Image\Image;
 use Rixafy\Translation\EntityTranslator;
 
@@ -28,10 +30,16 @@ use Rixafy\Translation\EntityTranslator;
  */
 class BlogPost extends EntityTranslator
 {
-    use UniqueTrait;
     use PublishableTrait;
     use RemovableTrait;
     use DateTimeTrait;
+
+	/**
+	 * @var UuidInterface
+	 * @ORM\Id
+	 * @ORM\Column(type="uuid_binary", unique=true)
+	 */
+	protected $id;
 
     /**
      * @Translatable
@@ -59,7 +67,7 @@ class BlogPost extends EntityTranslator
 
     /**
      * @Translatable
-     * @var string
+     * @var Route
      */
     protected $route;
 
@@ -116,8 +124,22 @@ class BlogPost extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogPostData $data)
+    public function __construct(UuidInterface $id, BlogPostData $data)
     {
+    	$this->id = $id;
+
+		$routeGroup = $data->blog->getBlogPostRouteGroup();
+
+		$routeData = new RouteData();
+		$routeData->group = $routeGroup;
+		$routeData->site = $routeGroup->getSite();
+		$routeData->name = Strings::webalize($data->title);
+		$routeData->target = $this->id;
+		$routeData->language = $data->language;
+		$routeData->controller = 'BlogPost';
+
+		$this->route = new Route($routeData);
+
         $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->blog = $data->blog;
@@ -128,10 +150,9 @@ class BlogPost extends EntityTranslator
 
     public function edit(BlogPostData $data): void
     {
-    	if ($data->route === null) {
-    		$data->route = Strings::webalize($data->title);
-		}
-        $this->editTranslation($data);
+		$data->route = $this->route;
+		$data->route->changeName(Strings::webalize($data->title));
+		$this->editTranslation($data);
         $this->backdrop_image = $data->backdropImage;
         $this->category = $data->category;
         $this->tags = $data->tags;
@@ -151,6 +172,11 @@ class BlogPost extends EntityTranslator
 		$data->language = $this->translationLanguage;
 
 		return $data;
+	}
+
+	public function getId(): UuidInterface
+	{
+		return $this->id;
 	}
 
     public function getTitle(): string
@@ -230,9 +256,4 @@ class BlogPost extends EntityTranslator
     {
         return $this->translations;
     }
-
-	public function getRoute(): string
-	{
-		return $this->route;
-	}
 }

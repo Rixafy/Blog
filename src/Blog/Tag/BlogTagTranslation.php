@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Tag;
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Language\Language;
+use Rixafy\Routing\Route\Route;
 
 /**
  * @ORM\Entity
@@ -30,11 +31,11 @@ class BlogTagTranslation
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
-     */
-    private $route;
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Route", cascade={"persist", "remove"})
+	 * @var Route
+	 */
+	private $route;
 
     /**
      * Many Translations have One Language. Unidirectional.
@@ -75,9 +76,4 @@ class BlogTagTranslation
     {
         return $this->language;
     }
-
-	public function getRoute(): string
-	{
-		return $this->route;
-	}
 }

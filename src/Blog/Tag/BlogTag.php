@@ -6,13 +6,15 @@ namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Strings;
+use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Route;
+use Rixafy\Routing\Route\RouteData;
 use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Translation\EntityTranslator;
 
 /**
@@ -24,10 +26,16 @@ use Rixafy\Translation\EntityTranslator;
  */
 class BlogTag extends EntityTranslator
 {
-    use UniqueTrait;
     use PublishableTrait;
     use RemovableTrait;
     use DateTimeTrait;
+
+	/**
+	 * @var UuidInterface
+	 * @ORM\Id
+	 * @ORM\Column(type="uuid_binary", unique=true)
+	 */
+	protected $id;
 
     /**
      * @Translatable
@@ -43,7 +51,7 @@ class BlogTag extends EntityTranslator
 
     /**
      * @Translatable
-     * @var string
+     * @var Route
      */
     protected $route;
 
@@ -63,8 +71,22 @@ class BlogTag extends EntityTranslator
      */
     protected $translations;
 
-    public function __construct(BlogTagData $data)
+    public function __construct(UuidInterface $id, BlogTagData $data)
     {
+    	$this->id = $id;
+
+		$routeGroup = $data->blog->getBlogPostRouteGroup();
+
+		$routeData = new RouteData();
+		$routeData->group = $routeGroup;
+		$routeData->site = $routeGroup->getSite();
+		$routeData->name = Strings::webalize($data->name);
+		$routeData->target = $this->id;
+		$routeData->language = $data->language;
+		$routeData->controller = 'BlogTag';
+
+		$this->route = new Route($routeData);
+
         $this->translations = new ArrayCollection();
         $this->blog = $data->blog;
 
@@ -73,11 +95,15 @@ class BlogTag extends EntityTranslator
 
     public function edit(BlogTagData $data): void
     {
-    	if ($data->route === null) {
-    		$data->route = Strings::webalize($data->name);
-		}
-        $this->editTranslation($data, $data->language);
+		$data->route = $this->route;
+		$data->route->changeName(Strings::webalize($data->name));
+		$this->editTranslation($data);
     }
+
+    public function getId(): UuidInterface
+	{
+		return $this->id;
+	}
 
     public function getData(): BlogTagData
 	{
@@ -111,9 +137,4 @@ class BlogTag extends EntityTranslator
     {
         return $this->translations;
     }
-
-	public function getRoute(): string
-	{
-		return $this->route;
-	}
 }

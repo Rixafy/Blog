@@ -6,6 +6,7 @@ namespace Rixafy\Blog;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Site\RouteSite;
 
 class BlogFacade
 {
@@ -28,9 +29,9 @@ class BlogFacade
         $this->blogFactory = $blogFactory;
     }
 
-    public function create(BlogData $blogData): Blog
+    public function create(BlogData $blogData, RouteSite $routeSite): Blog
     {
-        $blog = $this->blogFactory->create($blogData);
+        $blog = $this->blogFactory->create($blogData, $routeSite);
 
         $this->entityManager->persist($blog);
         $this->entityManager->flush();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Category\BlogCategoryFactory;
 use Rixafy\Blog\Tag\BlogTagFactory;
 use Rixafy\Routing\Route\Group\RouteGroup;
@@ -17,7 +18,6 @@ use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Blog\Tag\BlogTagData;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Translation\EntityTranslator;
 
 /**
@@ -27,9 +27,15 @@ use Rixafy\Translation\EntityTranslator;
  */
 class Blog extends EntityTranslator
 {
-    use UniqueTrait;
     use ActiveTrait;
     use DateTimeTrait;
+
+	/**
+	 * @var UuidInterface
+	 * @ORM\Id
+	 * @ORM\Column(type="uuid_binary", unique=true)
+	 */
+	protected $id;
 
     /**
      * @Translatable
@@ -106,11 +112,13 @@ class Blog extends EntityTranslator
 	private $blogTagRouteGroup;
 
     public function __construct(
+    	UuidInterface $id,
 		BlogData $blogData,
 		RouteGroup $blogCategoryRouteGroup,
 		RouteGroup $blogPostRouteGroup,
 		RouteGroup $blogTagRouteGroup
 	) {
+    	$this->id = $id;
 		$this->blogCategoryRouteGroup = $blogCategoryRouteGroup;
 		$this->blogPostRouteGroup = $blogPostRouteGroup;
 		$this->blogTagRouteGroup = $blogTagRouteGroup;
@@ -127,6 +135,11 @@ class Blog extends EntityTranslator
     {
         $this->editTranslation($blogData);
     }
+
+    public function getId(): UuidInterface
+	{
+		return $this->id;
+	}
 
     public function getData(): BlogData
 	{

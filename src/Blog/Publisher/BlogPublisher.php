@@ -7,13 +7,13 @@ namespace Rixafy\Blog\Publisher;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use DateTime;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\Post\BlogPostData;
 use Rixafy\Blog\Post\BlogPostFactory;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
  * @ORM\Entity
@@ -22,10 +22,16 @@ use Rixafy\DoctrineTraits\UniqueTrait;
  */
 class BlogPublisher
 {
-    use UniqueTrait;
     use ActiveTrait;
     use RemovableTrait;
     use DateTimeTrait;
+
+	/**
+	 * @var UuidInterface
+	 * @ORM\Id
+	 * @ORM\Column(type="uuid_binary", unique=true)
+	 */
+	protected $id;
 
     /**
      * @ORM\Column(type="string", length=127)
@@ -59,11 +65,12 @@ class BlogPublisher
      */
     private $posts;
 
-    public function __construct(BlogPublisherData $blogPublisherData)
+    public function __construct(UuidInterface $id, BlogPublisherData $blogPublisherData)
     {
-        $this->edit($blogPublisherData);
+    	$this->id = $id;
+		$this->posts = new ArrayCollection();
 
-        $this->posts = new ArrayCollection();
+		$this->edit($blogPublisherData);
     }
 
     public function edit(BlogPublisherData $blogPublisherData): void
@@ -71,6 +78,11 @@ class BlogPublisher
         $this->display_name = $blogPublisherData->displayName;
         $this->signature = $blogPublisherData->signature;
     }
+
+	public function getId(): UuidInterface
+	{
+		return $this->id;
+	}
 
     public function getData(): BlogPublisherData
 	{

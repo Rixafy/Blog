@@ -177,9 +177,4 @@ class BlogCategory extends EntityTranslator
     {
         return $this->translations;
     }
-
-	public function getRoute(): string
-	{
-		return $this->route;
-	}
 }

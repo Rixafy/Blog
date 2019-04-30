@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Post;
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Language\Language;
+use Rixafy\Routing\Route\Route;
 
 /**
  * @ORM\Entity
@@ -42,11 +43,11 @@ class BlogPostTranslation
      */
     private $keywords;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
-     */
-    private $route;
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Route", cascade={"persist", "remove"})
+	 * @var Route
+	 */
+	private $route;
 
     /**
      * @ORM\Column(type="float")

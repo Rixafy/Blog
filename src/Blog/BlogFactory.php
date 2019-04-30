@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog;
 
+use Ramsey\Uuid\Uuid;
 use Rixafy\Routing\Route\Group\RouteGroupData;
 use Rixafy\Routing\Route\Group\RouteGroupFactory;
 use Rixafy\Routing\Route\Site\RouteSite;
@@ -24,6 +25,6 @@ class BlogFactory
     	$postGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
     	$tagGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
 
-        return new Blog($blogData, $categoryGroup, $postGroup, $tagGroup);
+        return new Blog(Uuid::uuid4(), $blogData, $categoryGroup, $postGroup, $tagGroup);
     }
 }
