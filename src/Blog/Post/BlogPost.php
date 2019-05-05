@@ -88,7 +88,7 @@ class BlogPost extends EntityTranslator
     /**
      * Many BlogPosts have One Image
      *
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
      * @var Image
      */
     private $backdrop_image;
