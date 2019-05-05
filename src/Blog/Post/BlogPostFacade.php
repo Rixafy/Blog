@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Publisher\BlogPublisherRepository;
 use Rixafy\Blog\Publisher\Exception\BlogPublisherNotFoundException;
-use Rixafy\Routing\Route\Exception\RouteNotFoundException;
-use Rixafy\Routing\Route\RouteGenerator;
 
 class BlogPostFacade
 {
@@ -26,21 +23,16 @@ class BlogPostFacade
     /** @var BlogPostFactory */
     private $blogPostFactory;
 
-	/** @var RouteGenerator */
-	private $routeGenerator;
-
     public function __construct(
 		EntityManagerInterface $entityManager,
 		BlogPublisherRepository $blogRepository,
 		BlogPostRepository $blogPostRepository,
-		BlogPostFactory $blogPostFactory,
-		RouteGenerator $routeGenerator
+		BlogPostFactory $blogPostFactory
 	) {
         $this->blogPublisherRepository = $blogRepository;
         $this->entityManager = $entityManager;
         $this->blogPostRepository = $blogPostRepository;
         $this->blogPostFactory = $blogPostFactory;
-		$this->routeGenerator = $routeGenerator;
 	}
 
     /**
