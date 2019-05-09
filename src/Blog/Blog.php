@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\Translation\Annotation\Translatable;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Category\BlogCategoryFactory;
 use Rixafy\Blog\Tag\BlogTagFactory;
 use Rixafy\Routing\Route\Group\RouteGroup;
-use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Category\BlogCategory;
 use Rixafy\Blog\Category\BlogCategoryData;

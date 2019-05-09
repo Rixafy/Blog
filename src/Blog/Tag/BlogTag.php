@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\Translation\Annotation\Translatable;
 use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Route;
 use Rixafy\Routing\Route\RouteData;
-use Rixafy\Translation\Annotation\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rixafy\Blog\Blog;
 use Rixafy\DoctrineTraits\DateTimeTrait;
