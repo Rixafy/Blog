@@ -91,7 +91,7 @@ class BlogPost extends EntityTranslator
      * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
      * @var Image
      */
-    private $backdrop_image;
+    private $backdropImage;
 
     /**
      * Many BlogPosts have One Publisher
@@ -153,7 +153,7 @@ class BlogPost extends EntityTranslator
 		$data->route = $this->route;
 		$data->route->changeName(Strings::webalize($data->title));
 		$this->editTranslation($data);
-        $this->backdrop_image = $data->backdropImage;
+        $this->backdropImage = $data->backdropImage;
         $this->category = $data->category;
         $this->tags = $data->tags;
     }
@@ -167,7 +167,7 @@ class BlogPost extends EntityTranslator
 		$data->keywords = $this->keywords;
 		$data->editorial = $this->editorial;
 		$data->category = $this->category;
-		$data->backdropImage = $this->backdrop_image;
+		$data->backdropImage = $this->backdropImage;
 		$data->tags = $this->tags;
 		$data->language = $this->translationLanguage;
 
@@ -206,7 +206,7 @@ class BlogPost extends EntityTranslator
 
     public function getBackdropImage(): ?Image
     {
-        return $this->backdrop_image;
+        return $this->backdropImage;
     }
 
     public function getPublisher(): BlogPublisher

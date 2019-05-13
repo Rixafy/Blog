@@ -37,7 +37,7 @@ class BlogPublisher
      * @ORM\Column(type="string", length=127)
      * @var string
      */
-    private $display_name;
+    private $displayName;
 
     /**
      * @ORM\Column(type="text", length=1023)
@@ -49,13 +49,13 @@ class BlogPublisher
      * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
-    private $first_posted_at;
+    private $firstPostedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
-    private $last_posted_at;
+    private $lastPostedAt;
 
     /**
      * One Blog has Many BlogPosts
@@ -75,7 +75,7 @@ class BlogPublisher
 
     public function edit(BlogPublisherData $blogPublisherData): void
     {
-        $this->display_name = $blogPublisherData->displayName;
+        $this->displayName = $blogPublisherData->displayName;
         $this->signature = $blogPublisherData->signature;
     }
 
@@ -88,7 +88,7 @@ class BlogPublisher
 	{
 		$data = new BlogPublisherData();
 
-		$data->displayName = $this->display_name;
+		$data->displayName = $this->displayName;
 		$data->signature = $this->signature;
 
 		return $data;
@@ -101,18 +101,18 @@ class BlogPublisher
 
         $this->posts->add($blogPost);
 
-        if ($this->first_posted_at === null) {
-            $this->first_posted_at = new DateTime();
+        if ($this->firstPostedAt === null) {
+            $this->firstPostedAt = new DateTime();
         }
 
-        $this->last_posted_at = new DateTime();
+        $this->lastPostedAt = new DateTime();
 
         return $blogPost;
     }
 
     public function getDisplayName(): string
     {
-        return $this->display_name;
+        return $this->displayName;
     }
 
     public function getSignature(): string
@@ -122,11 +122,11 @@ class BlogPublisher
 
     public function getFirstPostedAt(): DateTime
     {
-        return $this->first_posted_at;
+        return $this->firstPostedAt;
     }
 
     public function getLastPostedAt(): DateTime
     {
-        return $this->last_posted_at;
+        return $this->lastPostedAt;
     }
 }

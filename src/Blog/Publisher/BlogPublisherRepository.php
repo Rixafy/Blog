@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Blog\Publisher;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -21,7 +22,7 @@ class BlogPublisherRepository
     }
 
     /**
-     * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
+     * @return EntityRepository|ObjectRepository
      */
     protected function getRepository()
     {
@@ -46,7 +47,7 @@ class BlogPublisherRepository
     public function getQueryBuilderForAll(): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('e')
-            ->where('e.is_active = :active')->setParameter('active', true)
-            ->orderBy('e.created_at');
+            ->where('e.isActive = :active')->setParameter('active', true)
+            ->orderBy('e.createdAt');
     }
 }

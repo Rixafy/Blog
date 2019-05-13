@@ -57,10 +57,10 @@ class BlogPostRepository
 	{
 		return $this->getRepository()->createQueryBuilder('e')
 			->join(BlogPostTranslation::class, 'tr', Join::WITH,
-				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallback_language)')
+				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallbackLanguage)')
 			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
 			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
-			->andWhere('e.is_removed = :removed')->setParameter('removed', false)
-			->orderBy('e.created_at');
+			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
+			->orderBy('e.createdAt');
 	}
 }
