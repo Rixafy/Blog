@@ -10,20 +10,15 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
-use Rixafy\Language\LanguageProvider;
 
 class BlogTagRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;
 
-	/** @var LanguageProvider */
-	private $languageProvider;
-
-	public function __construct(EntityManagerInterface $entityManager, LanguageProvider $languageProvider)
+	public function __construct(EntityManagerInterface $entityManager)
 	{
 		$this->entityManager = $entityManager;
-		$this->languageProvider = $languageProvider;
 	}
 
     /**

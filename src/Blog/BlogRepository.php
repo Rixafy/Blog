@@ -49,7 +49,6 @@ class BlogRepository
 	public function getQueryBuilderForAll(): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
-			->andWhere('e.isActive = :active')->setParameter('active', true)
 			->orderBy('e.createdAt');
 	}
 }

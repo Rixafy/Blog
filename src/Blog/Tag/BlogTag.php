@@ -74,7 +74,6 @@ class BlogTag
 		$routeData->site = $routeGroup->getSite();
 		$routeData->name = Strings::webalize($data->name);
 		$routeData->target = $this->id;
-		$routeData->language = $data->language;
 		$routeData->controller = 'BlogTag';
 
 		$this->route = new Route($routeData);

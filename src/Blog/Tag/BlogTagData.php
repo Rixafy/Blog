@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Tag;
 
 use Rixafy\Blog\Blog;
-use Rixafy\Language\Language;
 
 class BlogTagData
 {
@@ -17,9 +16,6 @@ class BlogTagData
 
     /** @var string */
     public $route;
-
-    /** @var Language */
-    public $language;
 
     /** @var Blog */
     public $blog;
