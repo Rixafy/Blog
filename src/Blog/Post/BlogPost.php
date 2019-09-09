@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Post;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Translation\Annotation\Translatable;
 use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Route;
@@ -19,7 +18,6 @@ use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
 use Rixafy\Image\Image;
-use Rixafy\Translation\EntityTranslator;
 
 /**
  * @ORM\Entity
@@ -28,7 +26,7 @@ use Rixafy\Translation\EntityTranslator;
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * })
  */
-class BlogPost extends EntityTranslator
+class BlogPost
 {
     use PublishableTrait;
     use RemovableTrait;
@@ -41,35 +39,41 @@ class BlogPost extends EntityTranslator
 	 */
 	protected $id;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $title;
+	/**
+	 * @ORM\Column(type="string", length=127)
+	 * @var string
+	 */
+	private $title;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $content;
+	/**
+	 * @ORM\Column(type="text")
+	 * @var string
+	 */
+	private $content;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $editorial;
+	/**
+	 * @ORM\Column(type="string", length=1023, nullable=true)
+	 * @var string
+	 */
+	private $editorial;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $keywords;
+	/**
+	 * @ORM\Column(type="string", length=127, nullable=true)
+	 * @var string
+	 */
+	private $keywords;
 
-    /**
-     * @Translatable
-     * @var Route
-     */
-    protected $route;
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Route", cascade={"persist", "remove"})
+	 * @var Route
+	 */
+	private $route;
+
+	/**
+	 * @ORM\Column(type="float")
+	 * @var float
+	 */
+	private $reading_time = 1;
 
     /**
      * @ORM\Column(type="integer")
@@ -78,51 +82,34 @@ class BlogPost extends EntityTranslator
     private $views = 0;
 
     /**
-     * Many BlogPosts have One Blog
-     *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
      * @var Blog
      */
     private $blog;
 
     /**
-     * Many BlogPosts have One Image
-     *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
      * @var Image
      */
     private $backdropImage;
 
     /**
-     * Many BlogPosts have One Publisher
-     *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher")
      * @var BlogPublisher
      */
     private $publisher;
 
     /**
-     * Many BlogPosts have Many Tags
      * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\Tag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
      * @var BlogTag[]
      */
     private $tags;
 
     /**
-     * Many BlogPosts have One Category
-     *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
      * @var BlogCategory
      */
     private $category;
-
-    /**
-     * One Blog has Many Translations
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPostTranslation", mappedBy="entity", cascade={"persist", "remove"})
-     * @var BlogPostTranslation[]
-     */
-    protected $translations;
 
     public function __construct(UuidInterface $id, BlogPostData $data)
     {
@@ -140,7 +127,6 @@ class BlogPost extends EntityTranslator
 
 		$this->route = new Route($routeData);
 
-        $this->translations = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->blog = $data->blog;
         $this->publisher = $data->publisher;
@@ -150,12 +136,14 @@ class BlogPost extends EntityTranslator
 
     public function edit(BlogPostData $data): void
     {
-		$data->route = $this->route;
-		$data->route->changeName(Strings::webalize($data->title));
-		$this->editTranslation($data);
+		$this->route->changeName(Strings::webalize($data->title));
         $this->backdropImage = $data->backdropImage;
         $this->category = $data->category;
         $this->tags = $data->tags;
+        $this->title = $data->title;
+        $this->content = $data->content;
+        $this->editorial = $data->editorial;
+        $this->keywords = $data->keywords;
     }
 
     public function getData(): BlogPostData
@@ -169,7 +157,6 @@ class BlogPost extends EntityTranslator
 		$data->category = $this->category;
 		$data->backdropImage = $this->backdropImage;
 		$data->tags = $this->tags;
-		$data->language = $this->translationLanguage;
 
 		return $data;
 	}
@@ -247,13 +234,5 @@ class BlogPost extends EntityTranslator
     {
         $this->category = $category;
         $this->category->addPost($this);
-    }
-
-    /**
-     * @return BlogPostTranslation[]
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
     }
 }

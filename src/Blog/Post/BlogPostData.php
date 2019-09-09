@@ -9,7 +9,6 @@ use Rixafy\Blog\Blog;
 use Rixafy\Blog\Publisher\BlogPublisher;
 use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Image\Image;
-use Rixafy\Language\Language;
 
 class BlogPostData
 {
@@ -42,7 +41,4 @@ class BlogPostData
 
     /** @var Blog */
     public $blog;
-
-    /** @var Language */
-    public $language;
 }

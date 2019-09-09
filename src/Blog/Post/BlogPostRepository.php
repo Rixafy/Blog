@@ -7,7 +7,6 @@ namespace Rixafy\Blog\Post;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Post\Exception\BlogPostNotFoundException;
@@ -56,11 +55,7 @@ class BlogPostRepository
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
-			->join(BlogPostTranslation::class, 'tr', Join::WITH,
-				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallbackLanguage)')
-			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
-			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
-			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
+			->where('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');
 	}
 }
