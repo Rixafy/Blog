@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Translation\Annotation\Translatable;
 use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Route;
@@ -17,7 +16,6 @@ use Rixafy\Blog\Post\BlogPost;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\Translation\EntityTranslator;
 
 /**
  * @ORM\Entity
@@ -26,7 +24,7 @@ use Rixafy\Translation\EntityTranslator;
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * })
  */
-class BlogCategory extends EntityTranslator
+class BlogCategory
 {
     use PublishableTrait;
     use RemovableTrait;
@@ -40,55 +38,41 @@ class BlogCategory extends EntityTranslator
 	 */
 	protected $id;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $name;
+	/**
+	 * @ORM\Column(type="string", length=127)
+	 * @var string
+	 */
+	private $name;
+
+	/**
+	 * @ORM\Column(type="string", length=1023, nullable=true)
+	 * @var string
+	 */
+	private $description;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Route", cascade={"persist", "remove"})
+	 * @var Route
+	 */
+	private $route;
 
     /**
-     * @Translatable
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @Translatable
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * Many BlogCategories have One Blog
-     *
      * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
      * @var Blog
      */
     private $blog;
 
     /**
-     * One Blog has Many BlogPosts
-     *
      * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="category")
      * @var BlogPost[]
      */
     private $posts;
 
 	/**
-	 * Many BlogCategories have One Category
-	 *
 	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
 	 * @var BlogCategory
 	 */
 	private $parent;
-
-    /**
-     * One Blog has Many Translations
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Category\BlogCategoryTranslation", mappedBy="entity", cascade={"persist", "remove"})
-     * @var BlogCategoryTranslation[]
-     */
-    protected $translations;
 
     public function __construct(UuidInterface $id, BlogCategoryData $data)
     {
@@ -101,11 +85,9 @@ class BlogCategory extends EntityTranslator
 		$routeData->site = $routeGroup->getSite();
 		$routeData->name = Strings::webalize($data->name);
 		$routeData->target = $this->id;
-		$routeData->language = $data->language;
 		$routeData->controller = 'BlogCategory';
 
 		$this->route = new Route($routeData);
-        $this->translations = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->blog = $data->blog;
 
@@ -114,18 +96,16 @@ class BlogCategory extends EntityTranslator
 
     public function edit(BlogCategoryData $data): void
     {
-		$data->route = $this->route;
-		$data->route->changeName(Strings::webalize($data->name));
-		$this->editTranslation($data);
+		$this->route->changeName(Strings::webalize($data->name));
         $this->parent = $data->parent;
+        $this->name = $data->name;
+        $this->description = $data->description;
     }
 
     public function getData(): BlogCategoryData
 	{
 		$data = new BlogCategoryData();
-
 		$data->name = $this->name;
-		$data->language = $this->translationLanguage;
 		$data->description = $this->description;
 		$data->parent = $this->parent;
 
@@ -169,12 +149,4 @@ class BlogCategory extends EntityTranslator
 	{
 		return $this->parent;
 	}
-
-    /**
-     * @return BlogCategoryTranslation[]
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
 }

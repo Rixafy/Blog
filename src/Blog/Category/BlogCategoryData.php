@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Category;
 
 use Rixafy\Blog\Blog;
-use Rixafy\Language\Language;
 
 class BlogCategoryData
 {
@@ -23,7 +22,4 @@ class BlogCategoryData
 
     /** @var Blog */
     public $blog;
-
-    /** @var Language */
-    public $language;
 }

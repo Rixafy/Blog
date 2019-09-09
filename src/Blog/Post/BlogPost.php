@@ -122,7 +122,6 @@ class BlogPost
 		$routeData->site = $routeGroup->getSite();
 		$routeData->name = Strings::webalize($data->title);
 		$routeData->target = $this->id;
-		$routeData->language = $data->language;
 		$routeData->controller = 'BlogPost';
 
 		$this->route = new Route($routeData);
@@ -149,7 +148,6 @@ class BlogPost
     public function getData(): BlogPostData
 	{
 		$data = new BlogPostData();
-
 		$data->title = $this->title;
 		$data->content = $this->content;
 		$data->keywords = $this->keywords;
