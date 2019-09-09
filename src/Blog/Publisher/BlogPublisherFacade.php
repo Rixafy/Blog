@@ -9,7 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
-class BlogPublisherFacade
+class BlogPublisherFacade extends BlogPublisherRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;
@@ -17,21 +17,17 @@ class BlogPublisherFacade
 	/** @var BlogRepository */
 	private $blogRepository;
 
-	/** @var BlogPublisherRepository */
-	private $blogPublisherRepository;
-
 	/** @var BlogPublisherFactory */
 	private $blogPublisherFactory;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
 		BlogRepository $blogRepository,
-		BlogPublisherRepository $blogPublisherRepository,
 		BlogPublisherFactory $blogPublisherFactory
 	) {
+		parent::__construct($entityManager);
 		$this->blogRepository = $blogRepository;
 		$this->entityManager = $entityManager;
-		$this->blogPublisherRepository = $blogPublisherRepository;
 		$this->blogPublisherFactory = $blogPublisherFactory;
 	}
 
@@ -53,9 +49,9 @@ class BlogPublisherFacade
 	 */
 	public function edit(UuidInterface $id, BlogPublisherData $blogPublisherData): BlogPublisher
 	{
-		$publisher = $this->blogPublisherRepository->get($id);
-		$publisher->edit($blogPublisherData);
+		$publisher = $this->get($id);
 
+		$publisher->edit($blogPublisherData);
 		$this->entityManager->flush();
 
 		return $publisher;
@@ -64,23 +60,11 @@ class BlogPublisherFacade
 	/**
 	 * @throws Exception\BlogPublisherNotFoundException
 	 */
-	public function get(UuidInterface $id): BlogPublisher
-	{
-		return $this->blogPublisherRepository->get($id);
-	}
-
-	/**
-	 * @throws Exception\BlogPublisherNotFoundException
-	 */
-	public function remove(UuidInterface $id, bool $permanent = false): void
+	public function remove(UuidInterface $id): void
 	{
 		$entity = $this->get($id);
 
-		if ($permanent) {
-			$this->entityManager->remove($entity);
-		} else {
-			$entity->remove();
-		}
+		$entity->remove();
 
 		$this->entityManager->flush();
 	}

@@ -9,7 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
-class BlogTagFacade
+class BlogTagFacade extends BlogTagRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;
@@ -17,21 +17,17 @@ class BlogTagFacade
 	/** @var BlogRepository */
 	private $blogRepository;
 
-	/** @var BlogTagRepository */
-	private $blogTagRepository;
-
 	/** @var BlogTagFactory */
 	private $blogTagFactory;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
 		BlogRepository $blogRepository,
-		BlogTagRepository $blogTagRepository,
 		BlogTagFactory $blogTagFactory
 	) {
+		parent::__construct($entityManager);
 		$this->blogRepository = $blogRepository;
 		$this->entityManager = $entityManager;
-		$this->blogTagRepository = $blogTagRepository;
 		$this->blogTagFactory = $blogTagFactory;
 	}
 
@@ -54,9 +50,9 @@ class BlogTagFacade
 	 */
 	public function edit(UuidInterface $id, UuidInterface $blogId, BlogTagData $blogTagData): BlogTag
 	{
-		$tag = $this->blogTagRepository->get($id, $blogId);
-		$tag->edit($blogTagData);
+		$tag = $this->get($id, $blogId);
 
+		$tag->edit($blogTagData);
 		$this->entityManager->flush();
 
 		return $tag;
@@ -65,23 +61,11 @@ class BlogTagFacade
 	/**
 	 * @throws Exception\BlogTagNotFoundException
 	 */
-	public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
-	{
-		return $this->blogTagRepository->get($id, $blogId);
-	}
-
-	/**
-	 * @throws Exception\BlogTagNotFoundException
-	 */
-	public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
+	public function remove(UuidInterface $id, UuidInterface $blogId): void
 	{
 		$entity = $this->get($id, $blogId);
 
-		if ($permanent) {
-			$this->entityManager->remove($entity);
-		} else {
-			$entity->remove();
-		}
+		$entity->remove();
 
 		$this->entityManager->flush();
 	}

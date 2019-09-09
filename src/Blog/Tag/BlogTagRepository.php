@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
 
-class BlogTagRepository
+abstract class BlogTagRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;

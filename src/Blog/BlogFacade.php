@@ -8,24 +8,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Site\RouteSite;
 
-class BlogFacade
+class BlogFacade extends BlogRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;
-
-	/** @var BlogRepository */
-	private $blogRepository;
 
 	/** @var BlogFactory */
 	private $blogFactory;
 
 	public function __construct(
 		EntityManagerInterface $entityManager,
-		BlogRepository $blogRepository,
 		BlogFactory $blogFactory
 	) {
+		parent::__construct($entityManager);
 		$this->entityManager = $entityManager;
-		$this->blogRepository = $blogRepository;
 		$this->blogFactory = $blogFactory;
 	}
 
@@ -44,19 +40,11 @@ class BlogFacade
 	 */
 	public function edit(UuidInterface $id, BlogData $blogData): Blog
 	{
-		$blog = $this->blogRepository->get($id);
-		$blog->edit($blogData);
+		$blog = $this->get($id);
 
+		$blog->edit($blogData);
 		$this->entityManager->flush();
 
 		return $blog;
-	}
-
-	/**
-	 * @throws Exception\BlogNotFoundException
-	 */
-	public function get(UuidInterface $id): Blog
-	{
-		return $this->blogRepository->get($id);
 	}
 }

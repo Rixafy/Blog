@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Post\Exception\BlogPostNotFoundException;
 
-class BlogPostRepository
+abstract class BlogPostRepository
 {
 	/** @var EntityManagerInterface */
 	private $entityManager;

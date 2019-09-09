@@ -9,7 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\BlogRepository;
 use Rixafy\Blog\Exception\BlogNotFoundException;
 
-class BlogCategoryFacade
+class BlogCategoryFacade extends BlogCategoryRepository
 {
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -17,21 +17,17 @@ class BlogCategoryFacade
     /** @var BlogRepository */
     private $blogRepository;
 
-    /** @var BlogCategoryRepository */
-    private $blogCategoryRepository;
-
     /** @var BlogCategoryFactory */
     private $blogCategoryFactory;
 
     public function __construct(
 		EntityManagerInterface $entityManager,
 		BlogRepository $blogRepository,
-		BlogCategoryRepository $blogCategoryRepository,
 		BlogCategoryFactory $blogCategoryFactory
 	) {
+    	parent::__construct($entityManager);
         $this->blogRepository = $blogRepository;
         $this->entityManager = $entityManager;
-        $this->blogCategoryRepository = $blogCategoryRepository;
         $this->blogCategoryFactory = $blogCategoryFactory;
 	}
 
@@ -54,9 +50,9 @@ class BlogCategoryFacade
      */
     public function edit(UuidInterface $id, UuidInterface $blogId, BlogCategoryData $blogCategoryData): BlogCategory
     {
-        $category = $this->blogCategoryRepository->get($id, $blogId);
-        $category->edit($blogCategoryData);
+        $category = $this->get($id, $blogId);
 
+        $category->edit($blogCategoryData);
 		$this->entityManager->flush();
 
         return $category;
@@ -65,23 +61,11 @@ class BlogCategoryFacade
     /**
      * @throws Exception\BlogCategoryNotFoundException
      */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
-    {
-        return $this->blogCategoryRepository->get($id, $blogId);
-    }
-
-    /**
-     * @throws Exception\BlogCategoryNotFoundException
-     */
-    public function remove(UuidInterface $id, UuidInterface $blogId, bool $permanent = false): void
+    public function remove(UuidInterface $id, UuidInterface $blogId): void
     {
         $entity = $this->get($id, $blogId);
 
-        if ($permanent) {
-            $this->entityManager->remove($entity);
-        } else {
-            $entity->remove();
-        }
+        $entity->remove();
 
         $this->entityManager->flush();
     }
