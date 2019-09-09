@@ -23,16 +23,16 @@ use Rixafy\Image\Image;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_post", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ *	 @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * }, indexes={
- *     @ORM\Index(columns={"is_removed"})
+ *	 @ORM\Index(columns={"is_removed"})
  * })
  */
 class BlogPost
 {
-    use PublishableTrait;
-    use RemovableTrait;
-    use DateTimeTrait;
+	use PublishableTrait;
+	use RemovableTrait;
+	use DateTimeTrait;
 
 	/**
 	 * @var UuidInterface
@@ -77,45 +77,45 @@ class BlogPost
 	 */
 	private $reading_time = 1;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @var int
-     */
-    private $views = 0;
+	/**
+	 * @ORM\Column(type="integer")
+	 * @var int
+	 */
+	private $views = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
-     * @var Blog
-     */
-    private $blog;
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
+	 * @var Blog
+	 */
+	private $blog;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
-     * @var Image
-     */
-    private $backdropImage;
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
+	 * @var Image
+	 */
+	private $backdropImage;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher")
-     * @var BlogPublisher
-     */
-    private $publisher;
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher")
+	 * @var BlogPublisher
+	 */
+	private $publisher;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\Tag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
-     * @var BlogTag[]
-     */
-    private $tags;
+	/**
+	 * @ORM\ManyToMany(targetEntity="\Rixafy\Blog\Tag\BlogTag", inversedBy="blog_post", cascade={"persist", "remove"})
+	 * @var BlogTag[]
+	 */
+	private $tags;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
-     * @var BlogCategory
-     */
-    private $category;
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
+	 * @var BlogCategory
+	 */
+	private $category;
 
-    public function __construct(UuidInterface $id, BlogPostData $data)
-    {
-    	$this->id = $id;
+	public function __construct(UuidInterface $id, BlogPostData $data)
+	{
+		$this->id = $id;
 
 		$routeGroup = $data->blog->getBlogPostRouteGroup();
 
@@ -128,26 +128,26 @@ class BlogPost
 
 		$this->route = new Route($routeData);
 
-        $this->tags = new ArrayCollection();
-        $this->blog = $data->blog;
-        $this->publisher = $data->publisher;
+		$this->tags = new ArrayCollection();
+		$this->blog = $data->blog;
+		$this->publisher = $data->publisher;
 
-        $this->edit($data);
-    }
+		$this->edit($data);
+	}
 
-    public function edit(BlogPostData $data): void
-    {
+	public function edit(BlogPostData $data): void
+	{
 		$this->route->changeName(Strings::webalize($data->title));
-        $this->backdropImage = $data->backdropImage;
-        $this->category = $data->category;
-        $this->tags = $data->tags;
-        $this->title = $data->title;
-        $this->content = $data->content;
-        $this->editorial = $data->editorial;
-        $this->keywords = $data->keywords;
-    }
+		$this->backdropImage = $data->backdropImage;
+		$this->category = $data->category;
+		$this->tags = $data->tags;
+		$this->title = $data->title;
+		$this->content = $data->content;
+		$this->editorial = $data->editorial;
+		$this->keywords = $data->keywords;
+	}
 
-    public function getData(): BlogPostData
+	public function getData(): BlogPostData
 	{
 		$data = new BlogPostData();
 		$data->title = $this->title;
@@ -166,68 +166,68 @@ class BlogPost
 		return $this->id;
 	}
 
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
 
-    public function getContent(): string
-    {
-        return $this->content;
-    }
+	public function getContent(): string
+	{
+		return $this->content;
+	}
 
-    public function getEditorial(): ?string
-    {
-        return $this->editorial;
-    }
+	public function getEditorial(): ?string
+	{
+		return $this->editorial;
+	}
 
-    public function getKeywords(): ?string
-    {
-        return $this->keywords;
-    }
+	public function getKeywords(): ?string
+	{
+		return $this->keywords;
+	}
 
-    public function getBackdropImage(): ?Image
-    {
-        return $this->backdropImage;
-    }
+	public function getBackdropImage(): ?Image
+	{
+		return $this->backdropImage;
+	}
 
-    public function getPublisher(): BlogPublisher
-    {
-        return $this->publisher;
-    }
+	public function getPublisher(): BlogPublisher
+	{
+		return $this->publisher;
+	}
 
-    public function getViews(): int
-    {
-        return $this->views;
-    }
+	public function getViews(): int
+	{
+		return $this->views;
+	}
 
-    public function addView(): void
-    {
-        $this->views++;
-    }
+	public function addView(): void
+	{
+		$this->views++;
+	}
 
-    public function addTag(BlogTag $blogTag): bool
-    {
-        if (!$this->tags->contains($blogTag)) {
-            return $this->tags->add($blogTag);
-        }
+	public function addTag(BlogTag $blogTag): bool
+	{
+		if (!$this->tags->contains($blogTag)) {
+			return $this->tags->add($blogTag);
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public function removeTag(BlogTag $blogTag): bool
-    {
-        return $this->tags->removeElement($blogTag);
-    }
+	public function removeTag(BlogTag $blogTag): bool
+	{
+		return $this->tags->removeElement($blogTag);
+	}
 
-    public function getCategory(): BlogCategory
-    {
-        return $this->category;
-    }
+	public function getCategory(): BlogCategory
+	{
+		return $this->category;
+	}
 
-    public function addToCategory(BlogCategory $category): void
-    {
-        $this->category = $category;
-        $this->category->addPost($this);
-    }
+	public function addToCategory(BlogCategory $category): void
+	{
+		$this->category = $category;
+		$this->category->addPost($this);
+	}
 }

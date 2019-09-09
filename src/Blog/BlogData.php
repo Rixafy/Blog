@@ -6,15 +6,15 @@ namespace Rixafy\Blog;
 
 class BlogData
 {
-    /** @var string */
-    public $name;
+	/** @var string */
+	public $name;
 
-    /** @var string */
-    public $title = '';
+	/** @var string */
+	public $title = '';
 
-    /** @var string */
-    public $description = '';
+	/** @var string */
+	public $description = '';
 
-    /** @var string */
-    public $keywords = '';
+	/** @var string */
+	public $keywords = '';
 }

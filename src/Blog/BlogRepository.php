@@ -21,30 +21,30 @@ class BlogRepository
 		$this->entityManager = $entityManager;
 	}
 
-    /**
-     * @return EntityRepository|ObjectRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(Blog::class);
-    }
+	/**
+	 * @return EntityRepository|ObjectRepository
+	 */
+	protected function getRepository()
+	{
+		return $this->entityManager->getRepository(Blog::class);
+	}
 
-    /**
-     * @throws BlogNotFoundException
-     */
-    public function get(UuidInterface $id): Blog
-    {
-        /** @var Blog $blog */
-        $blog = $this->getRepository()->findOneBy([
-            'id' => $id
-        ]);
+	/**
+	 * @throws BlogNotFoundException
+	 */
+	public function get(UuidInterface $id): Blog
+	{
+		/** @var Blog $blog */
+		$blog = $this->getRepository()->findOneBy([
+			'id' => $id
+		]);
 
-        if ($blog === null) {
-            throw BlogNotFoundException::byId($id);
-        }
+		if ($blog === null) {
+			throw BlogNotFoundException::byId($id);
+		}
 
-        return $blog;
-    }
+		return $blog;
+	}
 
 	public function getQueryBuilderForAll(): QueryBuilder
 	{

@@ -12,33 +12,33 @@ use Rixafy\Image\Image;
 
 class BlogPostData
 {
-    /** @var string */
-    public $title;
+	/** @var string */
+	public $title;
 
-    /** @var string */
-    public $content;
+	/** @var string */
+	public $content;
 
-    /** @var string */
-    public $editorial;
+	/** @var string */
+	public $editorial;
 
-    /** @var string */
-    public $keywords;
+	/** @var string */
+	public $keywords;
 
-    /** @var string */
-    public $route;
+	/** @var string */
+	public $route;
 
-    /** @var Image */
-    public $backdropImage;
+	/** @var Image */
+	public $backdropImage;
 
-    /** @var BlogTag[] */
-    public $tags;
+	/** @var BlogTag[] */
+	public $tags;
 
-    /** @var Category */
-    public $category;
+	/** @var Category */
+	public $category;
 
-    /** @var BlogPublisher */
-    public $publisher;
+	/** @var BlogPublisher */
+	public $publisher;
 
-    /** @var Blog */
-    public $blog;
+	/** @var Blog */
+	public $blog;
 }

@@ -10,53 +10,53 @@ use Rixafy\Routing\Route\Site\RouteSite;
 
 class BlogFacade
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+	/** @var EntityManagerInterface */
+	private $entityManager;
 
-    /** @var BlogRepository */
-    private $blogRepository;
+	/** @var BlogRepository */
+	private $blogRepository;
 
-    /** @var BlogFactory */
-    private $blogFactory;
+	/** @var BlogFactory */
+	private $blogFactory;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        BlogRepository $blogRepository,
-        BlogFactory $blogFactory
-    ) {
-        $this->entityManager = $entityManager;
-        $this->blogRepository = $blogRepository;
-        $this->blogFactory = $blogFactory;
-    }
+	public function __construct(
+		EntityManagerInterface $entityManager,
+		BlogRepository $blogRepository,
+		BlogFactory $blogFactory
+	) {
+		$this->entityManager = $entityManager;
+		$this->blogRepository = $blogRepository;
+		$this->blogFactory = $blogFactory;
+	}
 
-    public function create(BlogData $blogData, RouteSite $routeSite): Blog
-    {
-        $blog = $this->blogFactory->create($blogData, $routeSite);
+	public function create(BlogData $blogData, RouteSite $routeSite): Blog
+	{
+		$blog = $this->blogFactory->create($blogData, $routeSite);
 
-        $this->entityManager->persist($blog);
-        $this->entityManager->flush();
+		$this->entityManager->persist($blog);
+		$this->entityManager->flush();
 
-        return $blog;
-    }
+		return $blog;
+	}
 
-    /**
-     * @throws Exception\BlogNotFoundException
-     */
-    public function edit(UuidInterface $id, BlogData $blogData): Blog
-    {
-        $blog = $this->blogRepository->get($id);
-        $blog->edit($blogData);
+	/**
+	 * @throws Exception\BlogNotFoundException
+	 */
+	public function edit(UuidInterface $id, BlogData $blogData): Blog
+	{
+		$blog = $this->blogRepository->get($id);
+		$blog->edit($blogData);
 
-        $this->entityManager->flush();
+		$this->entityManager->flush();
 
-        return $blog;
-    }
+		return $blog;
+	}
 
-    /**
-     * @throws Exception\BlogNotFoundException
-     */
-    public function get(UuidInterface $id): Blog
-    {
-        return $this->blogRepository->get($id);
-    }
+	/**
+	 * @throws Exception\BlogNotFoundException
+	 */
+	public function get(UuidInterface $id): Blog
+	{
+		return $this->blogRepository->get($id);
+	}
 }

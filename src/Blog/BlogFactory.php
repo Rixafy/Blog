@@ -20,11 +20,11 @@ class BlogFactory
 	}
 
 	public function create(BlogData $blogData, RouteSite $routeSite): Blog
-    {
-    	$categoryGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
-    	$postGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
-    	$tagGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
+	{
+		$categoryGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
+		$postGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
+		$tagGroup = $this->routeGroupFactory->create(new RouteGroupData($routeSite));
 
-        return new Blog(Uuid::uuid4(), $blogData, $categoryGroup, $postGroup, $tagGroup);
-    }
+		return new Blog(Uuid::uuid4(), $blogData, $categoryGroup, $postGroup, $tagGroup);
+	}
 }

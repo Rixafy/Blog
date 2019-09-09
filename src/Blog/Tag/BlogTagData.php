@@ -8,15 +8,15 @@ use Rixafy\Blog\Blog;
 
 class BlogTagData
 {
-    /** @var string */
-    public $name;
+	/** @var string */
+	public $name;
 
-    /** @var string */
-    public $description;
+	/** @var string */
+	public $description;
 
-    /** @var string */
-    public $route;
+	/** @var string */
+	public $route;
 
-    /** @var Blog */
-    public $blog;
+	/** @var Blog */
+	public $blog;
 }

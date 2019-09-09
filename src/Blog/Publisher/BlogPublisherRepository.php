@@ -13,42 +13,42 @@ use Rixafy\Blog\Publisher\Exception\BlogPublisherNotFoundException;
 
 class BlogPublisherRepository
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+	/** @var EntityManagerInterface */
+	private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+	public function __construct(EntityManagerInterface $entityManager)
+	{
+		$this->entityManager = $entityManager;
+	}
 
-    /**
-     * @return EntityRepository|ObjectRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(BlogPublisher::class);
-    }
+	/**
+	 * @return EntityRepository|ObjectRepository
+	 */
+	protected function getRepository()
+	{
+		return $this->entityManager->getRepository(BlogPublisher::class);
+	}
 
-    /**
-     * @throws BlogPublisherNotFoundException
-     */
-    public function get(UuidInterface $id): BlogPublisher
-    {
-    	/** @var BlogPublisher $blogPublisher */
-    	$blogPublisher = $this->getRepository()->find($id);
+	/**
+	 * @throws BlogPublisherNotFoundException
+	 */
+	public function get(UuidInterface $id): BlogPublisher
+	{
+		/** @var BlogPublisher $blogPublisher */
+		$blogPublisher = $this->getRepository()->find($id);
 
-        if ($blogPublisher === null) {
-            throw BlogPublisherNotFoundException::byId($id);
-        }
+		if ($blogPublisher === null) {
+			throw BlogPublisherNotFoundException::byId($id);
+		}
 
-        return $blogPublisher;
-    }
+		return $blogPublisher;
+	}
 
-    public function getQueryBuilderForAll(): QueryBuilder
-    {
-        return $this->getRepository()->createQueryBuilder('e')
-            ->where('e.isActive = :active')->setParameter('active', true)
-            ->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
-            ->orderBy('e.createdAt');
-    }
+	public function getQueryBuilderForAll(): QueryBuilder
+	{
+		return $this->getRepository()->createQueryBuilder('e')
+			->where('e.isActive = :active')->setParameter('active', true)
+			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
+			->orderBy('e.createdAt');
+	}
 }

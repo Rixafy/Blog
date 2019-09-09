@@ -21,31 +21,31 @@ class BlogTagRepository
 		$this->entityManager = $entityManager;
 	}
 
-    /**
-     * @return EntityRepository|ObjectRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(BlogTag::class);
-    }
+	/**
+	 * @return EntityRepository|ObjectRepository
+	 */
+	protected function getRepository()
+	{
+		return $this->entityManager->getRepository(BlogTag::class);
+	}
 
-    /**
-     * @throws BlogTagNotFoundException
-     */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
-    {
-    	/** @var BlogTag $blogTag */
-    	$blogTag = $this->getRepository()->findOneBy([
-    		'id' => $id,
+	/**
+	 * @throws BlogTagNotFoundException
+	 */
+	public function get(UuidInterface $id, UuidInterface $blogId): BlogTag
+	{
+		/** @var BlogTag $blogTag */
+		$blogTag = $this->getRepository()->findOneBy([
+			'id' => $id,
 			'blog' => $blogId
 		]);
 
-        if ($blogTag === null) {
-            throw BlogTagNotFoundException::byId($id, $blogId);
-        }
+		if ($blogTag === null) {
+			throw BlogTagNotFoundException::byId($id, $blogId);
+		}
 
-        return $blogTag;
-    }
+		return $blogTag;
+	}
 
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{

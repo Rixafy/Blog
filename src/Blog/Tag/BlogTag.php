@@ -19,16 +19,16 @@ use Rixafy\DoctrineTraits\RemovableTrait;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_tag", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ *	 @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * }, indexes={
- *     @ORM\Index(columns={"is_removed"})
+ *	 @ORM\Index(columns={"is_removed"})
  * })
  */
 class BlogTag
 {
-    use PublishableTrait;
-    use RemovableTrait;
-    use DateTimeTrait;
+	use PublishableTrait;
+	use RemovableTrait;
+	use DateTimeTrait;
 
 	/**
 	 * @var UuidInterface
@@ -55,17 +55,17 @@ class BlogTag
 	 */
 	private $route;
 
-    /**
-     * Many BlogTags have One Blog
-     *
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
-     * @var Blog
-     */
-    private $blog;
+	/**
+	 * Many BlogTags have One Blog
+	 *
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
+	 * @var Blog
+	 */
+	private $blog;
 
-    public function __construct(UuidInterface $id, BlogTagData $data)
-    {
-    	$this->id = $id;
+	public function __construct(UuidInterface $id, BlogTagData $data)
+	{
+		$this->id = $id;
 
 		$routeGroup = $data->blog->getBlogPostRouteGroup();
 
@@ -78,24 +78,24 @@ class BlogTag
 
 		$this->route = new Route($routeData);
 
-        $this->blog = $data->blog;
+		$this->blog = $data->blog;
 
-        $this->edit($data);
-    }
+		$this->edit($data);
+	}
 
-    public function edit(BlogTagData $data): void
-    {
+	public function edit(BlogTagData $data): void
+	{
 		$this->route->changeName(Strings::webalize($data->name));
 		$this->name = $data->name;
 		$this->description = $data->description;
-    }
+	}
 
-    public function getId(): UuidInterface
+	public function getId(): UuidInterface
 	{
 		return $this->id;
 	}
 
-    public function getData(): BlogTagData
+	public function getData(): BlogTagData
 	{
 		$data = new BlogTagData();
 
@@ -105,13 +105,13 @@ class BlogTag
 		return $data;
 	}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+	public function getName(): string
+	{
+		return $this->name;
+	}
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
+	public function getDescription(): ?string
+	{
+		return $this->description;
+	}
 }

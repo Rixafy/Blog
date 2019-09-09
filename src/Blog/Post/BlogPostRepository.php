@@ -21,31 +21,31 @@ class BlogPostRepository
 		$this->entityManager = $entityManager;
 	}
 
-    /**
-     * @return EntityRepository|ObjectRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(BlogPost::class);
-    }
+	/**
+	 * @return EntityRepository|ObjectRepository
+	 */
+	protected function getRepository()
+	{
+		return $this->entityManager->getRepository(BlogPost::class);
+	}
 
-    /**
-     * @throws BlogPostNotFoundException
-     */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
-    {
-    	/** @var BlogPost $blogPost */
-        $blogPost = $this->getRepository()->findOneBy([
-        	'id' => $id,
+	/**
+	 * @throws BlogPostNotFoundException
+	 */
+	public function get(UuidInterface $id, UuidInterface $blogId): BlogPost
+	{
+		/** @var BlogPost $blogPost */
+		$blogPost = $this->getRepository()->findOneBy([
+			'id' => $id,
 			'blog' => $blogId
 		]);
 
-        if ($blogPost === null) {
-            throw BlogPostNotFoundException::byId($id, $blogId);
-        }
+		if ($blogPost === null) {
+			throw BlogPostNotFoundException::byId($id, $blogId);
+		}
 
-        return $blogPost;
-    }
+		return $blogPost;
+	}
 
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{

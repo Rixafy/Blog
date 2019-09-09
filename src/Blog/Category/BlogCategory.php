@@ -21,17 +21,17 @@ use Rixafy\DoctrineTraits\RemovableTrait;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_category", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ *	 @ORM\UniqueConstraint(columns={"id", "blog_id"})
  * }, indexes={
- *     @ORM\Index(columns={"is_removed"})
+ *	 @ORM\Index(columns={"is_removed"})
  * })
  */
 class BlogCategory
 {
-    use PublishableTrait;
-    use RemovableTrait;
-    use SortOrderTrait;
-    use DateTimeTrait;
+	use PublishableTrait;
+	use RemovableTrait;
+	use SortOrderTrait;
+	use DateTimeTrait;
 
 	/**
 	 * @var UuidInterface
@@ -58,17 +58,17 @@ class BlogCategory
 	 */
 	private $route;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
-     * @var Blog
-     */
-    private $blog;
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Blog")
+	 * @var Blog
+	 */
+	private $blog;
 
-    /**
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="category")
-     * @var BlogPost[]
-     */
-    private $posts;
+	/**
+	 * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Post\BlogPost", mappedBy="category")
+	 * @var BlogPost[]
+	 */
+	private $posts;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Category\BlogCategory")
@@ -76,11 +76,11 @@ class BlogCategory
 	 */
 	private $parent;
 
-    public function __construct(UuidInterface $id, BlogCategoryData $data)
-    {
-    	$this->id = $id;
+	public function __construct(UuidInterface $id, BlogCategoryData $data)
+	{
+		$this->id = $id;
 
-    	$routeGroup = $data->blog->getBlogCategoryRouteGroup();
+		$routeGroup = $data->blog->getBlogCategoryRouteGroup();
 
 		$routeData = new RouteData();
 		$routeData->group = $routeGroup;
@@ -90,21 +90,21 @@ class BlogCategory
 		$routeData->controller = 'BlogCategory';
 
 		$this->route = new Route($routeData);
-        $this->posts = new ArrayCollection();
-        $this->blog = $data->blog;
+		$this->posts = new ArrayCollection();
+		$this->blog = $data->blog;
 
 		$this->edit($data);
-    }
+	}
 
-    public function edit(BlogCategoryData $data): void
-    {
+	public function edit(BlogCategoryData $data): void
+	{
 		$this->route->changeName(Strings::webalize($data->name));
-        $this->parent = $data->parent;
-        $this->name = $data->name;
-        $this->description = $data->description;
-    }
+		$this->parent = $data->parent;
+		$this->name = $data->name;
+		$this->description = $data->description;
+	}
 
-    public function getData(): BlogCategoryData
+	public function getData(): BlogCategoryData
 	{
 		$data = new BlogCategoryData();
 		$data->name = $this->name;
@@ -119,28 +119,28 @@ class BlogCategory
 		return $this->id;
 	}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+	public function getName(): string
+	{
+		return $this->name;
+	}
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
+	public function getDescription(): ?string
+	{
+		return $this->description;
+	}
 
-    /**
-     * @return BlogPost[]
-     */
-    public function getPosts(): array
-    {
-        return $this->posts;
-    }
+	/**
+	 * @return BlogPost[]
+	 */
+	public function getPosts(): array
+	{
+		return $this->posts;
+	}
 
-    public function addPost(BlogPost $blogPost): void
-    {
-        $this->posts->add($blogPost);
-    }
+	public function addPost(BlogPost $blogPost): void
+	{
+		$this->posts->add($blogPost);
+	}
 
 	public function getParent(): ?BlogCategory
 	{

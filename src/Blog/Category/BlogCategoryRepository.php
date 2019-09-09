@@ -13,39 +13,39 @@ use Rixafy\Blog\Category\Exception\BlogCategoryNotFoundException;
 
 class BlogCategoryRepository
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+	/** @var EntityManagerInterface */
+	private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+	public function __construct(EntityManagerInterface $entityManager)
+	{
+		$this->entityManager = $entityManager;
+	}
 
-    /**
-     * @return EntityRepository|ObjectRepository
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(BlogCategory::class);
-    }
+	/**
+	 * @return EntityRepository|ObjectRepository
+	 */
+	protected function getRepository()
+	{
+		return $this->entityManager->getRepository(BlogCategory::class);
+	}
 
-    /**
-     * @throws BlogCategoryNotFoundException
-     */
-    public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
-    {
-    	/** @var BlogCategory $blogCategory */
-    	$blogCategory = $this->getRepository()->findOneBy([
-    		'id' => $id,
+	/**
+	 * @throws BlogCategoryNotFoundException
+	 */
+	public function get(UuidInterface $id, UuidInterface $blogId): BlogCategory
+	{
+		/** @var BlogCategory $blogCategory */
+		$blogCategory = $this->getRepository()->findOneBy([
+			'id' => $id,
 			'blog' => $blogId
 		]);
 
-        if ($blogCategory === null) {
-            throw BlogCategoryNotFoundException::byId($id, $blogId);
-        }
+		if ($blogCategory === null) {
+			throw BlogCategoryNotFoundException::byId($id, $blogId);
+		}
 
-        return $blogCategory;
-    }
+		return $blogCategory;
+	}
 
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{
