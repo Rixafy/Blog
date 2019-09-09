@@ -7,7 +7,6 @@ namespace Rixafy\Blog\Tag;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Blog\Tag\Exception\BlogTagNotFoundException;
@@ -56,9 +55,6 @@ class BlogTagRepository
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
-			->join(BlogTagTranslation::class, 'tr', Join::WITH,
-				'tr.entity = e.id AND (tr.language = :currentLang OR tr.language = e.fallbackLanguage)')
-			->setParameter('currentLang', $this->languageProvider->getLanguage()->getId()->getBytes())
 			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
 			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');

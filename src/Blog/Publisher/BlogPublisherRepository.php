@@ -48,6 +48,7 @@ class BlogPublisherRepository
     {
         return $this->getRepository()->createQueryBuilder('e')
             ->where('e.isActive = :active')->setParameter('active', true)
+            ->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
             ->orderBy('e.createdAt');
     }
 }

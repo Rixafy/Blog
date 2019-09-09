@@ -18,7 +18,10 @@ use Rixafy\DoctrineTraits\RemovableTrait;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="blog_publisher")
+ * @ORM\Table(name="blog_publisher", indexes={
+ *     @ORM\Index(columns={"is_active"}),
+ *     @ORM\Index(columns={"is_removed"})
+ * })
  */
 class BlogPublisher
 {

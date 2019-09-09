@@ -55,7 +55,8 @@ class BlogPostRepository
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
-			->where('e.isRemoved = :removed')->setParameter('removed', false)
+			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
+			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');
 	}
 }

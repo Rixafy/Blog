@@ -24,6 +24,8 @@ use Rixafy\Image\Image;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_post", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ * }, indexes={
+ *     @ORM\Index(columns={"is_removed"})
  * })
  */
 class BlogPost
@@ -182,11 +184,6 @@ class BlogPost
     public function getKeywords(): ?string
     {
         return $this->keywords;
-    }
-
-    public function getBlog(): Blog
-    {
-        return $this->blog;
     }
 
     public function getBackdropImage(): ?Image

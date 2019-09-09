@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog\Tag;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Translation\Annotation\Translatable;
 use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Route;
@@ -15,16 +14,17 @@ use Rixafy\Blog\Blog;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\PublishableTrait;
 use Rixafy\DoctrineTraits\RemovableTrait;
-use Rixafy\Translation\EntityTranslator;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_tag", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ * }, indexes={
+ *     @ORM\Index(columns={"is_removed"})
  * })
  */
-class BlogTag extends EntityTranslator
+class BlogTag
 {
     use PublishableTrait;
     use RemovableTrait;
@@ -37,23 +37,23 @@ class BlogTag extends EntityTranslator
 	 */
 	protected $id;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $name;
+	/**
+	 * @ORM\Column(type="string", length=127)
+	 * @var string
+	 */
+	private $name;
 
-    /**
-     * @Translatable
-     * @var string
-     */
-    protected $description;
+	/**
+	 * @ORM\Column(type="string", length=1023, nullable=true)
+	 * @var string
+	 */
+	private $description;
 
-    /**
-     * @Translatable
-     * @var Route
-     */
-    protected $route;
+	/**
+	 * @ORM\OneToOne(targetEntity="\Rixafy\Routing\Route\Route", cascade={"persist", "remove"})
+	 * @var Route
+	 */
+	private $route;
 
     /**
      * Many BlogTags have One Blog
@@ -62,14 +62,6 @@ class BlogTag extends EntityTranslator
      * @var Blog
      */
     private $blog;
-
-    /**
-     * One Blog has Many Translations
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\Tag\BlogTagTranslation", mappedBy="entity", cascade={"persist", "remove"})
-     * @var BlogTagTranslation[]
-     */
-    protected $translations;
 
     public function __construct(UuidInterface $id, BlogTagData $data)
     {
@@ -87,7 +79,6 @@ class BlogTag extends EntityTranslator
 
 		$this->route = new Route($routeData);
 
-        $this->translations = new ArrayCollection();
         $this->blog = $data->blog;
 
         $this->edit($data);
@@ -95,9 +86,9 @@ class BlogTag extends EntityTranslator
 
     public function edit(BlogTagData $data): void
     {
-		$data->route = $this->route;
-		$data->route->changeName(Strings::webalize($data->name));
-		$this->editTranslation($data);
+		$this->route->changeName(Strings::webalize($data->name));
+		$this->name = $data->name;
+		$this->description = $data->description;
     }
 
     public function getId(): UuidInterface
@@ -123,18 +114,5 @@ class BlogTag extends EntityTranslator
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    public function getBlog(): Blog
-    {
-        return $this->blog;
-    }
-
-    /**
-     * @return BlogTagTranslation[]
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
     }
 }

@@ -22,6 +22,8 @@ use Rixafy\DoctrineTraits\RemovableTrait;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="blog_category", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"id", "blog_id"})
+ * }, indexes={
+ *     @ORM\Index(columns={"is_removed"})
  * })
  */
 class BlogCategory
@@ -125,11 +127,6 @@ class BlogCategory
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    public function getBlog(): Blog
-    {
-        return $this->blog;
     }
 
     /**

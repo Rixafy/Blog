@@ -16,7 +16,6 @@ use Rixafy\Blog\Category\BlogCategoryData;
 use Rixafy\Blog\Post\BlogPost;
 use Rixafy\Blog\Tag\BlogTag;
 use Rixafy\Blog\Tag\BlogTagData;
-use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\Translation\EntityTranslator;
 
@@ -27,7 +26,6 @@ use Rixafy\Translation\EntityTranslator;
  */
 class Blog extends EntityTranslator
 {
-    use ActiveTrait;
     use DateTimeTrait;
 
 	/**
