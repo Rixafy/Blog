@@ -47,11 +47,43 @@ abstract class BlogPostRepository
 		return $blogPost;
 	}
 
+	public function getCount(UuidInterface $blogId): int
+	{
+		$qb = $this->getQueryBuilderForAll($blogId)
+			->select('COUNT(e.id)');
+
+		return (int) $qb->getQuery()
+			->getSingleScalarResult();
+	}
+
+	public function getQueryBuilderForChunk(UuidInterface $blogId, int $offset, int $limit): QueryBuilder
+	{
+		return $this->getQueryBuilderForAll($blogId)
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+	}
+
+	/**
+	 * @return BlogPost[]
+	 */
+	public function getChunk(UuidInterface $blogId, int $offset, int $limit): array
+	{
+		return $this->getQueryBuilderForChunk($blogId, $offset, $limit)->getQuery()->execute();
+	}
+
 	public function getQueryBuilderForAll(UuidInterface $blogId): QueryBuilder
 	{
 		return $this->getRepository()->createQueryBuilder('e')
 			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
 			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');
+	}
+
+	/**
+	 * @return BlogPost[]
+	 */
+	public function getAll(UuidInterface $blogId): array
+	{
+		return $this->getQueryBuilderForAll($blogId)->getQuery()->execute();
 	}
 }
