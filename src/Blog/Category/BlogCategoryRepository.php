@@ -54,4 +54,12 @@ abstract class BlogCategoryRepository
 			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');
 	}
+
+	/**
+	 * @return BlogCategory[]
+	 */
+	public function getAll(UuidInterface $blogId): array
+	{
+		return $this->getQueryBuilderForAll($blogId)->getQuery()->execute();
+	}
 }

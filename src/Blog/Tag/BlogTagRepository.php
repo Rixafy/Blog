@@ -54,4 +54,12 @@ abstract class BlogTagRepository
 			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
 			->orderBy('e.createdAt');
 	}
+
+	/**
+	 * @return BlogTag[]
+	 */
+	public function getAll(UuidInterface $blogId): array
+	{
+		return $this->getQueryBuilderForAll($blogId)->getQuery()->execute();
+	}
 }
