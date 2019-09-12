@@ -8,8 +8,8 @@ use Ramsey\Uuid\Uuid;
 
 class BlogPublisherFactory
 {
-	public function create(BlogPublisherData $blogData): BlogPublisher
+	public function create(BlogPublisherData $data): BlogPublisher
 	{
-		return new BlogPublisher(Uuid::uuid4(), $blogData);
+		return new BlogPublisher(Uuid::uuid4(), $data);
 	}
 }
