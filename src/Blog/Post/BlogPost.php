@@ -75,7 +75,7 @@ class BlogPost
 	 * @ORM\Column(type="float")
 	 * @var float
 	 */
-	private $reading_time = 1;
+	private $readingTime = 1;
 
 	/**
 	 * @ORM\Column(type="integer")
