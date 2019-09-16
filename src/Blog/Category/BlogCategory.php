@@ -7,6 +7,7 @@ namespace Rixafy\Blog\Category;
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Strings;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Image\Image;
 use Rixafy\Routing\Route\Route;
 use Rixafy\Routing\Route\RouteData;
 use Rixafy\DoctrineTraits\SortOrderTrait;
@@ -76,6 +77,12 @@ class BlogCategory
 	 */
 	private $parent;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
+	 * @var Image
+	 */
+	private $previewImage;
+
 	public function __construct(UuidInterface $id, BlogCategoryData $data)
 	{
 		$this->id = $id;
@@ -99,6 +106,9 @@ class BlogCategory
 	public function edit(BlogCategoryData $data): void
 	{
 		$this->route->changeName(Strings::webalize($data->name));
+		if ($data->previewImage !== null) {
+			$this->previewImage = $data->previewImage;
+		}
 		$this->parent = $data->parent;
 		$this->name = $data->name;
 		$this->description = $data->description;
@@ -110,6 +120,7 @@ class BlogCategory
 		$data->name = $this->name;
 		$data->description = $this->description;
 		$data->parent = $this->parent;
+		$data->previewImage = $this->previewImage;
 
 		return $data;
 	}
@@ -145,5 +156,10 @@ class BlogCategory
 	public function getParent(): ?BlogCategory
 	{
 		return $this->parent;
+	}
+
+	public function getPreviewImage(): ?Image
+	{
+		return $this->previewImage;
 	}
 }

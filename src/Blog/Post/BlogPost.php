@@ -93,7 +93,7 @@ class BlogPost
 	 * @ORM\ManyToOne(targetEntity="\Rixafy\Image\Image", cascade={"persist"})
 	 * @var Image
 	 */
-	private $backdropImage;
+	private $previewImage;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="\Rixafy\Blog\Publisher\BlogPublisher")
@@ -138,7 +138,9 @@ class BlogPost
 	public function edit(BlogPostData $data): void
 	{
 		$this->route->changeName(Strings::webalize($data->title));
-		$this->backdropImage = $data->backdropImage;
+		if ($data->previewImage !== null) {
+			$this->previewImage = $data->previewImage;
+		}
 		$this->category = $data->category;
 		$this->tags = $data->tags;
 		$this->title = $data->title;
@@ -155,7 +157,7 @@ class BlogPost
 		$data->keywords = $this->keywords;
 		$data->editorial = $this->editorial;
 		$data->category = $this->category;
-		$data->backdropImage = $this->backdropImage;
+		$data->previewImage = $this->previewImage;
 		$data->tags = $this->tags;
 
 		return $data;
@@ -186,9 +188,9 @@ class BlogPost
 		return $this->keywords;
 	}
 
-	public function getBackdropImage(): ?Image
+	public function getPreviewImage(): ?Image
 	{
-		return $this->backdropImage;
+		return $this->previewImage;
 	}
 
 	public function getPublisher(): BlogPublisher

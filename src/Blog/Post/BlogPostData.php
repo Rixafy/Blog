@@ -28,7 +28,7 @@ class BlogPostData
 	public $route;
 
 	/** @var Image */
-	public $backdropImage;
+	public $previewImage;
 
 	/** @var BlogTag[] */
 	public $tags;
