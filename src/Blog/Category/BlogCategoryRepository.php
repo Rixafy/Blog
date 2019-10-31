@@ -52,12 +52,20 @@ abstract class BlogCategoryRepository
 		return $this->getRepository()->createQueryBuilder('e')
 			->where('e.blog = :blog')->setParameter('blog', $blogId->getBytes())
 			->andWhere('e.isRemoved = :removed')->setParameter('removed', false)
-			->orderBy('e.createdAt');
+			->orderBy('e.sortOrder');
 	}
 
 	public function getQueryBuilderForMainCategories(UuidInterface $blogId): QueryBuilder
 	{
-		return $this->getQueryBuilderForAll($blogId);
+		return $this->getQueryBuilderForAll($blogId)
+			->andWhere('e.parent is NULL');
+	}
+
+	public function getQueryBuilderForSubCategories(UuidInterface $blogId, UuidInterface $blogCategoryId): QueryBuilder
+	{
+		return $this->getQueryBuilderForAll($blogId)
+			->andWhere('e.parent is :parent')
+			->setParameter('parent', $blogCategoryId->getBytes());
 	}
 
 	/**
