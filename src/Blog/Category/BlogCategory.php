@@ -158,6 +158,11 @@ class BlogCategory
 		return $this->parent;
 	}
 
+	public function changeeParent(BlogCategory $parent): void
+	{
+		$this->parent = $parent;
+	}
+
 	public function getPreviewImage(): ?Image
 	{
 		return $this->previewImage;
