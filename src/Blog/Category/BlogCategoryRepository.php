@@ -55,6 +55,11 @@ abstract class BlogCategoryRepository
 			->orderBy('e.createdAt');
 	}
 
+	public function getQueryBuilderForMainCategories(UuidInterface $blogId): QueryBuilder
+	{
+		return $this->getQueryBuilderForAll($blogId);
+	}
+
 	/**
 	 * @return BlogCategory[]
 	 */
